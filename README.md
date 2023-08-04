@@ -14,6 +14,7 @@ Storage Assistant and organizer for video game ROM libraries.
 * Filesystem as source of truth -- add ROMs to folders and the app will find them
 * Define preferred and alternate file formats for usage
 * Define preferred emulation software for each folder
+* Can convert .7z to .zip, unzip after upload, etc.
 
 ## Usage Overview
 * 
