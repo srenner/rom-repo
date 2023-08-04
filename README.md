@@ -1,2 +1,19 @@
 # rom-repo
-Repo for ROMs
+Storage Assistant and organizer for video game ROM libraries. 
+
+## Technical Overview
+* Intended to be self-hosted on each user's local network
+* Written in modern C# .NET
+* Backend storage either SQLite or MongoDB
+* Bootstrap for UI
+* Blazor on the frontend with Vue.js as needed
+* No built-in security
+
+## Feature List
+* Option for password protected or open folders
+* Filesystem as source of truth -- add ROMs to folders and the app will find them
+* Define preferred and alternate file formats for usage
+* Define preferred emulation software for each folder
+
+## Usage Overview
+* 
