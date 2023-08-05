@@ -15,6 +15,7 @@ Storage Assistant and organizer for video game ROM libraries.
 * Define preferred and alternate file formats for usage
 * Define preferred emulation software for each folder
 * Can convert .7z to .zip, unzip after upload, etc.
+* Metadata storage (passwords, cheats, etc.)
 
 ## Usage Overview
 * 
