@@ -23,3 +23,4 @@ Many people play video games by loading ROM files into an emulator, flashcart, o
         * All db access via EF
         * Process file queue
         * Calculate stats
+        * Search engine processing
