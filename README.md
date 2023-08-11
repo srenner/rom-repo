@@ -24,3 +24,8 @@ Many people play video games by loading ROM files into an emulator, flashcart, o
         * Process file queue
         * Calculate stats
         * Search engine processing
+
+
+---
+### Analytics Disclaimer
+If you choose to share analytics, we may periodically collect information from your SQLite database. We will never upload or inspect your rom files. We do not have the ability or inclination to determine the legal status of your files. Please obey all applicable copyright laws in your area.
