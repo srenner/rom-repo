@@ -5,7 +5,7 @@ Storage Assistant and organizer for video game ROM libraries.
 
 Many people play video games by loading ROM files into an emulator, flashcart, or FPGA chip. One way to manage all the different ROM images for all the different systems is to configure a shared network folder and divide ROMs for each system into subfolders. This software is a minimalist, optional application layer between the end user and the network folder. Features will include a web UI for batch file transfers, automatic zipping and unzipping, search, and library statistics. 
 
-Architecture
+## System Architecture
 * Single Docker image - ASP.NET Core provided by Microsoft
 * Storage volume for SQLite database, backups, metadata and system files
 * .NET sln 
