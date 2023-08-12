@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomRepo.web.Shared", "RomRe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomRepo.lib", "RomRepo.lib\RomRepo.lib.csproj", "{6735658A-E15A-4D4D-B61C-5E3FA775D0FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomRepo.console", "RomRepo.console\RomRepo.console.csproj", "{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6735658A-E15A-4D4D-B61C-5E3FA775D0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6735658A-E15A-4D4D-B61C-5E3FA775D0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6735658A-E15A-4D4D-B61C-5E3FA775D0FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
