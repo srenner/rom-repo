@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RomRepo.console": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
