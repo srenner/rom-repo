@@ -1,6 +1,6 @@
 # rom-repo
 
-Software for retro video game ROM libraries
+Software for [retro video game ROM libraries](https://en.wikipedia.org/wiki/ROM_image)
 
 * Browse your game collection in a web UI
 * Manage your library through the web UI or directly in your local filesystem
