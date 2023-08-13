@@ -34,8 +34,11 @@ namespace RomRepo.console
 
                     if(canAccess)
                     {
-
                         _logger.LogInformation("connected to network drive");
+                    }
+                    else
+                    {
+                        _logger.LogError("could not connect to network drive");
                     }
 
                     while (true)
