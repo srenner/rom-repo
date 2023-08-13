@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RomRepo.lib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,17 @@ namespace RomRepo.console
             {
                 Task.Run(async () =>
                 {
-                    while(true)
+
+                    string testFile = @"\\mister\sdcard\games\file.txt";
+                    bool canAccess = FileUtil.TestNetworkPath(testFile);
+
+                    if(canAccess)
+                    {
+
+                        _logger.LogInformation("connected to network drive");
+                    }
+
+                    while (true)
                     {
                         //do the bartman
                         await Task.Delay(100);
