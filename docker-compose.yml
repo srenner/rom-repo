@@ -1,0 +1,32 @@
+version: '3.4'
+
+name: 'rom-repo'
+
+networks:
+  rom-net: {}
+
+volumes:
+  RomRepo.data:
+
+services:
+  romrepo.web.server:
+    hostname: web01
+    networks: 
+      - rom-net
+    volumes:
+      - RomRepo.data:/data
+    image: ${DOCKER_REGISTRY-}romrepowebserver
+    build:
+      context: .
+      dockerfile: RomRepo.web/Server/Dockerfile
+
+  romrepo.console:
+    hostname: service01
+    networks:
+      - rom-net
+    volumes:
+      - RomRepo.data:/data
+    image: ${DOCKER_REGISTRY-}romrepoconsole
+    build:
+      context: .
+      dockerfile: RomRepo.console/Dockerfile
