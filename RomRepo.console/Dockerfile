@@ -6,7 +6,6 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["RomRepo.console/RomRepo.console.csproj", "RomRepo.console/"]
-COPY ["RomRepo.lib/RomRepo.lib.csproj", "RomRepo.lib/"]
 RUN dotnet restore "RomRepo.console/RomRepo.console.csproj"
 COPY . .
 WORKDIR "/src/RomRepo.console"
