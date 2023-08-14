@@ -30,5 +30,12 @@ namespace RomRepo.web.Server.Controllers
             })
             .ToArray();
         }
+
+        [HttpGet("/net")]
+        public bool TestNet()
+        {
+            string path = @"\\mister\sdcard\games\file.txt";
+            return new FileInfo(path).Exists;
+        }
     }
 }
