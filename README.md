@@ -8,6 +8,7 @@ Software for retro video game [ROM](https://en.wikipedia.org/wiki/ROM_image) lib
 * Easily find ports, alternate versions, and sequels across your systems
 * Zip/unzip/convert files
 * Turn on analytics to discover hidden gems you may be overlooking
+* Validate checksums and titles against the No-Intro DAT-o-Matic database
 
 ## System Architecture
 * Project runs in Docker
