@@ -1,3 +1,5 @@
+# RomRepo User Service
+
 This project is self hosted on the end user's machine.
 
 Main functionality:
@@ -5,3 +7,4 @@ Main functionality:
 * Run scheduled jobs
   * Initiate database maintenance 
   * Initiate analytics (if turned on)
+  * TBD
