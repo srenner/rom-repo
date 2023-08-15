@@ -11,13 +11,13 @@ Software for retro video game [ROM](https://en.wikipedia.org/wiki/ROM_image) lib
 * Validate checksums and titles against the No-Intro DAT-o-Matic database
 
 ## System Architecture
-* Project runs in Docker
+* Items to install by user:
   * ASP.NET Blazor Wasm project
-  * Console project
-    * Runs as service
-    * Monitors file system
-    * Exchanges info with ASP.NET project via gRPC calls
+  * Console project (hosted as background service)
   * Storage volume for SQLite database, backups, metadata and system files
+* Items hosted on RomRepo.com:
+  * API to access Titles and checksums
+  * Project home page
 
 ---
 ### Analytics Disclaimer
