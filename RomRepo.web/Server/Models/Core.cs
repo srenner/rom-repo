@@ -20,25 +20,25 @@
 
 
         /// <summary>
-        /// Specifies if a zip file contained in the core's folder is to be considered a ROM file.
+        /// Specifies if a zip file contained in the core's folder is considered a ROM file.
         /// </summary>
         public bool ZipAsRom { get; set; } = false;
 
         /// <summary>
-        /// Specifies if a 7z file contained in the core's folder is to be considered a ROM file.
+        /// Specifies if a 7z file contained in the core's folder is considered a ROM file.
         /// </summary>
         public bool SevenZipAsRom { get; set; }
 
         /// <summary>
-        /// Specifies if folder contained in the core's folder is to be considered a ROM.
+        /// Specifies if folder contained in the core's folder is considered a ROM.
         /// For example, a folder is typically used in CD-based systems with bin/cue files to make up a ROM.
         /// </summary>
         public bool FolderAsRom { get; set;} = false;
 
         /// <summary>
-        /// List of allowed file extensions that considered a valid ROM for this core.
+        /// Comma separated list of valid file extensions for this core.
         /// </summary>
-        public string[]? FileExtensions { get; set; }
+        public string? FileExtensions { get; set; }
 
         public bool IsFavorite { get; set; } = false;
         public bool IsActive { get; set; } = true;

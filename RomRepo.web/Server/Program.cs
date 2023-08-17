@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using RomRepo.web.Server.DataAccess;
 
 namespace RomRepo.web
 {
@@ -12,6 +14,10 @@ namespace RomRepo.web
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
+
+
+            builder.Services.AddDbContextFactory<RomRepoContext>(opt =>
+                opt.UseSqlite($"Data Source={nameof(RomRepoContext.RomRepoDb)}.db"));
 
             var app = builder.Build();
 
