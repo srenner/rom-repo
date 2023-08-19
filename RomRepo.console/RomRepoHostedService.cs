@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,20 +22,50 @@ namespace RomRepo.console
             _appLifetime = appLifetime;
         }
 
+        private async Task<bool> Initialize()
+        {
+            //test if site is running
+
+            //get user settings (root folders, etc.)
+
+            //check database integrity
+
+            //reset any existing file system watchers
+
+            throw new NotImplementedException();
+        }
+
+
+        #region service lifecycle events
+
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _appLifetime.ApplicationStarted.Register(() =>
             {
                 Task.Run(async () =>
                 {
-                    //check db availability
-                    //check repo folder availability
+                    bool isReady = false;
+                    int retryCounter = 0;
 
-                    while (true)
+                    while(isReady == false && retryCounter < 10)
                     {
-                        _logger.LogInformation("service running at " + DateTime.Now.ToLongTimeString());
-                        await Task.Delay(5000);
+                        isReady = await Initialize();
+                        if (!isReady) await Task.Delay(5000);
+                        retryCounter++;
                     }
+
+                    if(!isReady)
+                    {
+                        _logger.LogError("Could not initialize");
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            _logger.LogInformation("service running at " + DateTime.Now.ToLongTimeString());
+                        }
+                    }
+                    
                 });
             });
             return Task.CompletedTask;
@@ -45,6 +76,7 @@ namespace RomRepo.console
             return Task.CompletedTask;
         }
 
+        #endregion
     }
 
 
