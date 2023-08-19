@@ -1,4 +1,4 @@
-﻿namespace RomRepo.web.Server
+﻿namespace RomRepo.console
 {
     internal class UserSettings
     {
