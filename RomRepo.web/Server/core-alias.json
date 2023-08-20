@@ -17,9 +17,15 @@
   "Atari7800": [ "Atari-7800", "7800" ],
   "GameBoy": [ "GB" ],
   "GameGear": [ "GG", "SegaGameGear", "Sega-Game-Gear", "Sega-GameGear" ],
-  "Genesis": [ "SegaGenesis", "Sega-Genesis", "MegaDrive", "MD", "SegaMegaDrive", "Sega-MegaDrive" ]
+  "GBA": [ "GameBoyAdvance", "Advance", "GameBoy-Advance" ],
+  "Genesis": [ "SegaGenesis", "Sega-Genesis", "MegaDrive", "MD", "SegaMegaDrive", "Sega-MegaDrive" ],
+  "MegaCD": [ "SegaCD", "Sega-CD" ],
   "NES": [ "Nintendo", "NintendoEntertainmentSystem", "Nintendo-Entertainment-System" ],
-  "SNES": ["SuperNintendo", "Super-Nintendo", "SF", "SuperFamicom", "Super-Famicom"]
+  "PSX": [ "PS1", "PS-1", "PlayStation1", "Playstation-1", "SonyPlayStation1", "Sony-Playstation1", "SonyPS1", "Sony-PS1" ],
+  "SMS": [ "SegaMasterSystem", "Sega-MasterSystem", "SegaMS", "Sega-MS" ],
+  "SNES": [ "SuperNintendo", "Super-Nintendo", "SF", "SuperFamicom", "Super-Famicom" ],
+  "TGFX16": [ "TurboGrafx16", "TurboGrafx-16", "PCEngine", "PC-Engine" ]
+
 
 
 
