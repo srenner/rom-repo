@@ -1,4 +1,4 @@
-﻿namespace RomRepo.web.Server
+﻿namespace RomRepo.web.Server.Models.JSON
 {
     internal class UserSettings
     {
