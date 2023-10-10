@@ -3,15 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RomRepo.web.Server", "RomRepo.web\Server\RomRepo.web.Server.csproj", "{F99FD039-3CCE-40A5-AAFF-85F82A510120}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RomRepo.web.Client", "RomRepo.web\Client\RomRepo.web.Client.csproj", "{684A394F-DBA7-4C69-B49B-D43F420A7496}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RomRepo.web.Shared", "RomRepo.web\Shared\RomRepo.web.Shared.csproj", "{AB4D0D7C-D4F2-43B0-BF1C-53350DD74CA3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RomRepo.console", "RomRepo.console\RomRepo.console.csproj", "{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}"
-EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{43542BD8-7FFC-4DE1-A377-96DA2D4DDE68}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{782C7EF5-DC70-437A-8FA0-34F088437A8D}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,26 +19,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F99FD039-3CCE-40A5-AAFF-85F82A510120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F99FD039-3CCE-40A5-AAFF-85F82A510120}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F99FD039-3CCE-40A5-AAFF-85F82A510120}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F99FD039-3CCE-40A5-AAFF-85F82A510120}.Release|Any CPU.Build.0 = Release|Any CPU
-		{684A394F-DBA7-4C69-B49B-D43F420A7496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{684A394F-DBA7-4C69-B49B-D43F420A7496}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{684A394F-DBA7-4C69-B49B-D43F420A7496}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{684A394F-DBA7-4C69-B49B-D43F420A7496}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB4D0D7C-D4F2-43B0-BF1C-53350DD74CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB4D0D7C-D4F2-43B0-BF1C-53350DD74CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB4D0D7C-D4F2-43B0-BF1C-53350DD74CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB4D0D7C-D4F2-43B0-BF1C-53350DD74CA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43542BD8-7FFC-4DE1-A377-96DA2D4DDE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43542BD8-7FFC-4DE1-A377-96DA2D4DDE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43542BD8-7FFC-4DE1-A377-96DA2D4DDE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43542BD8-7FFC-4DE1-A377-96DA2D4DDE68}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
