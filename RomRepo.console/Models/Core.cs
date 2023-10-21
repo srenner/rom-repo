@@ -35,5 +35,7 @@ namespace RomRepo.console.Models
 
         public bool IsFavorite { get; set; } = false;
         public bool IsActive { get; set; } = true;
+
+        public ICollection<Rom> Roms { get; set; }
     }
 }

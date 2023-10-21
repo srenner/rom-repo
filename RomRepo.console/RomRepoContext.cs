@@ -13,6 +13,7 @@ namespace RomRepo.console
     public class RomRepoContext : DbContext
     {
         public DbSet<Core> Core { get; set; }
+        public DbSet<Rom> Rom { get; set; }
         public DbSet<SystemSetting> SystemSetting { get; set; }
 
         public string DbPath { get; }
