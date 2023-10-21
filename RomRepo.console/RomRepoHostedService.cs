@@ -32,7 +32,15 @@ namespace RomRepo.console
 
             //reset any existing file system watchers
 
-            throw new NotImplementedException();
+            // if unique identifier not found
+            if(true)
+            {
+                var uniqueIdentifier = Guid.NewGuid().ToString();
+                Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueIdentifier);
+                Console.ReadLine();
+            }
+
+            return true;
         }
 
 
