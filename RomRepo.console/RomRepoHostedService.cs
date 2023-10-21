@@ -61,8 +61,6 @@ namespace RomRepo.console
                 }
 
             }
-
-
             return isReady;
         }
 
@@ -80,11 +78,7 @@ namespace RomRepo.console
             Console.WriteLine("----------------------------------------------");
         }
 
-
-
         #region service lifecycle events
-
-
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -126,6 +120,5 @@ namespace RomRepo.console
 
         #endregion
     }
-
 
 }
