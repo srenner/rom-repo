@@ -76,8 +76,8 @@ namespace RomRepo.console
             Console.WriteLine("| | \\ \\ (_) | | | | | | | \\ \\  __/ |_) | (_) |");
             Console.WriteLine("|_|  \\_\\___/|_| |_| |_|_|  \\_\\___| .__/ \\___/ ");
             Console.WriteLine("                                 | |          ");
-            Console.WriteLine("                                 |_|          ");
-            Console.WriteLine("");
+            Console.WriteLine("          repo for roms          |_|          ");
+            Console.WriteLine("----------------------------------------------");
         }
 
 
