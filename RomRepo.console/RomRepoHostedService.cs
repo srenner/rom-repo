@@ -24,27 +24,67 @@ namespace RomRepo.console
 
         private async Task<bool> Initialize()
         {
-            //test if site is running
-
+            bool isReady = true;
+            PrintBanner();
+            
+            //wait for api ping
             //get user settings (root folders, etc.)
-
             //check database integrity
-
             //reset any existing file system watchers
-
-            // if unique identifier not found
-            if(true)
+            
+            // check for existance of unique identifier in database
+            bool hasUniqueIdentifier = false;
+            if(!hasUniqueIdentifier)
             {
                 var uniqueIdentifier = Guid.NewGuid().ToString();
                 Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueIdentifier);
-                Console.ReadLine();
             }
 
-            return true;
+            //check for existance of root game/rom location
+            bool hasRomRootFolder = false;
+            if(!hasRomRootFolder)
+            {
+                Console.Write(@"Where is the root folder for your Rom library? (e.g. \\mister\sdcard): ");
+                string romRootFolder = Console.ReadLine();
+
+                if(romRootFolder != null)
+                {
+                    var fi = new DirectoryInfo(@romRootFolder);
+                    if(fi.Exists)
+                    {
+                        Console.WriteLine("found it");
+                    }
+                    else
+                    {
+                        Console.WriteLine("can't connect");
+                    }
+                }
+
+            }
+
+
+            return isReady;
+        }
+
+        private void PrintBanner()
+        {
+            Console.WriteLine("");
+            Console.WriteLine(" _____                 _____                  ");
+            Console.WriteLine("|  __ \\               |  __ \\                 ");
+            Console.WriteLine("| |__) |___  _ __ ___ | |__) |___ _ __   ___  ");
+            Console.WriteLine("|  _  // _ \\| '_ ` _ \\|  _  // _ \\ '_ \\ / _ \\ ");
+            Console.WriteLine("| | \\ \\ (_) | | | | | | | \\ \\  __/ |_) | (_) |");
+            Console.WriteLine("|_|  \\_\\___/|_| |_| |_|_|  \\_\\___| .__/ \\___/ ");
+            Console.WriteLine("                                 | |          ");
+            Console.WriteLine("                                 |_|          ");
+            Console.WriteLine("");
         }
 
 
+
         #region service lifecycle events
+
+
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -70,7 +110,7 @@ namespace RomRepo.console
                     {
                         while (true)
                         {
-                            _logger.LogInformation("service running at " + DateTime.Now.ToLongTimeString());
+                            //_logger.LogInformation("service running at " + DateTime.Now.ToLongTimeString());
                         }
                     }
                     

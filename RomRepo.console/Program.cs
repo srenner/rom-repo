@@ -19,7 +19,7 @@ namespace RomRepo.console
                     services.AddOptions();
                 })
                 .RunConsoleAsync();
-            Console.WriteLine("Shutting down at " + DateTime.Now.ToLongTimeString());
+            Console.WriteLine("RomRepo.consols is shutting down at " + DateTime.Now.ToLongTimeString());
         }
     }
 }
