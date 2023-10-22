@@ -31,7 +31,6 @@ namespace RomRepo.console
             //check database integrity
             //reset any existing file system watchers
             
-            // check for existance of unique identifier in database
             bool hasUniqueIdentifier = false;
             if(!hasUniqueIdentifier)
             {
@@ -39,11 +38,10 @@ namespace RomRepo.console
                 Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueIdentifier);
             }
 
-            //check for existance of root game/rom location
             bool hasRomRootFolder = false;
             if(!hasRomRootFolder)
             {
-                Console.Write(@"Where is the root folder for your Rom library? (e.g. \\mister\sdcard): ");
+                Console.Write(@"Where is the root folder for your Rom library? (e.g. \\mister\sdcard\games): ");
                 string romRootFolder = Console.ReadLine();
 
                 if(romRootFolder != null)
@@ -52,14 +50,23 @@ namespace RomRepo.console
                     if(fi.Exists)
                     {
                         Console.WriteLine("found it");
+
+                        foreach(var coreRoot in fi.EnumerateDirectories())
+                        {
+                            Console.WriteLine(coreRoot.FullName);
+                        }
+
+
                     }
                     else
                     {
                         Console.WriteLine("can't connect");
+                        isReady = false;
                     }
                 }
-
             }
+
+
             return isReady;
         }
 
@@ -90,6 +97,8 @@ namespace RomRepo.console
                         while (true)
                         {
                             //_logger.LogInformation("service running at " + DateTime.Now.ToLongTimeString());
+                            Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
+                            await Task.Delay(1000);
                         }
                     }
                     
