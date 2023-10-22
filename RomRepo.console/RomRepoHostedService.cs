@@ -25,7 +25,6 @@ namespace RomRepo.console
         private async Task<bool> Initialize()
         {
             bool isReady = true;
-            PrintBanner();
             
             //wait for api ping
             //get user settings (root folders, etc.)
@@ -62,20 +61,6 @@ namespace RomRepo.console
 
             }
             return isReady;
-        }
-
-        private void PrintBanner()
-        {
-            Console.WriteLine("");
-            Console.WriteLine(" _____                 _____                  ");
-            Console.WriteLine("|  __ \\               |  __ \\                 ");
-            Console.WriteLine("| |__) |___  _ __ ___ | |__) |___ _ __   ___  ");
-            Console.WriteLine("|  _  // _ \\| '_ ` _ \\|  _  // _ \\ '_ \\ / _ \\ ");
-            Console.WriteLine("| | \\ \\ (_) | | | | | | | \\ \\  __/ |_) | (_) |");
-            Console.WriteLine("|_|  \\_\\___/|_| |_| |_|_|  \\_\\___| .__/ \\___/ ");
-            Console.WriteLine("                                 | |          ");
-            Console.WriteLine("          repo for roms          |_|          ");
-            Console.WriteLine("----------------------------------------------");
         }
 
         #region service lifecycle events

@@ -2,6 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Text;
 
 namespace RomRepo.console
 {
@@ -10,9 +13,10 @@ namespace RomRepo.console
         static async Task Main(string[] args)
         {
             Console.WriteLine("RomRepo.console is starting up at " + DateTime.Now.ToLongTimeString());
-
+            PrintBanner();
 
             var builder = WebApplication.CreateBuilder(args);
+            builder.Logging.ClearProviders();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -27,6 +31,27 @@ namespace RomRepo.console
             app.UseAuthorization();
             app.MapControllers();
             Task webTask = app.RunAsync();
+            string baseURL;
+            if(app.Urls.Count > 0)
+            {
+                baseURL = app.Urls.First();
+                Console.WriteLine("API Listening at " + baseURL);
+
+                try
+                {
+                    HttpClient client = new HttpClient();
+                    string responseBody = await client.GetStringAsync(baseURL + "/api/app/version");
+                    Console.WriteLine("API Version " + responseBody);
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine("Exception :{0} ", e.Message);
+                }
+            }
+
+            Console.WriteLine("----------------------------------------------\n");
+
+
 
             await Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
@@ -40,5 +65,20 @@ namespace RomRepo.console
             webTask.Wait();
             Console.WriteLine("RomRepo.console is shutting down at " + DateTime.Now.ToLongTimeString());
         }
+
+        private static void PrintBanner()
+        {
+            Console.WriteLine("");
+            Console.WriteLine(" _____                 _____                  ");
+            Console.WriteLine("|  __ \\               |  __ \\                 ");
+            Console.WriteLine("| |__) |___  _ __ ___ | |__) |___ _ __   ___  ");
+            Console.WriteLine("|  _  // _ \\| '_ ` _ \\|  _  // _ \\ '_ \\ / _ \\ ");
+            Console.WriteLine("| | \\ \\ (_) | | | | | | | \\ \\  __/ |_) | (_) |");
+            Console.WriteLine("|_|  \\_\\___/|_| |_| |_|_|  \\_\\___| .__/ \\___/ ");
+            Console.WriteLine("                                 | |          ");
+            Console.WriteLine("          repo for roms          |_|          ");
+            Console.WriteLine("----------------------------------------------");
+        }
+
     }
 }
