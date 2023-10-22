@@ -38,6 +38,30 @@ namespace RomRepo.console
                 Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueIdentifier);
             }
 
+            bool analyticsSpecified = false;
+            if(!analyticsSpecified)
+            {
+                Console.Write("Send Analytics to RomRepo.com? [ Y / ");
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.Write(" N ");
+                Console.ResetColor();
+                
+                Console.Write(" / ? ] : ");
+                var key = Console.ReadKey();
+
+                if(key.Key == ConsoleKey.Enter)
+                {
+                    Console.WriteLine("N");
+                }
+                else
+                {
+                    Console.WriteLine();
+                }
+            }
+
+
             bool hasRomRootFolder = false;
             if(!hasRomRootFolder)
             {
