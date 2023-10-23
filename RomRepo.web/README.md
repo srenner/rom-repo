@@ -1,6 +1,6 @@
 # romrepo.web
 
-This template should help get you started developing with Vue 3 in Vite.
+Frontend to view and manage your library via connection to the RomRepo.console project
 
 ## Recommended IDE Setup
 
