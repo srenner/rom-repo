@@ -1,4 +1,4 @@
-# RomRepo User Service
+# RomRepo.console (User Service)
 
 This project is self hosted on the end user's machine.
 
