@@ -12,8 +12,7 @@
 
 Software for retro video game [ROM](https://en.wikipedia.org/wiki/ROM_image) libraries
 
-* Browse your game collection in a web UI
-* Manage your library through the web UI or directly in your local filesystem
+* Manage your game library through a web UI or directly in your local filesystem
 * Organize your cheat codes, save files, screenshots, and manuals
 * Easily find ports, alternate versions, and sequels across your systems
 * Zip/unzip/convert files
@@ -22,12 +21,18 @@ Software for retro video game [ROM](https://en.wikipedia.org/wiki/ROM_image) lib
 
 ## System Architecture
 * Items to install by user:
-  * ASP.NET Blazor Wasm project
-  * Console project (hosted as background service)
-  * Storage volume for SQLite database, backups, metadata and system files
+  * RomRepo.console
+    * Background service that keeps an eye on the filesystem
+    * API endpoints for the UI
+    * SQLite database
+  * RomRepo.web
+    * Standard UI for RomRepo.console
 * Items hosted on RomRepo.com:
-  * API to access Titles and checksums
-  * Project home page
+  * RomRepo.com
+    * Project home page
+  * RomRepo.api.dat
+    * Optional API endpoints for the DAT-o-Matic database
+    * Optional API endpoints for (opt-in) analytics
 
 ---
 ### Analytics Disclaimer
