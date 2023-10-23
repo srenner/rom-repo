@@ -1,4 +1,4 @@
-# romrepo.web
+# RomRepo.web
 
 Frontend to view and manage your library via connection to the RomRepo.console project
 
