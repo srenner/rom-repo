@@ -14,6 +14,7 @@ namespace RomRepo.console
     {
         private readonly ILogger _logger;
         private readonly IHostApplicationLifetime _appLifetime;
+        private FileSystemWatcher _watcher;
         
 
         public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime)
@@ -75,8 +76,8 @@ namespace RomRepo.console
                     {
                         Console.WriteLine("found it");
 
-                        using var watcher = new FileSystemWatcher(romRootFolder);
-                        watcher.NotifyFilter = NotifyFilters.Attributes
+                        _watcher = new FileSystemWatcher(romRootFolder);
+                        _watcher.NotifyFilter = NotifyFilters.Attributes
                                              | NotifyFilters.CreationTime
                                              | NotifyFilters.DirectoryName
                                              | NotifyFilters.FileName
@@ -85,11 +86,11 @@ namespace RomRepo.console
                                              | NotifyFilters.Security
                                              | NotifyFilters.Size;
 
-                        watcher.Filter = "*.txt";
-                        watcher.IncludeSubdirectories = true;
-                        watcher.EnableRaisingEvents = true;
-                        watcher.Created += Watcher_Event;
-                        watcher.Changed += Watcher_Event;
+                        _watcher.Filter = "*.txt";
+                        _watcher.IncludeSubdirectories = true;
+                        _watcher.EnableRaisingEvents = true;
+                        _watcher.Created += Watcher_Event;
+                        _watcher.Changed += Watcher_Event;
 
                         Console.WriteLine("Press the Any key");
                         Console.ReadLine();
@@ -142,12 +143,16 @@ namespace RomRepo.console
                     }
                     else
                     {
-                        while (true)
+                        using(_watcher)
                         {
-                            //_logger.LogInformation("service running at " + DateTime.Now.ToLongTimeString());
-                            Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
-                            await Task.Delay(1000);
+                            while (true)
+                            {
+                                //_logger.LogInformation("service running at " + DateTime.Now.ToLongTimeString());
+                                Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
+                                await Task.Delay(1000);
+                            }
                         }
+
                     }
                     
                 });
