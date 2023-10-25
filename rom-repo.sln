@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RomRepo.api.dat", "RomRepo.api.dat\RomRepo.api.dat.csproj", "{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AFE9D750-8608-4040-B9B2-1CB712B5E55F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFE9D750-8608-4040-B9B2-1CB712B5E55F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFE9D750-8608-4040-B9B2-1CB712B5E55F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFE9D750-8608-4040-B9B2-1CB712B5E55F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFE9D750-8608-4040-B9B2-1CB712B5E55F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
