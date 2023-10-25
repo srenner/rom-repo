@@ -75,7 +75,26 @@ namespace RomRepo.console
                     {
                         Console.WriteLine("found it");
 
-                        foreach(var coreRoot in fi.EnumerateDirectories())
+                        using var watcher = new FileSystemWatcher(romRootFolder);
+                        watcher.NotifyFilter = NotifyFilters.Attributes
+                                             | NotifyFilters.CreationTime
+                                             | NotifyFilters.DirectoryName
+                                             | NotifyFilters.FileName
+                                             | NotifyFilters.LastAccess
+                                             | NotifyFilters.LastWrite
+                                             | NotifyFilters.Security
+                                             | NotifyFilters.Size;
+
+                        watcher.Filter = "*.txt";
+                        watcher.IncludeSubdirectories = true;
+                        watcher.EnableRaisingEvents = true;
+                        watcher.Created += Watcher_Event;
+                        watcher.Changed += Watcher_Event;
+
+                        Console.WriteLine("Press the Any key");
+                        Console.ReadLine();
+
+                        foreach (var coreRoot in fi.EnumerateDirectories())
                         {
                             Console.WriteLine(coreRoot.FullName);
                         }
@@ -92,6 +111,11 @@ namespace RomRepo.console
 
 
             return isReady;
+        }
+
+        private void Watcher_Event(object sender, FileSystemEventArgs e)
+        {
+            string debugger = "stop";
         }
 
         #region service lifecycle events
