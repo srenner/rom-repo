@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,27 @@ namespace RomRepo.console.DataAccess
 {
     public class RepoRepo : IRepoRepo
     {
-        public void AddSystemSetting()
+        private readonly RomRepoContext _context;
+
+        public RepoRepo(RomRepoContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public async Task<int> SaveSystemSetting(SystemSettingEnum setting, string settingValue)
+        {
+            try
+            {
+                int rows = await _context.Database.ExecuteSqlAsync($"REPLACE INTO SystemSetting(Name, Value) VALUES ({setting.Value}, {settingValue});");
+                await _context.SaveChangesAsync();
+                return rows;
+            }
+            catch (Exception ex)
+            {
+                string stop = "asdf";
+                throw ex;
+            }
+            
         }
 
         public void GetAllCores()
@@ -44,11 +63,6 @@ namespace RomRepo.console.DataAccess
         }
 
         public void UpdateRom(int romID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateSystemSetting()
         {
             throw new NotImplementedException();
         }

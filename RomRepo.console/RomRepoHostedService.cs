@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RomRepo.console.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,14 @@ namespace RomRepo.console
         private readonly ILogger _logger;
         private readonly IHostApplicationLifetime _appLifetime;
         private FileSystemWatcher _watcher;
+        private readonly IRepoRepo _repo;
         
 
-        public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime)
+        public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime, IRepoRepo repo)
         {
             _logger = logger;
             _appLifetime = appLifetime;
+            _repo = repo;
         }
 
         private async Task<bool> Initialize()
@@ -37,6 +40,7 @@ namespace RomRepo.console
             {
                 var uniqueIdentifier = Guid.NewGuid().ToString();
                 Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueIdentifier);
+                await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueIdentifier);
             }
 
             bool analyticsSpecified = false;

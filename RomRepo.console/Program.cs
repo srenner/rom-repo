@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Text;
+using RomRepo.console.DataAccess;
 
 namespace RomRepo.console
 {
@@ -58,6 +59,9 @@ namespace RomRepo.console
                 {
                     var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
                     var config = builder.Build();
+                    services.AddDbContext<RomRepoContext>();
+                    services.AddSingleton<IRepoRepo, RepoRepo>();
+
                     services.AddHostedService<RomRepoHostedService>();
                     services.AddOptions();
                 })

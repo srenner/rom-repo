@@ -18,9 +18,8 @@ namespace RomRepo.console.DataAccess
         void UpdateRom(int romID);
 
 
+        Task<int> SaveSystemSetting(SystemSettingEnum setting, string settingValue);
         void GetSystemSettings();
-        void AddSystemSetting();
-        void UpdateSystemSetting();
 
 
     }
