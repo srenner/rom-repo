@@ -26,10 +26,22 @@ namespace RomRepo.console.DataAccess
             }
             catch (Exception ex)
             {
-                string stop = "asdf";
+                //log or something
                 throw ex;
             }
-            
+        }
+
+        public async Task<string?> GetSystemSetting(SystemSettingEnum setting)
+        {
+            try
+            {
+                return await _context.Database.SqlQuery<string>($"SELECT Value FROM SystemSetting where Name = {setting.Value}").FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                //log or something
+                throw ex;
+            }
         }
 
         public void GetAllCores()

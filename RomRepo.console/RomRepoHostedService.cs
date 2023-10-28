@@ -35,13 +35,13 @@ namespace RomRepo.console
             //check database integrity
             //reset any existing file system watchers
             
-            bool hasUniqueIdentifier = false;
-            if(!hasUniqueIdentifier)
+            string? uniqueID = await _repo.GetSystemSetting(SystemSettingEnum.UniqueIdentifier);
+            if(uniqueID == null)
             {
-                var uniqueIdentifier = Guid.NewGuid().ToString();
-                Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueIdentifier);
-                await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueIdentifier);
+                uniqueID = Guid.NewGuid().ToString();
+                await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueID);
             }
+            Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueID);
 
             bool analyticsSpecified = false;
             if(!analyticsSpecified)
