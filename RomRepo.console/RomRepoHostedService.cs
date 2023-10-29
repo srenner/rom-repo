@@ -20,6 +20,8 @@ namespace RomRepo.console
 
         private FileSystemWatcher _watcher;
         private List<SystemSetting> _settings;
+        private const string ANALYTICS_HELP_TEXT = "If you choose to send analytics, we may use anonymous data from your local installation, " +
+                                                    "but we will not access your library files.";
 
         public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime, IRepoRepo repo)
         {
@@ -46,10 +48,7 @@ namespace RomRepo.console
             if(settingSendAnalytics == null)
             {
                 Console.Write("Send Analytics to RomRepo.com? [ Y / ");
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.Write("(N)");
-                Console.ResetColor();
+                Console.Write("\x1b[1m(N)\x1b[0m");
                 Console.Write(" / ? ] : ");
 
                 var key = Console.ReadKey(true);
@@ -62,7 +61,7 @@ namespace RomRepo.console
                 {
                     if(key.KeyChar == '?')
                     {
-                        Console.WriteLine("\nHelp text");
+                        Console.WriteLine("\n" + ANALYTICS_HELP_TEXT);
                     }
                     else
                     {
@@ -112,7 +111,7 @@ namespace RomRepo.console
                                      | NotifyFilters.Security
                                      | NotifyFilters.Size;
 
-                _watcher.Filter = "*.txt";
+                _watcher.Filter = "*.*";
                 _watcher.IncludeSubdirectories = true;
                 _watcher.EnableRaisingEvents = true;
                 _watcher.Created += Watcher_Event;
