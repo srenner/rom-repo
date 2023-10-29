@@ -117,6 +117,8 @@ namespace RomRepo.console
                 _watcher.EnableRaisingEvents = true;
                 _watcher.Created += Watcher_Event;
                 _watcher.Changed += Watcher_Event;
+                _watcher.Deleted += Watcher_Event;
+                _watcher.Renamed += Watcher_Event;
             }
 
             
