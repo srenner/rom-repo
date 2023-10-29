@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RomRepo.console.DataAccess;
+using RomRepo.console.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,10 @@ namespace RomRepo.console
     {
         private readonly ILogger _logger;
         private readonly IHostApplicationLifetime _appLifetime;
-        private FileSystemWatcher _watcher;
         private readonly IRepoRepo _repo;
-        
+
+        private FileSystemWatcher _watcher;
+        private List<SystemSetting> _settings;
 
         public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime, IRepoRepo repo)
         {
@@ -29,82 +31,65 @@ namespace RomRepo.console
         private async Task<bool> Initialize()
         {
             bool isReady = true;
-            
-            //wait for api ping
-            //get user settings (root folders, etc.)
-            //check database integrity
-            //reset any existing file system watchers
-            
-            string? uniqueID = await _repo.GetSystemSetting(SystemSettingEnum.UniqueIdentifier);
-            if(uniqueID == null)
+            _settings = (await _repo.GetSystemSettings()).ToList();
+            _settings = _settings.ToList();
+            var settingUniqueID = _settings.Where(w => w.Name == SystemSettingEnum.UniqueIdentifier.Value).FirstOrDefault();
+            if(settingUniqueID == null)
             {
-                uniqueID = Guid.NewGuid().ToString();
-                await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueID);
+                string uniqueID = Guid.NewGuid().ToString();
+                _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueID));
+                Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueID + "\n");
             }
-            Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueID);
 
-            bool analyticsSpecified = false;
-            if(!analyticsSpecified)
+
+            var settingSendAnalytics = _settings.Where(w => w.Name == SystemSettingEnum.SendAnalytics.Value).FirstOrDefault();
+            if(settingSendAnalytics == null)
             {
                 Console.Write("Send Analytics to RomRepo.com? [ Y / ");
-
-                Console.ForegroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.BackgroundColor = ConsoleColor.White;
-                Console.Write(" N ");
+                Console.Write("(N)");
                 Console.ResetColor();
-                
                 Console.Write(" / ? ] : ");
-                var key = Console.ReadKey();
 
-                if(key.Key == ConsoleKey.Enter)
+                var key = Console.ReadKey(true);
+                if(key.Key == ConsoleKey.Y)
                 {
-                    Console.WriteLine("N");
+                    Console.Write("Y");
+                    _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.SendAnalytics, "1"));
                 }
                 else
                 {
-                    Console.WriteLine();
+                    if(key.KeyChar == '?')
+                    {
+                        Console.WriteLine("\nHelp text");
+                    }
+                    else
+                    {
+                        Console.Write("N");
+                        _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.SendAnalytics, "0"));
+                    }
                 }
+                Console.WriteLine();
             }
 
-
-            bool hasRomRootFolder = false;
-            if(!hasRomRootFolder)
+            var settingRomRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault();
+            if(settingRomRootFolder == null)
             {
                 Console.Write(@"Where is the root folder for your Rom library? (e.g. \\mister\sdcard\games): ");
-                string romRootFolder = Console.ReadLine();
+                string inputRomRootFolder = Console.ReadLine();
 
-                if(romRootFolder != null)
+                if(inputRomRootFolder != null)
                 {
-                    var fi = new DirectoryInfo(@romRootFolder);
+                    var fi = new DirectoryInfo(inputRomRootFolder);
                     if(fi.Exists)
                     {
                         Console.WriteLine("found it");
-
-                        _watcher = new FileSystemWatcher(romRootFolder);
-                        _watcher.NotifyFilter = NotifyFilters.Attributes
-                                             | NotifyFilters.CreationTime
-                                             | NotifyFilters.DirectoryName
-                                             | NotifyFilters.FileName
-                                             | NotifyFilters.LastAccess
-                                             | NotifyFilters.LastWrite
-                                             | NotifyFilters.Security
-                                             | NotifyFilters.Size;
-
-                        _watcher.Filter = "*.txt";
-                        _watcher.IncludeSubdirectories = true;
-                        _watcher.EnableRaisingEvents = true;
-                        _watcher.Created += Watcher_Event;
-                        _watcher.Changed += Watcher_Event;
-
-                        Console.WriteLine("Press the Any key");
-                        Console.ReadLine();
-
+                        _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.RomRootFolder, inputRomRootFolder));
                         foreach (var coreRoot in fi.EnumerateDirectories())
                         {
                             Console.WriteLine(coreRoot.FullName);
                         }
-
-
                     }
                     else
                     {
@@ -114,6 +99,28 @@ namespace RomRepo.console
                 }
             }
 
+            var romRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault()?.Value;
+            if (romRootFolder != null)
+            {
+                _watcher = new FileSystemWatcher(romRootFolder);
+                _watcher.NotifyFilter = NotifyFilters.Attributes
+                                     | NotifyFilters.CreationTime
+                                     | NotifyFilters.DirectoryName
+                                     | NotifyFilters.FileName
+                                     | NotifyFilters.LastAccess
+                                     | NotifyFilters.LastWrite
+                                     | NotifyFilters.Security
+                                     | NotifyFilters.Size;
+
+                _watcher.Filter = "*.txt";
+                _watcher.IncludeSubdirectories = true;
+                _watcher.EnableRaisingEvents = true;
+                _watcher.Created += Watcher_Event;
+                _watcher.Changed += Watcher_Event;
+            }
+
+            
+
 
             return isReady;
         }
@@ -121,6 +128,16 @@ namespace RomRepo.console
         private void Watcher_Event(object sender, FileSystemEventArgs e)
         {
             string debugger = "stop";
+        }
+
+        private async Task SendReceiveAnalytics()
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task InitSystemMaintenance()
+        {
+            throw new NotImplementedException();
         }
 
         #region service lifecycle events
@@ -151,7 +168,6 @@ namespace RomRepo.console
                         {
                             while (true)
                             {
-                                //_logger.LogInformation("service running at " + DateTime.Now.ToLongTimeString());
                                 Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
                                 await Task.Delay(1000);
                             }

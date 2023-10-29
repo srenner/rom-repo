@@ -13,9 +13,8 @@ namespace RomRepo.console
         public string Value { get; private set; }
 
         public static SystemSettingEnum UniqueIdentifier { get { return new SystemSettingEnum("UniqueIdentifier"); } }
-
         public static SystemSettingEnum SendAnalytics { get { return new SystemSettingEnum("SendAnalytics"); } }
-
+        public static SystemSettingEnum UseAPI { get { return new SystemSettingEnum("UseAPI"); } }
         public static SystemSettingEnum RomRootFolder { get { return new SystemSettingEnum("RomRootFolder"); } }
         public static SystemSettingEnum SavesRootFolder { get { return new SystemSettingEnum("SavesRootFolder"); } }
         public static SystemSettingEnum SaveStatesRootFolder { get { return new SystemSettingEnum("SaveStatesRootFolder"); } }

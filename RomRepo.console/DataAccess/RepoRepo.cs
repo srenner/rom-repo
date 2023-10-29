@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RomRepo.console.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,22 @@ namespace RomRepo.console.DataAccess
             _context = context;
         }
 
-        public async Task<int> SaveSystemSetting(SystemSettingEnum setting, string settingValue)
+        public async Task<SystemSetting> SaveSystemSetting(SystemSettingEnum setting, string settingValue)
         {
             try
             {
+                using var transaction = _context.Database.BeginTransaction();
                 int rows = await _context.Database.ExecuteSqlAsync($"REPLACE INTO SystemSetting(Name, Value) VALUES ({setting.Value}, {settingValue});");
                 await _context.SaveChangesAsync();
-                return rows;
+                await transaction.CommitAsync();
+                if(rows == 1)
+                {
+                    return new SystemSetting { Name = setting.Value, Value = settingValue };
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -31,6 +41,23 @@ namespace RomRepo.console.DataAccess
             }
         }
 
+
+        public async Task<IEnumerable<SystemSetting>> SaveSystemSettings(IEnumerable<SystemSetting> settings)
+        {
+            try
+            {
+                _context.Add(settings);
+                await _context.SaveChangesAsync();
+                return settings;
+            }
+            catch(Exception ex)
+            {
+                //log
+                throw ex;
+            }
+        }
+
+
         public async Task<string?> GetSystemSetting(SystemSettingEnum setting)
         {
             try
@@ -38,6 +65,19 @@ namespace RomRepo.console.DataAccess
                 return await _context.Database.SqlQuery<string>($"SELECT Value FROM SystemSetting where Name = {setting.Value}").FirstOrDefaultAsync();
             }
             catch (Exception ex)
+            {
+                //log or something
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<SystemSetting>> GetSystemSettings()
+        {
+            try
+            {
+                return await _context.SystemSetting.ToListAsync();
+            }
+            catch(Exception ex)
             {
                 //log or something
                 throw ex;
@@ -64,11 +104,6 @@ namespace RomRepo.console.DataAccess
             throw new NotImplementedException();
         }
 
-        public void GetSystemSettings()
-        {
-            throw new NotImplementedException();
-        }
-
         public void UpdateCore(int coreID)
         {
             throw new NotImplementedException();
@@ -78,5 +113,6 @@ namespace RomRepo.console.DataAccess
         {
             throw new NotImplementedException();
         }
+
     }
 }

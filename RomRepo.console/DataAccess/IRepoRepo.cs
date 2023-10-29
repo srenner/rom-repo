@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+using RomRepo.console.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,13 +30,20 @@ namespace RomRepo.console.DataAccess
 
         #region ===== SystemSetting =======================
 
-        Task<int> SaveSystemSetting(SystemSettingEnum setting, string settingValue);
+        /// <summary>
+        /// Performs raw sql upsert
+        /// </summary>
+        /// <param name="setting"></param>
+        /// <param name="settingValue"></param>
+        /// <returns></returns>
+        Task<SystemSetting> SaveSystemSetting(SystemSettingEnum setting, string settingValue);
+        
+        Task<IEnumerable<SystemSetting>> SaveSystemSettings(IEnumerable<SystemSetting> settings);
+
         Task<string?> GetSystemSetting(SystemSettingEnum setting);
+        Task<IEnumerable<SystemSetting>> GetSystemSettings();
 
         #endregion
-
-        void GetSystemSettings();
-
 
     }
 }
