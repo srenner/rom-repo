@@ -128,7 +128,9 @@ namespace RomRepo.console
 
         private void Watcher_Event(object sender, FileSystemEventArgs e)
         {
-            string debugger = "stop";
+
+            _logger.LogInformation(e.ChangeType.ToString() + ": " + e.FullPath);
+
         }
 
         private async Task SendReceiveAnalytics()
