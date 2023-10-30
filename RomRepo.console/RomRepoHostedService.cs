@@ -119,10 +119,7 @@ namespace RomRepo.console
                 _watcher.Deleted += Watcher_Event;
                 _watcher.Renamed += Watcher_Event;
             }
-
-            
-
-
+            _settings.ForEach(x => x.PropertyChanged += Setting_ValueChanged);
             return isReady;
         }
 
@@ -181,6 +178,11 @@ namespace RomRepo.console
                 });
             });
             return Task.CompletedTask;
+        }
+
+        private void Setting_ValueChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
