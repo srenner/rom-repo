@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RomRepo.console.Models;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace RomRepo.console.DataAccess
     public class RepoRepo : IRepoRepo
     {
         private readonly RomRepoContext _context;
+        private readonly ILogger<RepoRepo> _logger;
 
-        public RepoRepo(RomRepoContext context)
+        public RepoRepo(RomRepoContext context, ILogger<RomRepo.console.DataAccess.RepoRepo> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<SystemSetting> SaveSystemSetting(SystemSettingEnum setting, string settingValue)
@@ -29,16 +32,12 @@ namespace RomRepo.console.DataAccess
                 {
                     return new SystemSetting { Name = setting.Value, Value = settingValue };
                 }
-                else
-                {
-                    return null;
-                }
             }
             catch (Exception ex)
             {
-                //log or something
-                throw ex;
+                _logger.LogError(ex.Message);
             }
+            return new SystemSetting(); // empty if failed to return above
         }
 
 
@@ -52,11 +51,10 @@ namespace RomRepo.console.DataAccess
             }
             catch(Exception ex)
             {
-                //log
-                throw ex;
+                _logger.LogError(ex.Message);
             }
+            return null;
         }
-
 
         public async Task<string?> GetSystemSetting(SystemSettingEnum setting)
         {
@@ -66,9 +64,9 @@ namespace RomRepo.console.DataAccess
             }
             catch (Exception ex)
             {
-                //log or something
-                throw ex;
+                _logger.LogError(ex.Message);
             }
+            return null;
         }
 
         public async Task<IEnumerable<SystemSetting>> GetSystemSettings()
@@ -79,9 +77,9 @@ namespace RomRepo.console.DataAccess
             }
             catch(Exception ex)
             {
-                //log or something
-                throw ex;
+                _logger.LogError(ex.Message);
             }
+            return null;
         }
 
         public void GetAllCores()

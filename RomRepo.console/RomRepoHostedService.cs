@@ -182,6 +182,7 @@ namespace RomRepo.console
 
         private void Setting_ValueChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            _logger.LogInformation("Setting changed: " + e.PropertyName);
             throw new NotImplementedException();
         }
 
