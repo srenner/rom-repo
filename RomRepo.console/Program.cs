@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Text;
 using RomRepo.console.DataAccess;
+using RomRepo.console.Services;
 
 namespace RomRepo.console
 {
@@ -21,6 +22,10 @@ namespace RomRepo.console
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<RomRepoContext>();
+            builder.Services.AddScoped<IRepoRepo, RepoRepo>();
+            builder.Services.AddScoped<IRomService, RomService>();
+
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
             {
@@ -59,10 +64,12 @@ namespace RomRepo.console
                 {
                     var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
                     var config = builder.Build();
-                    services.AddDbContext<RomRepoContext>();
-                    services.AddSingleton<IRepoRepo, RepoRepo>();
-
                     services.AddHostedService<RomRepoHostedService>();
+
+                    services.AddDbContext<RomRepoContext>();
+                    services.AddScoped<IRepoRepo, RepoRepo>();
+                    services.AddScoped<IRomService, RomService>();
+                    
                     services.AddOptions();
                 })
                 .RunConsoleAsync();
