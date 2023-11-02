@@ -3,6 +3,7 @@
 This project is self hosted on the end user's machine.
 
 Main functionality:
+* Walk user through initial setup
 * Detect and process library changes
 * Expose API endpoints for optional UI
 * Run scheduled jobs
