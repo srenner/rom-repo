@@ -1,4 +1,4 @@
-# RomRepo.api.dat
+# RomRepo.api
 
 Server hosted API.
 
