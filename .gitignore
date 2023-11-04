@@ -397,6 +397,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-/RomRepo.api.dat/Data
+/RomRepo.api/Data
 /RomRepo.web/Server/*.db*
 /RomRepo.web/Server/secrets.json
