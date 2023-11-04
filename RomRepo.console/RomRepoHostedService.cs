@@ -75,7 +75,7 @@ namespace RomRepo.console
             var settingRomRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault();
             if(settingRomRootFolder == null)
             {
-                Console.Write(@"Where is the root folder for your Rom library? (e.g. \\mister\sdcard\games): ");
+                Console.Write(@"Where is the root folder for your Rom library? (e.g. \\nas\emulation\games): ");
                 string inputRomRootFolder = Console.ReadLine();
 
                 if(inputRomRootFolder != null)
