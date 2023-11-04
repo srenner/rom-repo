@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RomRepo.api.dat.Models;
 using RomRepo.api.dat.Models.NotMapped;
+using System.Net.Mail;
 using System.Security.Cryptography;
 
 namespace RomRepo.api.dat.Controllers
@@ -14,26 +15,36 @@ namespace RomRepo.api.dat.Controllers
         private string _prefix = "rr-";
 
         [HttpPost("generate")]
-        public ApiKey GenerateApiKey([FromBody] ApiRequest req)
+        public ActionResult<ApiKey> GenerateApiKey([FromBody] ApiRequest req)
         {
-            var requestorIP = HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            if(req.IsInstallationIDValid() || req.IsEmailValid())
+            {
+                var requestorIP = HttpContext?.Connection?.RemoteIpAddress?.ToString();
+                var bytes = RandomNumberGenerator.GetBytes(_length);
+                string base64String = Convert.ToBase64String(bytes)
+                    .Replace("+", "-")
+                    .Replace("/", "_");
+                var keyLength = _length - _prefix.Length;
 
-            var bytes = RandomNumberGenerator.GetBytes(_length);
-            string base64String = Convert.ToBase64String(bytes)
-                .Replace("+", "-")
-                .Replace("/", "_");
-            var keyLength = _length - _prefix.Length;
+                ApiKey key = new ApiKey
+                {
+                    Key = _prefix + base64String[..keyLength],
+                    Email = req.Email,
+                    InstallationID = req.InstallationID,
+                    IPAddress = requestorIP
+                };
 
-            ApiKey key = new ApiKey 
-            { 
-                Key = _prefix + base64String[..keyLength],
-                Email = req.Email,
-                InstallationID = req.InstallationID,
-                IPAddress = requestorIP
-            };
+                //todo insert
 
-            return key;
+                return key;
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
+
+        
 
     }
 }
