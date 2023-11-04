@@ -1,5 +1,5 @@
 
-namespace RomRepo.api.dat
+namespace RomRepo.api
 {
     public class Program
     {

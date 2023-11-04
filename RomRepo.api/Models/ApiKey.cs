@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RomRepo.api.dat.Models
+namespace RomRepo.api.Models
 {
     public class ApiKey
     {

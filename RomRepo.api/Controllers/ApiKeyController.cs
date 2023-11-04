@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RomRepo.api.dat.Models;
-using RomRepo.api.dat.Models.NotMapped;
+using RomRepo.api.Models;
+using RomRepo.api.Models.NotMapped;
 using System.Net.Mail;
 using System.Security.Cryptography;
 
-namespace RomRepo.api.dat.Controllers
+namespace RomRepo.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

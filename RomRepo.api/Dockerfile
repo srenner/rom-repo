@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["RomRepo.api.dat/RomRepo.api.dat.csproj", "RomRepo.api.dat/"]
-RUN dotnet restore "RomRepo.api.dat/RomRepo.api.dat.csproj"
+COPY ["RomRepo.api/RomRepo.api.csproj", "RomRepo.dat/"]
+RUN dotnet restore "RomRepo.api/RomRepo.api.csproj"
 COPY . .
 WORKDIR "/src/RomRepo.api.dat"
-RUN dotnet build "RomRepo.api.dat.csproj" -c Release -o /app/build
+RUN dotnet build "RomRepo.api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "RomRepo.api.dat.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "RomRepo.api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "RomRepo.api.dat.dll"]
+ENTRYPOINT ["dotnet", "RomRepo.api.dll"]

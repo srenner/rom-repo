@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace RomRepo.api.dat.Models.NotMapped
+namespace RomRepo.api.Models.NotMapped
 {
     /// <summary>
     /// Input parameters from a client requesting a new API Key. Client must include at least one parameter to receive a key.
