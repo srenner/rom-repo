@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RomRepo.api.DataAccess;
 using RomRepo.api.Models;
 using RomRepo.api.Models.NotMapped;
 using System.Net.Mail;
@@ -13,9 +14,17 @@ namespace RomRepo.api.Controllers
     {
         private int _length = 32;
         private string _prefix = "rr-";
+        private ILogger<ApiKeyController> _logger;
+        private IApiRepository _apiRepository;
+
+        public ApiKeyController(ILogger<ApiKeyController> logger, IApiRepository apiRepository)
+        {
+            _logger = logger;
+            _apiRepository = apiRepository;
+        }
 
         [HttpPost("generate")]
-        public ActionResult<ApiKey> GenerateApiKey([FromBody] ApiRequest req)
+        public async Task<ActionResult<ApiKey>> GenerateApiKey([FromBody] ApiRequest req)
         {
             if(req.IsInstallationIDValid() || req.IsEmailValid())
             {
@@ -25,17 +34,18 @@ namespace RomRepo.api.Controllers
                     .Replace("+", "-")
                     .Replace("/", "_");
                 var keyLength = _length - _prefix.Length;
-
+                var now = DateTime.UtcNow;
                 ApiKey key = new ApiKey
                 {
                     Key = _prefix + base64String[..keyLength],
                     Email = req.Email,
                     InstallationID = req.InstallationID,
-                    IPAddress = requestorIP
+                    IPAddress = requestorIP,
+                    DateCreated = now,
+                    DateUpdated = now,
+                    IsActive = true
                 };
-
-                //todo insert
-
+                key = await _apiRepository.SaveKey(key);
                 return key;
             }
             else
@@ -43,8 +53,6 @@ namespace RomRepo.api.Controllers
                 return BadRequest();
             }
         }
-
-        
 
     }
 }

@@ -1,4 +1,6 @@
 
+using RomRepo.api.DataAccess;
+
 namespace RomRepo.api
 {
     public class Program
@@ -13,7 +15,8 @@ namespace RomRepo.api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddDbContext<ApiContext>();
+            builder.Services.AddScoped<IApiRepository, ApiRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

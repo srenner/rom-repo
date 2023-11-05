@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mail;
 
 namespace RomRepo.api.Models
 {
@@ -10,8 +11,7 @@ namespace RomRepo.api.Models
         public string? Email { get; set; }
         public string? IPAddress { get; set; }
         public bool IsActive { get; set; } = false;
-
-        [NotMapped]
-        public string? ResponseMessage { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
     }
 }
