@@ -10,12 +10,35 @@ namespace RomRepo.api.Models.NotMapped
         public string? InstallationID { get; set; }
         public string? Email { get; set; }
 
-        public bool IsInstallationIDValid()
+        public bool CleanAndVerify()
+        {
+            bool isValid = false;
+            if(IsInstallationIDValid())
+            {
+                isValid = true;
+            }    
+            else
+            {
+                InstallationID = "";
+            }
+
+            if(IsEmailValid())
+            {
+                isValid = true;
+            }
+            else
+            {
+                Email = "";
+            }
+            return isValid;
+        }
+
+        private bool IsInstallationIDValid()
         {
             return Guid.TryParse(this.InstallationID, out _);
         }
 
-        public bool IsEmailValid()
+        private bool IsEmailValid()
         {
             return MailAddress.TryCreate(this.Email, out _);
         }

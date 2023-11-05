@@ -26,7 +26,7 @@ namespace RomRepo.api.Controllers
         [HttpPost("generate")]
         public async Task<ActionResult<ApiKey>> GenerateApiKey([FromBody] ApiRequest req)
         {
-            if(req.IsInstallationIDValid() || req.IsEmailValid())
+            if(req.CleanAndVerify())
             {
                 var requestorIP = HttpContext?.Connection?.RemoteIpAddress?.ToString();
                 var bytes = RandomNumberGenerator.GetBytes(_length);
