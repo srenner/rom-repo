@@ -20,8 +20,10 @@ namespace RomRepo.console
 
         private FileSystemWatcher _watcher;
         private List<SystemSetting> _settings;
-        private const string ANALYTICS_HELP_TEXT = "If you choose to send analytics, we may use anonymous data from your local installation, " +
-                                                    "but we will not access your library files.";
+        private const string ANALYTICS_HELP_TEXT = "If you choose to share analytics, we may periodically collect information from your SQLite database. " +
+                                                    "We will never upload or inspect your rom files. " +
+                                                    "We do not have the ability or inclination to determine the legal status of your files. " +
+                                                    "Please obey all applicable copyright laws in your area.";
 
         public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime, IRepoRepo repo)
         {
