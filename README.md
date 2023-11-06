@@ -31,7 +31,7 @@ Software for retro video game [ROM](https://en.wikipedia.org/wiki/ROM_image) lib
   * RomRepo.com
     * Project home page
     * API key request form
-  * RomRepo.api.dat
+  * RomRepo.api
     * Optional API endpoints for the DAT-o-Matic database
     * Optional API endpoints for (opt-in) analytics
 
