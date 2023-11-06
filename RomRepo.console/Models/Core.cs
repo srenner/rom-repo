@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace RomRepo.console.Models
     /// <summary>
     /// A Core is a video game system, named after the concept of a FPGA Core
     /// </summary>
+    [Index(nameof(Path), IsUnique = true)]
     public class Core
     {
         public int CoreID { get; set; }
@@ -37,5 +39,8 @@ namespace RomRepo.console.Models
         public bool IsActive { get; set; } = true;
 
         public ICollection<Rom> Roms { get; set; }
+
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
     }
 }

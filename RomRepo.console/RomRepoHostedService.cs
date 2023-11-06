@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RomRepo.console.DataAccess;
 using RomRepo.console.Models;
+using RomRepo.console.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace RomRepo.console
         private readonly ILogger _logger;
         private readonly IHostApplicationLifetime _appLifetime;
         private readonly IRepoRepo _repo;
+        private readonly ICoreService _coreService;
 
         private FileSystemWatcher _watcher;
         private List<SystemSetting> _settings;
@@ -25,11 +27,12 @@ namespace RomRepo.console
                                                     "We do not have the ability or inclination to determine the legal status of your files. " +
                                                     "Please obey all applicable copyright laws in your area.";
 
-        public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime, IRepoRepo repo)
+        public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime, IRepoRepo repo, ICoreService coreService)
         {
             _logger = logger;
             _appLifetime = appLifetime;
             _repo = repo;
+            _coreService = coreService;
         }
 
         private async Task<bool> Initialize()
@@ -37,6 +40,7 @@ namespace RomRepo.console
             bool isReady = true;
             _settings = (await _repo.GetSystemSettings()).ToList();
             _settings = _settings.ToList();
+            
             var settingUniqueID = _settings.Where(w => w.Name == SystemSettingEnum.UniqueIdentifier.Value).FirstOrDefault();
             if(settingUniqueID == null)
             {
@@ -44,7 +48,6 @@ namespace RomRepo.console
                 _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueID));
                 Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueID + "\n");
             }
-
 
             var settingSendAnalytics = _settings.Where(w => w.Name == SystemSettingEnum.SendAnalytics.Value).FirstOrDefault();
             if(settingSendAnalytics == null)
@@ -87,9 +90,14 @@ namespace RomRepo.console
                     {
                         Console.WriteLine("found it");
                         _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.RomRootFolder, inputRomRootFolder));
+
+
+                        //
+
+
                         foreach (var coreRoot in fi.EnumerateDirectories())
                         {
-                            Console.WriteLine(coreRoot.FullName);
+                            //Console.WriteLine(coreRoot.FullName);
                         }
                     }
                     else
@@ -101,8 +109,11 @@ namespace RomRepo.console
             }
 
             var romRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault()?.Value;
+
             if (romRootFolder != null)
             {
+                //await _coreService.FindAndAddCores(romRootFolder);
+
                 _watcher = new FileSystemWatcher(romRootFolder);
                 _watcher.NotifyFilter = NotifyFilters.Attributes
                                      | NotifyFilters.CreationTime
@@ -174,7 +185,6 @@ namespace RomRepo.console
                                 await Task.Delay(1000);
                             }
                         }
-
                     }
                     
                 });
@@ -185,7 +195,6 @@ namespace RomRepo.console
         private void Setting_ValueChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             _logger.LogInformation("Setting changed: " + e.PropertyName);
-            throw new NotImplementedException();
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

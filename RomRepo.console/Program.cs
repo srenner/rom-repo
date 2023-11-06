@@ -25,6 +25,7 @@ namespace RomRepo.console
             builder.Services.AddDbContext<RomRepoContext>();
             builder.Services.AddScoped<IRepoRepo, RepoRepo>();
             builder.Services.AddScoped<IRomService, RomService>();
+            builder.Services.AddScoped<ICoreService, CoreService>();
 
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
@@ -69,6 +70,7 @@ namespace RomRepo.console
                     services.AddDbContext<RomRepoContext>();
                     services.AddScoped<IRepoRepo, RepoRepo>();
                     services.AddScoped<IRomService, RomService>();
+                    services.AddScoped<ICoreService, CoreService>();
                     
                     services.AddOptions();
                 })
