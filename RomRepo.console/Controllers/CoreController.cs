@@ -17,7 +17,7 @@ namespace RomRepo.console.Controllers
         private ILogger<CoreController> _logger;
         private readonly ICoreService _service;
 
-        public CoreController(ILogger<CoreController> logger, ICoreService service) 
+        public CoreController(ILogger<CoreController> logger, ICoreService service)
         {
             _logger = logger;
             _service = service;
@@ -28,6 +28,12 @@ namespace RomRepo.console.Controllers
         {
             var cores = await _service.GetActiveCores();
             return cores.ToList();
+        }
+
+        [HttpPost("{coreID}")]
+        public async Task<bool> UpdateCore(int coreID, [FromBody]Core core)
+        {
+            throw new NotImplementedException();
         }
 
     }
