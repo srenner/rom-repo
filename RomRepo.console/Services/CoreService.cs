@@ -59,5 +59,10 @@ namespace RomRepo.console.Services
             var cores = GetFileSystemCores(rootFolder);
             return await _repo.AddCores(cores);
         }
+
+        public async Task<IEnumerable<Core>> GetActiveCores()
+        {
+            return (await _repo.GetAllCores());
+        }
     }
 }

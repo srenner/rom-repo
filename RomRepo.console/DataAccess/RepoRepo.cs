@@ -82,9 +82,9 @@ namespace RomRepo.console.DataAccess
             return null;
         }
 
-        public IEnumerable<Core> GetAllCores()
+        public async Task<IEnumerable<Core>> GetAllCores()
         {
-            return _context.Core.Where(w => w.IsActive == true).ToList();
+            return await _context.Core.Where(w => w.IsActive == true).ToListAsync();
         }
 
         public async Task<int> AddCores(IEnumerable<Core> cores)
