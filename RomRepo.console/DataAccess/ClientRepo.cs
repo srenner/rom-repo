@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace RomRepo.console.DataAccess
 {
-    public class RepoRepo : IRepoRepo
+    public class ClientRepo : IClientRepo
     {
         private readonly RomRepoContext _context;
-        private readonly ILogger<RepoRepo> _logger;
+        private readonly ILogger<ClientRepo> _logger;
 
-        public RepoRepo(RomRepoContext context, ILogger<RomRepo.console.DataAccess.RepoRepo> logger)
+        public ClientRepo(RomRepoContext context, ILogger<RomRepo.console.DataAccess.ClientRepo> logger)
         {
             _context = context;
             _logger = logger;

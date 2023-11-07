@@ -23,7 +23,7 @@ namespace RomRepo.console
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<RomRepoContext>();
-            builder.Services.AddScoped<IRepoRepo, RepoRepo>();
+            builder.Services.AddScoped<IClientRepo, ClientRepo>();
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.AddScoped<ICoreService, CoreService>();
 
@@ -68,7 +68,7 @@ namespace RomRepo.console
                     services.AddHostedService<RomRepoHostedService>();
 
                     services.AddDbContext<RomRepoContext>();
-                    services.AddScoped<IRepoRepo, RepoRepo>();
+                    services.AddScoped<IClientRepo, ClientRepo>();
                     services.AddScoped<IRomService, RomService>();
                     services.AddScoped<ICoreService, CoreService>();
                     

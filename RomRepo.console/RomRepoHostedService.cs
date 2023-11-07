@@ -17,7 +17,7 @@ namespace RomRepo.console
     {
         private readonly ILogger _logger;
         private readonly IHostApplicationLifetime _appLifetime;
-        private readonly IRepoRepo _repo;
+        private readonly IClientRepo _repo;
         private readonly ICoreService _coreService;
 
         private FileSystemWatcher _watcher;
@@ -27,7 +27,7 @@ namespace RomRepo.console
                                                     "We do not have the ability or inclination to determine the legal status of your files. " +
                                                     "Please obey all applicable copyright laws in your area.";
 
-        public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime, IRepoRepo repo, ICoreService coreService)
+        public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime, IClientRepo repo, ICoreService coreService)
         {
             _logger = logger;
             _appLifetime = appLifetime;

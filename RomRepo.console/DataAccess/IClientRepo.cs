@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RomRepo.console.DataAccess
 {
-    public interface IRepoRepo
+    public interface IClientRepo
     {
         #region ===== Core ================================
         

@@ -12,9 +12,9 @@ namespace RomRepo.console.Services
     public class CoreService : ICoreService
     {
         private ILogger<CoreService> _logger;
-        private IRepoRepo _repo;
+        private IClientRepo _repo;
 
-        public CoreService(ILogger<CoreService> logger, IRepoRepo repo)
+        public CoreService(ILogger<CoreService> logger, IClientRepo repo)
         {
             _logger = logger;
             _repo = repo;
