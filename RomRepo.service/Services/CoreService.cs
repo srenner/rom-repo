@@ -64,5 +64,10 @@ namespace RomRepo.console.Services
         {
             return (await _repo.GetAllCores());
         }
+
+        public async Task UpdateCore(Core core)
+        {
+            await _repo.UpdateCore(core);
+        }
     }
 }

@@ -117,9 +117,17 @@ namespace RomRepo.console.DataAccess
             throw new NotImplementedException();
         }
 
-        public void UpdateCore(int coreID)
+        public void UpdateCore(Core core)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Core.Add(core);
+                _context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
         }
 
         public void UpdateRom(int romID)

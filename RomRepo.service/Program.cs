@@ -14,7 +14,7 @@ namespace RomRepo.console
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine("RomRepo.console is starting up at " + DateTime.Now.ToLongTimeString());
+            Console.WriteLine("RomRepo.service is starting up at " + DateTime.Now.ToLongTimeString());
             PrintBanner();
 
             var builder = WebApplication.CreateBuilder(args);
@@ -76,7 +76,7 @@ namespace RomRepo.console
                 })
                 .RunConsoleAsync();
             webTask.Wait();
-            Console.WriteLine("RomRepo.console is shutting down at " + DateTime.Now.ToLongTimeString());
+            Console.WriteLine("RomRepo.service is shutting down at " + DateTime.Now.ToLongTimeString());
         }
 
         private static void PrintBanner()

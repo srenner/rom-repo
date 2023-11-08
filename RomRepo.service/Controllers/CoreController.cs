@@ -33,6 +33,7 @@ namespace RomRepo.console.Controllers
         [HttpPost("{coreID}")]
         public async Task<bool> UpdateCore(int coreID, [FromBody]Core core)
         {
+            //_service.
             throw new NotImplementedException();
         }
 

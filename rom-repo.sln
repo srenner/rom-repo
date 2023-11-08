@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RomRepo.console", "RomRepo.console\RomRepo.console.csproj", "{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{782C7EF5-DC70-437A-8FA0-34F088437A8D}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
@@ -15,16 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RomRepo.api", "RomRepo.api\
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AFE9D750-8608-4040-B9B2-1CB712B5E55F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RomRepo.service", "RomRepo.service\RomRepo.service.csproj", "{7AA33EB4-CC44-4E02-B430-753B5AF984A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{709C7BA8-2E8E-4469-8ED6-751B7D18BDB1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3F17F19-766A-48E4-AA86-5A43B1C60EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{AFE9D750-8608-4040-B9B2-1CB712B5E55F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFE9D750-8608-4040-B9B2-1CB712B5E55F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFE9D750-8608-4040-B9B2-1CB712B5E55F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AA33EB4-CC44-4E02-B430-753B5AF984A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AA33EB4-CC44-4E02-B430-753B5AF984A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AA33EB4-CC44-4E02-B430-753B5AF984A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AA33EB4-CC44-4E02-B430-753B5AF984A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
