@@ -117,12 +117,12 @@ namespace RomRepo.console.DataAccess
             throw new NotImplementedException();
         }
 
-        public void UpdateCore(Core core)
+        public async Task UpdateCore(Core core)
         {
             try
             {
-                _context.Core.Add(core);
-                _context.SaveChanges();
+                await _context.Core.AddAsync(core);
+                await _context.SaveChangesAsync();
             }
             catch(Exception ex)
             {

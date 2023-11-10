@@ -39,7 +39,7 @@ namespace RomRepo.console.Services
                         FileExtensions = "",
                         ZipAsRom = false,
                         SevenZipAsRom = false,
-                        IsActive = true,
+                        IsActive = false,
                         IsFavorite = false,
                         DateCreated = now,
                         DateUpdated = now

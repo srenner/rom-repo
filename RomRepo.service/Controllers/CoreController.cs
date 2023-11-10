@@ -30,6 +30,14 @@ namespace RomRepo.console.Controllers
             return cores.ToList();
         }
 
+        [HttpPost("discover")]
+        public async Task<List<Core>> DiscoverCoresAsync()
+        {
+            var cores = await _service.FindAndAddCores("asdf");
+
+            throw new NotImplementedException();
+        }
+
         [HttpPost("{coreID}")]
         public async Task<bool> UpdateCore(int coreID, [FromBody]Core core)
         {
