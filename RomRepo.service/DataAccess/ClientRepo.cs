@@ -20,6 +20,68 @@ namespace RomRepo.console.DataAccess
             _logger = logger;
         }
 
+        #region ===== Core ================================
+
+        public void GetCore(int coreID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Core>> GetAllCores()
+        {
+            return await _context.Core.Where(w => w.IsActive == true).ToListAsync();
+        }
+
+        public async Task<int> AddCores(IEnumerable<Core> cores)
+        {
+            try
+            {
+                _context.Core.AddRange(cores);
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return -1;
+            }
+        }
+
+        public async Task UpdateCore(Core core)
+        {
+            try
+            {
+                await _context.Core.AddAsync(core);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region ===== Rom =================================
+
+        public void GetRom(int romID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetRomsForCore(int coreID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRom(int romID)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region ===== SystemSetting =======================
+
         public async Task<SystemSetting> SaveSystemSetting(SystemSettingEnum setting, string settingValue)
         {
             try
@@ -28,7 +90,7 @@ namespace RomRepo.console.DataAccess
                 int rows = await _context.Database.ExecuteSqlAsync($"REPLACE INTO SystemSetting(Name, Value) VALUES ({setting.Value}, {settingValue});");
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
-                if(rows == 1)
+                if (rows == 1)
                 {
                     return new SystemSetting { Name = setting.Value, Value = settingValue };
                 }
@@ -40,7 +102,6 @@ namespace RomRepo.console.DataAccess
             return new SystemSetting(); // empty if failed to return above
         }
 
-
         public async Task<IEnumerable<SystemSetting>> SaveSystemSettings(IEnumerable<SystemSetting> settings)
         {
             try
@@ -49,7 +110,7 @@ namespace RomRepo.console.DataAccess
                 await _context.SaveChangesAsync();
                 return settings;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
             }
@@ -75,65 +136,14 @@ namespace RomRepo.console.DataAccess
             {
                 return await _context.SystemSetting.ToListAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
             }
             return null;
         }
 
-        public async Task<IEnumerable<Core>> GetAllCores()
-        {
-            return await _context.Core.Where(w => w.IsActive == true).ToListAsync();
-        }
-
-        public async Task<int> AddCores(IEnumerable<Core> cores)
-        {
-            try
-            {
-                _context.Core.AddRange(cores);
-                return await _context.SaveChangesAsync();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return -1;
-            }
-            
-        }
-
-        public void GetCore(int coreID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void GetRom(int romID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void GetRomsForCore(int coreID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task UpdateCore(Core core)
-        {
-            try
-            {
-                await _context.Core.AddAsync(core);
-                await _context.SaveChangesAsync();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-            }
-        }
-
-        public void UpdateRom(int romID)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
     }
 }

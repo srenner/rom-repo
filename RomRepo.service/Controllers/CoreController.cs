@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZstdSharp.Unsafe;
 
 namespace RomRepo.console.Controllers
 {
@@ -31,21 +32,22 @@ namespace RomRepo.console.Controllers
         }
 
         [HttpGet("discover")]
-        public async Task<List<Core>> DiscoverCoresAsync()
+        public List<Core> DiscoverCoresAsync()
         {
-            //var cores = await _service.
-            throw new NotImplementedException();
+            var cores = _service.GetFileSystemCores("rootFolder");
+            return cores;
         }
 
         [HttpGet("{id}")]
-        public async Task <Core> GetCore(int id)
+        public async Task <Core?> GetCore(int id)
         {
-            throw new NotImplementedException();
+            return (await GetActiveCoresAsync()).FirstOrDefault(x => x.CoreID == id);
         }
 
         [HttpPost]
         public async Task<bool> SaveCore([FromBody]Core core)
         {
+            
             //_service.
             throw new NotImplementedException();
         }

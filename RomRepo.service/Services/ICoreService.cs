@@ -9,7 +9,8 @@ namespace RomRepo.console.Services
 {
     public interface ICoreService
     {
-        Task<int> FindAndAddCores(string rootFolder);
         Task<IEnumerable<Core>> GetActiveCores();
+        List<Core> GetFileSystemCores(string rootFolder);
+        Task<int> AddCores(List<Core> cores);
     }
 }

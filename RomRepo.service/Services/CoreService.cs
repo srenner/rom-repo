@@ -20,6 +20,11 @@ namespace RomRepo.console.Services
             _repo = repo;
         }
 
+        public async Task<IEnumerable<Core>> GetActiveCores()
+        {
+            return (await _repo.GetAllCores());
+        }
+
         public List<Core> GetFileSystemCores(string rootFolder)
         {
             if(rootFolder == null) throw new ArgumentNullException(nameof(rootFolder));
@@ -53,16 +58,9 @@ namespace RomRepo.console.Services
             return cores;
         }
 
-
-        public async Task<int> FindAndAddCores(string rootFolder)
+        public async Task<int> AddCores(List<Core> cores)
         {
-            var cores = GetFileSystemCores(rootFolder);
             return await _repo.AddCores(cores);
-        }
-
-        public async Task<IEnumerable<Core>> GetActiveCores()
-        {
-            return (await _repo.GetAllCores());
         }
 
         public async Task UpdateCore(Core core)

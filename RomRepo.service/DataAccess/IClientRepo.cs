@@ -11,10 +11,10 @@ namespace RomRepo.console.DataAccess
     public interface IClientRepo
     {
         #region ===== Core ================================
-        
+
+        void GetCore(int coreID);
         Task<IEnumerable<Core>> GetAllCores();
         Task<int> AddCores(IEnumerable<Core> cores);
-        void GetCore(int coreID);
         Task UpdateCore(Core coreID);
 
         #endregion
@@ -22,8 +22,8 @@ namespace RomRepo.console.DataAccess
 
         #region ===== Rom =================================
 
-        void GetRomsForCore(int coreID);
         void GetRom(int romID);
+        void GetRomsForCore(int coreID);
         void UpdateRom(int romID);
 
         #endregion
