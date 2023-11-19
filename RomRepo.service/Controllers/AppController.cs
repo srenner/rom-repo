@@ -15,6 +15,12 @@ namespace RomRepo.console.Controllers
             _logger = logger;
         }
 
+        [HttpGet("status")]
+        public string GetStatus()
+        {
+            return "ok";
+        }
+
         [HttpGet("version")]
         public string GetVersion()
         {

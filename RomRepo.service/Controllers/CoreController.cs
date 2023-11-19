@@ -30,16 +30,21 @@ namespace RomRepo.console.Controllers
             return cores.ToList();
         }
 
-        [HttpPost("discover")]
+        [HttpGet("discover")]
         public async Task<List<Core>> DiscoverCoresAsync()
         {
-            var cores = await _service.FindAndAddCores("asdf");
-
+            //var cores = await _service.
             throw new NotImplementedException();
         }
 
-        [HttpPost("{coreID}")]
-        public async Task<bool> UpdateCore(int coreID, [FromBody]Core core)
+        [HttpGet("{id}")]
+        public async Task <Core> GetCore(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public async Task<bool> SaveCore([FromBody]Core core)
         {
             //_service.
             throw new NotImplementedException();
