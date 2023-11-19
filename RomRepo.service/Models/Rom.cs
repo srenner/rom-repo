@@ -23,9 +23,9 @@ namespace RomRepo.console.Models
         public bool IsActive { get; set; } = true;
 
         /// <summary>
-        /// Used to flag a ROM as a hacked version of a different game. Can use ParentRomID to specify original game.
+        /// Patched rom, i.e. fan translation, rom hack, etc. Can use ParentRomID to specify original game.
         /// </summary>
-        public bool IsHack { get; set; } = false;
+        public bool IsPatch { get; set; } = false;
 
 
         public int? ParentRomID { get; set; }
