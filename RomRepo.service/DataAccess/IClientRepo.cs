@@ -15,7 +15,7 @@ namespace RomRepo.console.DataAccess
         void GetCore(int coreID);
         Task<IEnumerable<Core>> GetAllCores();
         Task<int> AddCores(IEnumerable<Core> cores);
-        Task UpdateCore(Core coreID);
+        Task<bool> UpdateCore(Core coreID);
 
         #endregion
 

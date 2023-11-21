@@ -11,6 +11,9 @@ namespace RomRepo.console.Services
     {
         Task<IEnumerable<Core>> GetActiveCores();
         List<Core> GetFileSystemCores(string rootFolder);
+        Task<Core> AddCore(Core core);
         Task<int> AddCores(List<Core> cores);
+
+        Task<bool> UpdateCore(Core core);
     }
 }

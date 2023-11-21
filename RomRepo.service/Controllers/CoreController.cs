@@ -47,9 +47,15 @@ namespace RomRepo.console.Controllers
         [HttpPost]
         public async Task<bool> SaveCore([FromBody]Core core)
         {
-            
-            //_service.
-            throw new NotImplementedException();
+            if(core.CoreID > 0)
+            {
+                return await _service.UpdateCore(core);
+            }
+            else
+            {
+                await _service.AddCore(core);
+                return true;
+            }
         }
 
     }

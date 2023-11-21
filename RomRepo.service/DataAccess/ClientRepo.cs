@@ -46,16 +46,18 @@ namespace RomRepo.console.DataAccess
             }
         }
 
-        public async Task UpdateCore(Core core)
+        public async Task<bool> UpdateCore(Core core)
         {
             try
             {
-                await _context.Core.AddAsync(core);
+                _context.Update(core);
                 await _context.SaveChangesAsync();
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
+                return false;
             }
         }
 

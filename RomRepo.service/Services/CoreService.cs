@@ -27,7 +27,7 @@ namespace RomRepo.console.Services
 
         public List<Core> GetFileSystemCores(string rootFolder)
         {
-            if(rootFolder == null) throw new ArgumentNullException(nameof(rootFolder));
+            if (rootFolder == null) throw new ArgumentNullException(nameof(rootFolder));
 
             var cores = new List<Core>();
             DirectoryInfo dir = new DirectoryInfo(rootFolder);
@@ -58,14 +58,26 @@ namespace RomRepo.console.Services
             return cores;
         }
 
+        public async Task<Core> AddCore(Core core)
+        {
+            var cores = new List<Core>
+            {
+                core
+            };
+            await _repo.AddCores(cores);
+            return cores.FirstOrDefault();
+        }
+
         public async Task<int> AddCores(List<Core> cores)
         {
             return await _repo.AddCores(cores);
         }
 
-        public async Task UpdateCore(Core core)
+        public async Task<bool> UpdateCore(Core core)
         {
             await _repo.UpdateCore(core);
+            return true;
         }
+
     }
 }
