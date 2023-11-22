@@ -30,5 +30,8 @@ namespace RomRepo.console.Models
 
         public int? ParentRomID { get; set; }
         public Rom? ParentRom { get; set; }
+
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
     }
 }
