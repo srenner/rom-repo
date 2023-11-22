@@ -33,5 +33,16 @@ namespace RomRepo.console.Models
 
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
+
+
+        public bool Extract()
+        {
+            return false;
+        }
+
+        public bool Compress()
+        {
+            return false;
+        }
     }
 }

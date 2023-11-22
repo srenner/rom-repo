@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RomRepo.console.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace RomRepo.console.Services
 {
     public interface IRomService
     {
-        bool ExtractRom(string filePath);
+        List<Rom> GetFileSystemRoms(Core core);
     }
 }

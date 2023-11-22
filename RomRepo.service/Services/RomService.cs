@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RomRepo.console.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,33 @@ namespace RomRepo.console.Services
             _logger = logger;
         }
 
-
-        public bool ExtractRom(string filePath)
+        public List<Rom> GetFileSystemRoms(Core core)
         {
+            if (core == null) throw new ArgumentNullException(nameof(core));
 
-            return true;
+            var roms = new List<Rom>();
+            DirectoryInfo dir = new DirectoryInfo(core.Path);
+            if (dir.Exists)
+            {
+                foreach (var romDir in dir.EnumerateDirectories())
+                {
+                    var now = DateTime.UtcNow;
+                    roms.Add(new Rom
+                    {
+                        Path = romDir.FullName,
+                        IsActive = false,
+                        IsFavorite = false,
+                        CoreID = core.CoreID,
+                        DateCreated = now,
+                        DateUpdated = now
+                    });
+                }
+            }
+            else
+            {
+                _logger.LogWarning("Cannot access " + core.Path);
+            }
+            return roms;
         }
 
     }

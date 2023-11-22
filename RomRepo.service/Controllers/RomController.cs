@@ -25,10 +25,15 @@ namespace RomRepo.console.Controllers
 
 
         [HttpPost("extract")]
-        public bool ExtractRom(string filePath)
+        public string ExtractRom(string filePath)
         {
-            bool success = _service.ExtractRom(filePath);
-            return false;
+            throw new NotImplementedException();
+        }
+
+        [HttpPost("compress")]
+        public string CompressRom(string filePath) 
+        { 
+            throw new NotImplementedException(); 
         }
     }
 }
