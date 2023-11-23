@@ -8,8 +8,21 @@ User Workflow
 ---
 * Ping Service API on page load, prompt user if fail
 * Website loads to Core view
-  * Card view or list view?
-* Ability to edit cores or discover cores
+  * Card view
+	* List favorites first
+	* Card basic view
+	  * Core name
+	  * Wallpaper?
+	  * Rom count
+	  * Disk usage
+	* Card actions
+	  * Discover (find folders the FileSystemWatcher missed)
+	  * Edit name
+	  * Set ZipAsRom
+	  * Set SevenZipAsRom
+	  * Favorite star
+	  * Archive
+
 * Click core to view roms
   * Do patched roms list separate or under parent rom?
 * Click to select rom - open modal
