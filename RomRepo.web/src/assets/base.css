@@ -3,10 +3,15 @@ body {
 }
 
 :root {
-  --highlight-color: #E44D9C;
-  
+  --rr-highlight-pink: #E44D9C;
+  --rr-highlight-blue: #12A9D5;
+  --rr-highlight-yellow: #DDB846;
 }
 
 .highlight {
-  color: var(--highlight-color);
+  color: var(--rr-highlight-pink);
+}
+
+.highlight-link {
+  color: var(--rr-highlight-blue);
 }
