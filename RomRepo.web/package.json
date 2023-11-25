@@ -1,6 +1,6 @@
 {
   "name": "romrepo.web",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,10 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "vue":"3.3.8",
+    "@popperjs/core": "2.11.8",
+    "bootstrap": "5.3.2",
+    "bootstrap-icons": "^1.11.2",
+    "vue": "3.3.8",
     "vue-router": "4.2.5"
   },
   "devDependencies": {
