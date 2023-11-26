@@ -4,7 +4,7 @@ import CoreCard from '../components/CoreCard.vue';
 
 <template>
   <main>
-    <h1 class="highlight">=== Your Systems ===</h1>
+    <h1 class="highlight">=== My Systems ===</h1>
     <div class="row">
       <div class="col-6 col-sm-4 col-md-3 col-lg-2">
         <CoreCard></CoreCard>
