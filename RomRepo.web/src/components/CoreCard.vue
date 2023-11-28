@@ -1,5 +1,10 @@
 <script setup>
-
+const props = defineProps({
+  system: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>
@@ -7,7 +12,7 @@
         <div class="card-header">
             <div class="d-flex">
                 <div class="flex-grow-1">
-                    <span>TurboGrafx-16</span>
+                    <span>{{system.name}}</span>
                 </div>
                 <div>
                     
