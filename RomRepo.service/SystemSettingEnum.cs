@@ -19,6 +19,7 @@ namespace RomRepo.console
         public static SystemSettingEnum SavesRootFolder { get { return new SystemSettingEnum("SavesRootFolder"); } }
         public static SystemSettingEnum SaveStatesRootFolder { get { return new SystemSettingEnum("SaveStatesRootFolder"); } }
         public static SystemSettingEnum ApiKey { get { return new SystemSettingEnum("ApiKey"); } }
-
+        public static SystemSettingEnum NasUsername { get { return new SystemSettingEnum("NasUsername"); } }
+        public static SystemSettingEnum NasPassword { get { return new SystemSettingEnum("NasPassword"); } }
     }
 }
