@@ -82,10 +82,15 @@ namespace RomRepo.console
             {
                 Console.Write(@"Where is the root folder for your Rom library? (e.g. \\nas\emulation\games): ");
                 string inputRomRootFolder = Console.ReadLine();
-
                 if(inputRomRootFolder != null)
                 {
+                    if(inputRomRootFolder.StartsWith('\\'))
+                    {
+                        Console.WriteLine("This software does not support file system passwords. Map the folder to a drive in your operating system instead.");
+                    }
+
                     var fi = new DirectoryInfo(inputRomRootFolder);
+                    
                     if(fi.Exists)
                     {
                         Console.WriteLine("found it");
