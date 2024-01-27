@@ -36,14 +36,12 @@ namespace RomRepo.console.Controllers
         [HttpGet("uniqueID")]
         public async Task<string> GetUniqueID()
         {
-            var settings = (await _repo.GetSystemSettings()).ToList();
-            settings = settings.ToList();
-
+            var settings = await _repo.GetSystemSettings();
             var settingUniqueID = settings.Where(w => w.Name == SystemSettingEnum.UniqueIdentifier.Value).FirstOrDefault();
             if (settingUniqueID == null)
             {
                 string uniqueID = Guid.NewGuid().ToString();
-                settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueID));
+                await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueID);
                 return uniqueID;
             }
             else
