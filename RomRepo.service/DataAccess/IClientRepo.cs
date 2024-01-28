@@ -31,17 +31,14 @@ namespace RomRepo.console.DataAccess
 
         #region ===== SystemSetting =======================
 
-        /// <summary>
-        /// Performs raw sql upsert
-        /// </summary>
-        /// <param name="setting"></param>
-        /// <param name="settingValue"></param>
-        /// <returns></returns>
         Task<SystemSetting> SaveSystemSetting(SystemSettingEnum setting, string settingValue);
+        Task<SystemSetting> SaveSystemSetting(string settingName, string settingValue);
         
         Task<IEnumerable<SystemSetting>> SaveSystemSettings(IEnumerable<SystemSetting> settings);
 
         Task<string?> GetSystemSetting(SystemSettingEnum setting);
+        Task<string?> GetSystemSetting(string setting);
+        
         Task<IEnumerable<SystemSetting>> GetSystemSettings();
 
         #endregion

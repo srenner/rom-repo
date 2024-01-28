@@ -84,17 +84,22 @@ namespace RomRepo.console.DataAccess
 
         #region ===== SystemSetting =======================
 
-        public async Task<SystemSetting> SaveSystemSetting(SystemSettingEnum setting, string settingValue)
+        public async Task<SystemSetting> SaveSystemSetting(SystemSettingEnum settingName, string settingValue)
+        {
+            return await SaveSystemSetting(settingName.Value, settingValue);
+        }
+
+        public async Task<SystemSetting> SaveSystemSetting(string settingName, string settingValue)
         {
             try
             {
                 using var transaction = _context.Database.BeginTransaction();
-                int rows = await _context.Database.ExecuteSqlAsync($"REPLACE INTO SystemSetting(Name, Value) VALUES ({setting.Value}, {settingValue});");
+                int rows = await _context.Database.ExecuteSqlAsync($"REPLACE INTO SystemSetting(Name, Value) VALUES ({settingName}, {settingValue});");
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
                 if (rows == 1)
                 {
-                    return new SystemSetting { Name = setting.Value, Value = settingValue };
+                    return new SystemSetting { Name = settingName, Value = settingValue };
                 }
             }
             catch (Exception ex)
@@ -121,9 +126,15 @@ namespace RomRepo.console.DataAccess
 
         public async Task<string?> GetSystemSetting(SystemSettingEnum setting)
         {
+
+            return await GetSystemSetting(setting.Value);
+        }
+
+        public async Task<string?> GetSystemSetting(string setting)
+        {
             try
             {
-                return await _context.Database.SqlQuery<string>($"SELECT Value FROM SystemSetting where Name = {setting.Value}").FirstOrDefaultAsync();
+                return await _context.Database.SqlQuery<string>($"SELECT Value FROM SystemSetting where Name = {setting}").FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {

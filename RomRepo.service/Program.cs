@@ -7,6 +7,7 @@ using System;
 using System.Text;
 using RomRepo.console.DataAccess;
 using RomRepo.console.Services;
+using RomRepo.service.Services;
 
 namespace RomRepo.console
 {
@@ -24,6 +25,7 @@ namespace RomRepo.console
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<RomRepoContext>();
             builder.Services.AddScoped<IClientRepo, ClientRepo>();
+            builder.Services.AddScoped<IAppService, AppService>();
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.AddScoped<ICoreService, CoreService>();
 

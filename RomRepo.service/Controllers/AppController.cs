@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RomRepo.console.DataAccess;
+using RomRepo.service.Services;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime;
 using ZstdSharp.Unsafe;
 
@@ -12,41 +14,38 @@ namespace RomRepo.console.Controllers
     public class AppController : ControllerBase
     {
         private ILogger<AppController> _logger;
-        private IClientRepo _repo;
+        private IAppService _service;
 
-        public AppController(ILogger<AppController> logger, IClientRepo repo)
+        public AppController(ILogger<AppController> logger, IAppService service)
         {
             _logger = logger;
-            _repo = repo;
+            _service = service;
             
         }
 
         [HttpGet("status")]
-        public string GetStatus()
+        public ActionResult<string> GetStatus()
         {
-            return "ok";
+            return Ok("ok");
         }
 
         [HttpGet("version")]
-        public string GetVersion()
+        public ActionResult<string> GetVersion()
         {
-            return "0.0.1";
+            return Ok("0.0.1");
         }
 
-        [HttpGet("uniqueID")]
-        public async Task<string> GetUniqueID()
+        [HttpGet("setting")]
+        public async Task<ActionResult<string>> GetSystemSetting(string name)
         {
-            var settings = await _repo.GetSystemSettings();
-            var settingUniqueID = settings.Where(w => w.Name == SystemSettingEnum.UniqueIdentifier.Value).FirstOrDefault();
-            if (settingUniqueID == null)
+            var val = await _service.GetSystemSettingValue(name);
+            if(!string.IsNullOrWhiteSpace(val))
             {
-                string uniqueID = Guid.NewGuid().ToString();
-                await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueID);
-                return uniqueID;
+                return Ok(val);
             }
             else
             {
-                return settingUniqueID.Value;
+                return NotFound();
             }
         }
     }
