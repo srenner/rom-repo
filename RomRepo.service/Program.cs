@@ -30,10 +30,15 @@ namespace RomRepo.console
             builder.Services.AddScoped<ICoreService, CoreService>();
 
             var app = builder.Build();
-            if (app.Environment.IsDevelopment())
+            //if (app.Environment.IsDevelopment()) // todo set environment properly
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    options.RoutePrefix = string.Empty;
+                });
+
             }
 
             app.UseHttpsRedirection();
