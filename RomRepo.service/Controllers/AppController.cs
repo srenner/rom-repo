@@ -36,7 +36,7 @@ namespace RomRepo.console.Controllers
         }
 
         [HttpGet("setting")]
-        public async Task<ActionResult<string>> GetSystemSetting(string name)
+        public async Task<ActionResult<string>> GetSystemSettingValue(string name)
         {
             var val = await _service.GetSystemSettingValue(name);
             if(!string.IsNullOrWhiteSpace(val))

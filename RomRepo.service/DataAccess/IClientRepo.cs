@@ -36,8 +36,8 @@ namespace RomRepo.console.DataAccess
         
         Task<IEnumerable<SystemSetting>> SaveSystemSettings(IEnumerable<SystemSetting> settings);
 
-        Task<string?> GetSystemSetting(SystemSettingEnum setting);
-        Task<string?> GetSystemSetting(string setting);
+        //Task<string?> GetSystemSetting(SystemSettingEnum setting);
+        Task<string?> GetSystemSettingValue(string setting);
         
         Task<IEnumerable<SystemSetting>> GetSystemSettings();
 

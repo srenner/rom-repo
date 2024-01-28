@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using RomRepo.console;
 using RomRepo.console.DataAccess;
+using RomRepo.console.Models;
 using RomRepo.console.Services;
 using System;
 using System.Collections.Generic;
@@ -21,34 +22,23 @@ namespace RomRepo.service.Services
             _repo = repo;
         }
 
-        public async Task<string> GetSystemSettingValue(SystemSettingEnum settingEnum, string defaultValue = "")
+        public async Task<SystemSetting> GetSystemSetting(SystemSettingEnum settingEnum, string defaultValue = "")
         {
             var settings = await _repo.GetSystemSettings();
             var setting = settings.Where(w => w.Name == settingEnum.Value).FirstOrDefault();
-
             if (setting == null)
             {
-                await _repo.SaveSystemSetting(settingEnum, defaultValue);
-                return defaultValue;
+                return await _repo.SaveSystemSetting(settingEnum, defaultValue);
             }
             else
             {
-                return setting.Value;
+                return setting;
             }
         }
 
-        public async Task<string> GetSystemSettingValue(string settingName, string defaultValue = "")
+        public async Task<string?> GetSystemSettingValue(string settingName)
         {
-            var settingValue = await _repo.GetSystemSetting(settingName);
-            if (settingValue == null)
-            {
-                await _repo.SaveSystemSetting(settingName, defaultValue);
-                return defaultValue;
-            }
-            else
-            {
-                return settingValue;
-            }
+            return await _repo.GetSystemSettingValue(settingName);
         }
 
     }

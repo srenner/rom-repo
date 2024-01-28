@@ -124,13 +124,8 @@ namespace RomRepo.console.DataAccess
             return null;
         }
 
-        public async Task<string?> GetSystemSetting(SystemSettingEnum setting)
-        {
 
-            return await GetSystemSetting(setting.Value);
-        }
-
-        public async Task<string?> GetSystemSetting(string setting)
+        public async Task<string?> GetSystemSettingValue(string setting)
         {
             try
             {
