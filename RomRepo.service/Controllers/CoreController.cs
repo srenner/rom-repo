@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using RomRepo.console.Models;
 using RomRepo.console.Services;
+using RomRepo.service;
+using RomRepo.service.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,10 +34,10 @@ namespace RomRepo.console.Controllers
         }
 
         [HttpGet("discover")]
-        public List<Core> DiscoverCoresAsync()
+        public async Task<ActionResult<IEnumerable<DirectoryInfoViewModel>>> DiscoverCoresAsync()
         {
-            var cores = _service.GetFileSystemCores("rootFolder");
-            return cores;
+            var folders = await _service.DiscoverCores();
+            return Ok(folders.ToViewModel());
         }
 
         [HttpGet("{id}")]

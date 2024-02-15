@@ -76,6 +76,7 @@ namespace RomRepo.console
 
                     services.AddDbContext<RomRepoContext>();
                     services.AddScoped<IClientRepo, ClientRepo>();
+                    services.AddScoped<IAppService, AppService>();
                     services.AddScoped<IRomService, RomService>();
                     services.AddScoped<ICoreService, CoreService>();
                     

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using RomRepo.console.DataAccess;
 using RomRepo.console.Models;
+using RomRepo.service.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,24 +14,58 @@ namespace RomRepo.console.Services
     {
         private ILogger<CoreService> _logger;
         private IClientRepo _repo;
+        private IAppService _appService;
 
-        public CoreService(ILogger<CoreService> logger, IClientRepo repo)
+        public CoreService(ILogger<CoreService> logger, IClientRepo repo, IAppService appService)
         {
             _logger = logger;
             _repo = repo;
+            _appService = appService;
+        }
+
+        public async Task<IEnumerable<Core>> GetAllCores()
+        {
+            return await _repo.GetActiveCores();
         }
 
         public async Task<IEnumerable<Core>> GetActiveCores()
         {
-            return (await _repo.GetAllCores());
+            return await _repo.GetActiveCores();
         }
 
-        public List<Core> GetFileSystemCores(string rootFolder)
+        public async Task<IEnumerable<Core>> GetInactiveCores()
         {
-            if (rootFolder == null) throw new ArgumentNullException(nameof(rootFolder));
+            return await _repo.GetInactiveCores();
+        }
 
-            var cores = new List<Core>();
+        public async Task<IEnumerable<DirectoryInfo>> DiscoverCores()
+        {
+            var newFolders = new List<DirectoryInfo>();
+            var cores = await _repo.GetAllCores();
+
+            var rootFolder = (await _appService.GetSystemSetting(SystemSettingEnum.RomRootFolder)).Value;
             DirectoryInfo dir = new DirectoryInfo(rootFolder);
+            if (dir.Exists)
+            {
+                foreach (var coreDir in dir.EnumerateDirectories())
+                {
+                    if(!cores.Any(n => n.Name == coreDir.Name))
+                    {
+                        newFolders.Add(coreDir);
+                    }
+                }
+            }
+            else
+            {
+                _logger.LogWarning("Cannot access " + rootFolder);
+            }
+            return newFolders;
+        }
+
+        public List<Core> GetFileSystemCores()
+        {
+            var cores = new List<Core>();
+            DirectoryInfo dir = new DirectoryInfo("ROOT FOLDER");
             if (dir.Exists)
             {
                 foreach (var coreDir in dir.EnumerateDirectories())
@@ -53,7 +88,7 @@ namespace RomRepo.console.Services
             }
             else
             {
-                _logger.LogWarning("Cannot access " + rootFolder);
+                _logger.LogWarning("Cannot access " + "ROOT FOLDER");
             }
             return cores;
         }
