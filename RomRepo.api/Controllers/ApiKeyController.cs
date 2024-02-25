@@ -54,5 +54,23 @@ namespace RomRepo.api.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ApiKey>>> GetKey(string source)
+        {
+            if(MailAddress.TryCreate(source, out var mailAddresss))
+            {
+                var keys = await _apiRepository.GetKeyByEmail(source);
+                if (keys != null && keys.Any())
+                {
+                    return Ok(keys);
+                }
+                else return NotFound(keys);
+            }
+            else
+            {
+                return StatusCode(405);
+            }
+        }
+
     }
 }
