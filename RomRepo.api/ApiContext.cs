@@ -6,6 +6,9 @@ namespace RomRepo.api
     public class ApiContext : DbContext
     {
         public DbSet<ApiKey> ApiKey { get; set; }
+        public DbSet<GameSystem> GameSystem { get; set; }
+        public DbSet<Game> Game { get; set; }
+        public DbSet<Rom> Rom { get; set; }
 
         public string DbPath { get; }
 
