@@ -9,17 +9,17 @@ namespace RomRepo.api.Models
         /// <summary>
         /// ID from DAT file
         /// </summary>
-        public int? NoIntroGameID { get; set; }
+        public string? NoIntroGameID { get; set; }
         
         public int? ParentGameID { get; set; }
         public Game? ParentGame { get; set; }
         
-        public int? ParentNoIntroID { get; set; }
+        public string? ParentNoIntroID { get; set; }
         
         public int? GameSystemID { get; set; }
         public GameSystem? GameSystem { get; set; }
 
-        public int? NoIntroGameSystemID { get; set; }
+        public string? NoIntroGameSystemID { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
 

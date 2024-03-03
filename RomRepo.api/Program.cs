@@ -1,5 +1,6 @@
 
 using RomRepo.api.DataAccess;
+using RomRepo.api.Services;
 
 namespace RomRepo.api
 {
@@ -17,6 +18,7 @@ namespace RomRepo.api
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ApiContext>();
             builder.Services.AddScoped<IApiRepository, ApiRepository>();
+            builder.Services.AddScoped<IFileService, FileService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

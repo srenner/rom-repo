@@ -42,5 +42,21 @@ namespace RomRepo.api.DataAccess
             }
 
         }
+
+        public async Task<bool> AddGameSystemWithGames(GameSystem gameSystem)
+        {
+            try
+            {
+                await _context.AddAsync(gameSystem);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                var name =  gameSystem.Name;
+                _logger.LogError($"Error in ApiRepository.AddGameSystemWithGames(gameSystem: {name})", name, ex); 
+                return false; 
+            }
+        }
     }
 }

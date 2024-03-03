@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
+using RomRepo.api.DataAccess;
+using RomRepo.api.Services;
 using System.Web.Http.Results;
 
 namespace RomRepo.api.Controllers
@@ -9,7 +11,14 @@ namespace RomRepo.api.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
+        private IFileService _fileService;
+        private IApiRepository _repo;
 
+        public FileController(IFileService fileService, IApiRepository repo)
+        {
+            _fileService = fileService;
+            _repo = repo;
+        }
 
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile file)
@@ -26,7 +35,13 @@ namespace RomRepo.api.Controllers
             {
                 return new UnsupportedMediaTypeResult();
             }
-            else return StatusCode(500, "sorry");
+            else
+            {
+                var gameSystem = await _fileService.ExtractGameSystem(file);
+                await _repo.AddGameSystemWithGames(gameSystem);
+
+                return Ok("Added " + gameSystem.Name  +" and " + gameSystem.Games.Count() + " games");
+            }
         }
     }
 }
