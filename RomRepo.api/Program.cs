@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using RomRepo.api.DataAccess;
 using RomRepo.api.Services;
 
@@ -19,6 +20,7 @@ namespace RomRepo.api
             builder.Services.AddDbContext<ApiContext>();
             builder.Services.AddScoped<IApiRepository, ApiRepository>();
             builder.Services.AddScoped<IFileService, FileService>();
+            builder.Services.Configure<KestrelServerOptions>(options => options.Limits.MaxRequestBodySize = int.MaxValue);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

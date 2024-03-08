@@ -2,7 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using RomRepo.api.DataAccess;
+using RomRepo.api.Models;
 using RomRepo.api.Services;
+//using SharpCompress.Readers.Zip;
+using System.Diagnostics.Eventing.Reader;
+using System.IO.Compression;
 using System.Web.Http.Results;
 
 namespace RomRepo.api.Controllers
@@ -23,12 +27,7 @@ namespace RomRepo.api.Controllers
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile file)
         {
-
             var request = HttpContext.Request;
-
-            // validation of Content-Type
-            // 1. first, it must be a form-data request
-            // 2. a boundary should be found in the Content-Type
             if (!request.HasFormContentType ||
                 !MediaTypeHeaderValue.TryParse(request.ContentType, out var mediaTypeHeader) ||
                 string.IsNullOrEmpty(mediaTypeHeader.Boundary.Value))
@@ -37,11 +36,32 @@ namespace RomRepo.api.Controllers
             }
             else
             {
-                var gameSystem = await _fileService.ExtractGameSystem(file);
-                await _repo.AddGameSystemWithGames(gameSystem);
+                if(file.FileName.ToLower().EndsWith(".dat"))
+                {
+                    var gameSystem = await _fileService.ExtractGameSystem(file.OpenReadStream());
+                    await _repo.AddGameSystemWithGames(gameSystem);
+                    return Ok("Added " + gameSystem.Name + " and " + gameSystem.Games.Count() + " games");
+                }
+                else if(file.FileName.ToLower().EndsWith(".zip"))
+                {
 
-                return Ok("Added " + gameSystem.Name  +" and " + gameSystem.Games.Count() + " games");
+                    using (var archive = new ZipArchive(file.OpenReadStream()))
+                    {
+                        int systemCount = 0;
+                        int gameCount = 0;
+                        foreach(var entry in archive.Entries.Where(w => w.Name.EndsWith(".dat")))
+                        {
+                            var gameSystem = await _fileService.ExtractGameSystem(entry.Open());
+                            await _repo.AddGameSystemWithGames(gameSystem);
+                            systemCount++;
+                            gameCount = gameCount + gameSystem.Games.Count();
+                        }
+                        return Ok("Added " + systemCount + " systems and " + gameCount + " games");
+                    }
+                }
+                return new UnsupportedMediaTypeResult();
             }
+            
         }
     }
 }
