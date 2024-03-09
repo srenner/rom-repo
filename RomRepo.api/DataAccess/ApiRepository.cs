@@ -58,5 +58,19 @@ namespace RomRepo.api.DataAccess
                 return false; 
             }
         }
+
+        public async Task<GameSystem> GetGameSystem(int id)
+        {
+            try
+            {
+                return await _context.GameSystem.FindAsync(id);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Error in ApiRepository.GetGameSystem(id: {id})", id, ex);
+                return null;
+            }
+        }
+
     }
 }
