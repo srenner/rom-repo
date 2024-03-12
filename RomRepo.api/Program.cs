@@ -20,6 +20,7 @@ namespace RomRepo.api
             builder.Services.AddDbContext<ApiContext>();
             builder.Services.AddScoped<IApiRepository, ApiRepository>();
             builder.Services.AddScoped<IFileService, FileService>();
+            builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.Configure<KestrelServerOptions>(options => options.Limits.MaxRequestBodySize = int.MaxValue);
             var app = builder.Build();
 

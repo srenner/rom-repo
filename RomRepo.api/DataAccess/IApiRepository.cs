@@ -8,5 +8,6 @@ namespace RomRepo.api.DataAccess
         Task<IEnumerable<ApiKey>> GetKeyByEmail(string emailAddress);
         Task<bool> AddGameSystemWithGames(GameSystem gameSystem);
         Task<GameSystem> GetGameSystem(int id);
+        Task<IEnumerable<Rom>> GetRomsByChecksum(string checksum);
     }
 }

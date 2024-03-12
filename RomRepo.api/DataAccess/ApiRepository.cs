@@ -20,7 +20,7 @@ namespace RomRepo.api.DataAccess
                 await _context.AddAsync(apiKey);
                 await _context.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
             }
@@ -51,11 +51,11 @@ namespace RomRepo.api.DataAccess
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                var name =  gameSystem.Name;
-                _logger.LogError($"Error in ApiRepository.AddGameSystemWithGames(gameSystem: {name})", name, ex); 
-                return false; 
+                var name = gameSystem.Name;
+                _logger.LogError($"Error in ApiRepository.AddGameSystemWithGames(gameSystem: {name})", name, ex);
+                return false;
             }
         }
 
@@ -65,9 +65,26 @@ namespace RomRepo.api.DataAccess
             {
                 return await _context.GameSystem.FindAsync(id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Error in ApiRepository.GetGameSystem(id: {id})", id, ex);
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<Rom>> GetRomsByChecksum(string checksum)
+        {
+            try
+            {
+                var roms = await _context.Rom
+                    .Include(i => i.Game.GameSystem)
+                    .Where(w => w.CRC == checksum || w.MD5 == checksum || w.SHA1 == checksum || w.SHA256 == checksum)
+                    .ToListAsync();
+                return roms;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error in ApiRepository.GetRomsByChecksum(checksum: {checksum})", checksum, ex);
                 return null;
             }
         }
