@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RomRepo.api.DataAccess;
+using RomRepo.api.Models.NotMapped;
 using RomRepo.api.Services;
 
 namespace RomRepo.api.Controllers
@@ -20,7 +21,7 @@ namespace RomRepo.api.Controllers
 
 
         [HttpGet("checksum")]
-        public async Task<IEnumerable<object>> GetRomsByChecksum(string checksum)
+        public async Task<IEnumerable<RomInfo>> GetRomsByChecksum(string checksum)
         {
             var roms = await _romService.GetRoms(checksum);
             return roms;

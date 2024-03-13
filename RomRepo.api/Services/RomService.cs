@@ -2,6 +2,7 @@
 using RomRepo.api.DataAccess;
 using RomRepo.api.Models;
 using RomRepo.api.Models.NotMapped;
+using SharpCompress;
 
 namespace RomRepo.api.Services
 {
@@ -22,7 +23,7 @@ namespace RomRepo.api.Services
             {
                 romsList.Add(new RomInfo
                 { 
-                    Authors = rom.Game.GameSystem.Author,
+                    Authors = rom.Game.GameSystem.Author.Split(',').Select(a => a.Trim()).ToArray(),
                     CRC = rom.CRC,
                     GameName = rom.Game.Name,
                     GameSystemName = rom.Game.GameSystem.Name,
@@ -30,6 +31,7 @@ namespace RomRepo.api.Services
                     RomName = rom.Name,
                     SHA1 = rom.SHA1,
                     SHA256 = rom.SHA256,
+                    Serial = rom.Serial,
                     Size = rom.Size,
                     Status = rom.Status
                 });
