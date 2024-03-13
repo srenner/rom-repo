@@ -40,7 +40,20 @@ namespace RomRepo.api.DataAccess
                 _logger.LogError($"Error in ApiRepository.GetKey(emailAddress: {emailAddress})", emailAddress, ex);
                 return null;
             }
+        }
 
+        public async Task<int> GetKeyStatus(string key)
+        {
+            try
+            {
+                var apiKey = await _context.ApiKey.Where(w => w.Key == key).FirstOrDefaultAsync();
+                return apiKey != null ? apiKey.Status : (int)ApiKeyStatus.Unknown;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return (int)ApiKeyStatus.Unknown;
+            }
         }
 
         public async Task<bool> AddGameSystemWithGames(GameSystem gameSystem)
