@@ -24,5 +24,6 @@ namespace RomRepo.api.Models
         public string? Description { get; set; }
 
         public IEnumerable<Rom>? Roms { get; set; }
+        public IEnumerable<GameAttribute>? Attributes { get; set; }
     }
 }

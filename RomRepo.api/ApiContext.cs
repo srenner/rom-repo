@@ -9,6 +9,7 @@ namespace RomRepo.api
         public DbSet<GameSystem> GameSystem { get; set; }
         public DbSet<Game> Game { get; set; }
         public DbSet<Rom> Rom { get; set; }
+        public DbSet<GameAttribute> GameAttribute { get; set; }
 
         public string DbPath { get; }
 
