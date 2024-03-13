@@ -42,8 +42,7 @@ namespace RomRepo.api.Controllers
                     InstallationID = req.InstallationID,
                     IPAddress = requestorIP,
                     DateCreated = now,
-                    DateUpdated = now,
-                    IsActive = true
+                    DateUpdated = now
                 };
                 key = await _apiRepository.SaveKey(key);
                 return key;
