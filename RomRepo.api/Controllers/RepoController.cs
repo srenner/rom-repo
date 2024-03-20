@@ -5,17 +5,17 @@ namespace RomRepo.api.Controllers
 {
     public class RepoController : Controller
     {
-
-
-
-
-
-
-
         [HttpGet("/version")]
         public string GetVersion()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return GetType().Assembly.GetName().Version.ToString();
+            }
+            catch
+            {
+                return "unknown";
+            }
         }
     }
 }
