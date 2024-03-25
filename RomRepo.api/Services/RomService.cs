@@ -18,7 +18,6 @@ namespace RomRepo.api.Services
         {
             var roms = await _repo.GetRomsByChecksum(checksum);
             var romsList = new List<RomInfo>();
-
             foreach(var rom in roms)
             {
                 romsList.Add(new RomInfo
@@ -36,8 +35,6 @@ namespace RomRepo.api.Services
                     Status = rom.Status
                 });
             }
-
-
             return romsList;
         }
 

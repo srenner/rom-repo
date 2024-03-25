@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using RomRepo.api.Models;
+using System.Collections.Generic;
 
 namespace RomRepo.api.DataAccess
 {
@@ -83,6 +85,38 @@ namespace RomRepo.api.DataAccess
                 _logger.LogError($"Error in ApiRepository.GetGameSystem(id: {id})", id, ex);
                 return null;
             }
+        }
+
+        public async Task<IEnumerable<Rom>> GetRomsByChecksum(ChecksumType checksumType, string val)
+        {
+            try
+            {
+                var roms = _context.Rom;
+
+                //todo room for improvement
+                //switch(checksumType)
+                //{
+                //    case ChecksumType.CRC:
+                //        roms = roms.Where(w => w.CRC == val);
+                //        break;
+                //    case ChecksumType.MD5:
+                //        roms = roms.Where(w => w.MD5 == val);
+                //        break;
+                //    case ChecksumType.SHA1:
+                //        roms = roms.Where(w => w.SHA1 == val);
+                //        break;
+                //    case ChecksumType.SHA256:
+                //        roms = roms.Where(w => w.SHA256 == val);
+                //        break;
+                //}
+                return await roms.Include(i => i.Game.GameSystem).ToListAsync();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("oops");
+                return null;
+            }
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<Rom>> GetRomsByChecksum(string checksum)

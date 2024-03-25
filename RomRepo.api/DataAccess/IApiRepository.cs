@@ -9,6 +9,7 @@ namespace RomRepo.api.DataAccess
         Task<int> GetKeyStatus(string key);
         Task<bool> AddGameSystemWithGames(GameSystem gameSystem);
         Task<GameSystem> GetGameSystem(int id);
+        Task<IEnumerable<Rom>> GetRomsByChecksum(ChecksumType checksumType, string val);
         Task<IEnumerable<Rom>> GetRomsByChecksum(string checksum);
     }
 }
