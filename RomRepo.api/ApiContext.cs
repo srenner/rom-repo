@@ -10,6 +10,9 @@ namespace RomRepo.api
         public DbSet<Game> Game { get; set; }
         public DbSet<Rom> Rom { get; set; }
         public DbSet<GameAttribute> GameAttribute { get; set; }
+        public DbSet<GameFavorite> GameFavorite { get; set; }
+        public DbSet<GameSystemFavorite> GameSystemFavorite { get; set; }
+        public DbSet<GameInstallation> GameInstallation { get; set; }
 
         public string DbPath { get; }
 
