@@ -22,9 +22,9 @@ namespace RomRepo.api.Controllers
 
 
         [HttpGet("checksum")]
-        public async Task<IEnumerable<RomInfo>> GetRomsByChecksum(string checksum)
+        public async Task<IEnumerable<RomInfo>> GetRomsByChecksum(string val)
         {
-            var roms = await _romService.GetRoms(checksum);
+            var roms = await _romService.GetRoms(val);
             return roms;
         }
 
