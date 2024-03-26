@@ -14,9 +14,17 @@ namespace RomRepo.api.Services
             _repo = repo;
         }
 
-        public async Task<IEnumerable<RomInfo>> GetRoms(string checksum)
+        public async Task<IEnumerable<RomInfo>> GetRoms(string checksum, ChecksumType? ct = null)
         {
-            var roms = await _repo.GetRomsByChecksum(checksum);
+            IEnumerable<Rom> roms;
+            if(ct == null)
+            {
+                roms = await _repo.GetRomsByChecksum(checksum);
+            }
+            else
+            {
+                roms = await _repo.GetRomsByChecksum(ct.Value, checksum);
+            }
             var romsList = new List<RomInfo>();
             foreach(var rom in roms)
             {

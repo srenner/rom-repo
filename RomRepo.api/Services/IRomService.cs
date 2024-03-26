@@ -4,6 +4,6 @@ namespace RomRepo.api.Services
 {
     public interface IRomService
     {
-        Task<IEnumerable<RomInfo>> GetRoms(string checksum);
+        Task<IEnumerable<RomInfo>> GetRoms(string checksum, ChecksumType? ct = null);
     }
 }

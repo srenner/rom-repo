@@ -91,24 +91,24 @@ namespace RomRepo.api.DataAccess
         {
             try
             {
-                var roms = _context.Rom;
+                var roms = _context.Rom.AsQueryable();
 
                 //todo room for improvement
-                //switch(checksumType)
-                //{
-                //    case ChecksumType.CRC:
-                //        roms = roms.Where(w => w.CRC == val);
-                //        break;
-                //    case ChecksumType.MD5:
-                //        roms = roms.Where(w => w.MD5 == val);
-                //        break;
-                //    case ChecksumType.SHA1:
-                //        roms = roms.Where(w => w.SHA1 == val);
-                //        break;
-                //    case ChecksumType.SHA256:
-                //        roms = roms.Where(w => w.SHA256 == val);
-                //        break;
-                //}
+                switch (checksumType)
+                {
+                    case ChecksumType.CRC:
+                        roms = roms.Where(w => w.CRC == val);
+                        break;
+                    case ChecksumType.MD5:
+                        roms = roms.Where(w => w.MD5 == val);
+                        break;
+                    case ChecksumType.SHA1:
+                        roms = roms.Where(w => w.SHA1 == val);
+                        break;
+                    case ChecksumType.SHA256:
+                        roms = roms.Where(w => w.SHA256 == val);
+                        break;
+                }
                 return await roms.Include(i => i.Game.GameSystem).ToListAsync();
             }
             catch(Exception ex)

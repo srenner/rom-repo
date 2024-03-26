@@ -31,27 +31,29 @@ namespace RomRepo.api.Controllers
         [HttpGet("checksum/crc/{checksum}")]
         public async Task<IEnumerable<RomInfo>> GetRomyByCRC(string checksum)
         {
-            var roms = await _repo.GetRomsByChecksum(ChecksumType.CRC, checksum);
-
-            throw new NotImplementedException();
+            var roms = await _romService.GetRoms(checksum, ChecksumType.CRC);
+            return roms;
         }
 
         [HttpGet("checksum/md5/{checksum}")]
         public async Task<IEnumerable<RomInfo>> GetRomyByMD5(string checksum)
         {
-            throw new NotImplementedException(checksum);
+            var roms = await _romService.GetRoms(checksum, ChecksumType.MD5);
+            return roms;
         }
 
         [HttpGet("checksum/sha1/{checksum}")]
         public async Task<IEnumerable<RomInfo>> GetRomyBySHA1(string checksum)
         {
-            throw new NotImplementedException(checksum);
+            var roms = await _romService.GetRoms(checksum, ChecksumType.SHA1);
+            return roms;
         }
 
         [HttpGet("checksum/sha256/{checksum}")]
         public async Task<IEnumerable<RomInfo>> GetRomyBySHA256(string checksum)
         {
-            throw new NotImplementedException(checksum);
+            var roms = await _romService.GetRoms(checksum, ChecksumType.SHA256);
+            return roms;
         }
 
 
