@@ -1,9 +1,0 @@
-version: '3.4'
-
-services:
-  romrepo.console:
-    network_mode: host
-    image: ${DOCKER_REGISTRY-}romrepoconsole
-    build:
-      context: .
-      dockerfile: RomRepo.console/Dockerfile

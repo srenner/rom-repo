@@ -4,7 +4,8 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "romrepo.console": "StartDebugging"
+        "romrepo.console": "StartDebugging",
+        "romrepo.api": "StartDebugging"
       }
     }
   }

@@ -9,6 +9,7 @@
     <UserSecretsId>d68e6a5a-e4ef-4d8a-940e-40bd54ab36a6</UserSecretsId>
     <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
     <EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
