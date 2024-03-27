@@ -5,6 +5,12 @@ namespace RomRepo.api.Controllers
 {
     public class RepoController : Controller
     {
+        private ApiContext _context;
+        public RepoController(ApiContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet("/version")]
         public string GetVersion()
         {
@@ -16,6 +22,12 @@ namespace RomRepo.api.Controllers
             {
                 return "unknown";
             }
+        }
+
+        [HttpGet("/dbpath")]
+        public string GetDbPath()
+        {
+            return _context.DbPath;
         }
     }
 }

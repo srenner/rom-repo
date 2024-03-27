@@ -21,14 +21,19 @@ namespace RomRepo.api
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
 
-            string subfolder = "\\RomRepo";
+            #region Windows
+            //string subfolder = "\\RomRepo";       //works for MSWindows
+            //if (!Directory.Exists(path + subfolder))
+            //{
+            //    Directory.CreateDirectory(path + subfolder);
+            //}
 
-            if (!Directory.Exists(path + subfolder))
-            {
-                Directory.CreateDirectory(path + subfolder);
-            }
+            //DbPath = System.IO.Path.Join(path + subfolder + "\\", "romrepo.api.db");
+            #endregion
 
-            DbPath = System.IO.Path.Join(path + subfolder + "\\", "romrepo.api.db");
+            DbPath = System.IO.Path.Join(path + "romrepo.api.db");
+
+
         }
 
         // The following configures EF to create a Sqlite database file in the
