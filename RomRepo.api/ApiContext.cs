@@ -22,16 +22,13 @@ namespace RomRepo.api
             var path = Environment.GetFolderPath(folder);
 
             //may be different structure for mswindows vs docker
-
             string subfolder = "\\RomRepo";       //works for MSWindows
             if (!Directory.Exists(path + subfolder))
             {
                 Directory.CreateDirectory(path + subfolder);
             }
             DbPath = System.IO.Path.Join(path + subfolder + "\\", "romrepo.api.db");
-            
             //DbPath = System.IO.Path.Join(path + "\\romrepo.api.db");
-
             this.Database.EnsureCreated();
         }
 
