@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  romrepo.api:
+    image: ${DOCKER_REGISTRY-}romrepoapi
+    user: root # :(
+    volumes:
+      - vol_db:/db
+    build:
+      context: .
+      dockerfile: RomRepo.api/Dockerfile
+volumes:
+  vol_db:

@@ -18,22 +18,18 @@ namespace RomRepo.api
 
         public ApiContext()
         {
+            //this path code is intended for Docker installation
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
-
-            //may be different structure for mswindows vs docker
-            string subfolder = "\\RomRepo";       //works for MSWindows
-            if (!Directory.Exists(path + subfolder))
-            {
-                Directory.CreateDirectory(path + subfolder);
-            }
-            DbPath = System.IO.Path.Join(path + subfolder + "\\", "romrepo.api.db");
-            //DbPath = System.IO.Path.Join(path + "\\romrepo.api.db");
+            //string subfolder = @"/db";
+            //if (!Directory.Exists(path + subfolder))
+            //{
+            //    Directory.CreateDirectory(path + subfolder);
+            //}
+            DbPath = @"/db/romrepo.api.db";
             this.Database.EnsureCreated();
         }
 
-        // The following configures EF to create a Sqlite database file in the
-        // special "local" folder for your platform.
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite($"Data Source={DbPath}");
     }
