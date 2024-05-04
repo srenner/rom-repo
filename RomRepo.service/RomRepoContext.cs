@@ -31,6 +31,7 @@ namespace RomRepo.console
             }
             
             DbPath = System.IO.Path.Join(path + subfolder + "\\", "romrepo.db");
+            this.Database.EnsureCreated();
         }
 
         // The following configures EF to create a Sqlite database file in the
