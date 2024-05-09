@@ -37,6 +37,9 @@ namespace RomRepo.console.Controllers
         public async Task<ActionResult<IEnumerable<DirectoryInfoViewModel>>> DiscoverCoresAsync()
         {
             var folders = await _service.DiscoverCores();
+
+            _logger.LogInformation(folders.Count() + " new core folders discovered and added to database.");
+
             return Ok(folders.ToViewModel());
         }
 
