@@ -10,11 +10,7 @@ namespace RomRepo.api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ApiContext>();
@@ -23,7 +19,10 @@ namespace RomRepo.api
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.Configure<KestrelServerOptions>(options => options.Limits.MaxRequestBodySize = int.MaxValue);
             var app = builder.Build();
-
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseHttpsRedirection();
