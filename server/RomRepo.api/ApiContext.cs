@@ -19,14 +19,7 @@ namespace RomRepo.api
         public ApiContext()
         {
             //this path code is intended for Docker installation
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            //string subfolder = @"/db";
-            //if (!Directory.Exists(path + subfolder))
-            //{
-            //    Directory.CreateDirectory(path + subfolder);
-            //}
-            DbPath = @"/db/romrepo.api.db";
+            DbPath = @"/db_api/romrepo.api.db";
             this.Database.EnsureCreated();
         }
 

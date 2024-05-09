@@ -3,8 +3,8 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <DockerPublishLocally>True</DockerPublishLocally>
-    <ProjectGuid>bca2cb0c-f3ed-40c7-947c-c816f3861dbc</ProjectGuid>
+    <DockerPublishLocally>False</DockerPublishLocally>
+    <ProjectGuid>14a19ea6-99f2-4829-954e-6dab21945fe2</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>romrepo.api</DockerServiceName>
