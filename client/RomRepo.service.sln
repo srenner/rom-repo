@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RomRepo.service", "RomRepo.service\RomRepo.service.csproj", "{4549F0E3-C6B0-42DB-909B-B52820A56E7D}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A90CD339-609F-4BAC-A15B-C1BE530088C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4549F0E3-C6B0-42DB-909B-B52820A56E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4549F0E3-C6B0-42DB-909B-B52820A56E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4549F0E3-C6B0-42DB-909B-B52820A56E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4549F0E3-C6B0-42DB-909B-B52820A56E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A90CD339-609F-4BAC-A15B-C1BE530088C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A90CD339-609F-4BAC-A15B-C1BE530088C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A90CD339-609F-4BAC-A15B-C1BE530088C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A90CD339-609F-4BAC-A15B-C1BE530088C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F54D6C8-5C40-4470-A1F3-DCD264F062DF}
+	EndGlobalSection
+EndGlobal

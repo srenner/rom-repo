@@ -20,17 +20,8 @@ namespace RomRepo.console
 
         public RomRepoContext()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-
-            string subfolder = "\\RomRepo";
-            
-            if(!Directory.Exists(path + subfolder))
-            {
-                Directory.CreateDirectory(path + subfolder);
-            }
-            
-            DbPath = System.IO.Path.Join(path + subfolder + "\\", "romrepo.db");
+            //this path code is intended for Docker installation
+            DbPath = @"/db_client/romrepo.client.db";
             this.Database.EnsureCreated();
         }
 
