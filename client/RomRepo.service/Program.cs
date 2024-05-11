@@ -8,6 +8,7 @@ using System.Text;
 using RomRepo.console.DataAccess;
 using RomRepo.console.Services;
 using RomRepo.service.Services;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RomRepo.console
 {
@@ -19,6 +20,7 @@ namespace RomRepo.console
             PrintBanner();
 
             var builder = WebApplication.CreateBuilder(args);
+            //builder.WebHost.UseUrls("http://localhost:8080");
             builder.Logging.ClearProviders();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -30,20 +32,17 @@ namespace RomRepo.console
             builder.Services.AddScoped<ICoreService, CoreService>();
 
             var app = builder.Build();
-            //if (app.Environment.IsDevelopment()) // todo set environment properly
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                    options.RoutePrefix = string.Empty;
-                });
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+            });
 
-            }
-
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
+            
             Task webTask = app.RunAsync();
             string baseURL;
             if(app.Urls.Count > 0)
