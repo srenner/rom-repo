@@ -20,7 +20,7 @@ namespace RomRepo.console
             PrintBanner();
 
             var builder = WebApplication.CreateBuilder(args);
-            //builder.WebHost.UseUrls("http://localhost:8080");
+            builder.WebHost.UseUrls("http://localhost:8080");
             builder.Logging.ClearProviders();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -38,7 +38,7 @@ namespace RomRepo.console
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 options.RoutePrefix = string.Empty;
             });
-
+            
             //app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
