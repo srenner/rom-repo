@@ -49,6 +49,8 @@ namespace RomRepo.console
                 Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueID + "\n");
             }
 
+            return true;
+
             var settingSendAnalytics = _settings.Where(w => w.Name == SystemSettingEnum.SendAnalytics.Value).FirstOrDefault();
             if(settingSendAnalytics == null)
             {
