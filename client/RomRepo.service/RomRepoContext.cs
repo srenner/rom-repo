@@ -21,7 +21,26 @@ namespace RomRepo.console
         public RomRepoContext()
         {
             //this path code is intended for Docker installation
-            DbPath = @"/db_client/romrepo.client.db";
+
+
+            //if docker
+            if(Directory.Exists(@"/db_client"))
+            {
+                DbPath = @"/db_client/romrepo.client.db";
+            }
+            //else assume windows (may work on linux?)
+            else
+            {
+                var folder = Environment.SpecialFolder.LocalApplicationData;
+                var path = Environment.GetFolderPath(folder);
+                string subfolder = "\\RomRepo";
+                if (!Directory.Exists(path + subfolder))
+                {
+                    Directory.CreateDirectory(path + subfolder);
+                }
+                DbPath = System.IO.Path.Join(path + subfolder + "\\", "romrepo.client.db");
+            }
+
             this.Database.EnsureCreated();
         }
 
