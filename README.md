@@ -22,7 +22,7 @@ Software for retro video game [ROM](https://en.wikipedia.org/wiki/ROM_image) lib
 ## System Architecture
 * Items to install by user:
   * RomRepo.service
-    * Background service that keeps an eye on the filesystem
+    * Monitors filesystem
     * API endpoints for the UI
     * SQLite database
   * RomRepo.web
