@@ -20,7 +20,7 @@ namespace RomRepo.console
             PrintBanner();
 
             var builder = WebApplication.CreateBuilder(args);
-            //builder.WebHost.UseUrls("http://localhost:8080");
+            builder.WebHost.UseUrls("http://localhost:5000");
             builder.Logging.ClearProviders();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -39,15 +39,15 @@ namespace RomRepo.console
                 options.RoutePrefix = string.Empty;
             });
             
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
             
             Task webTask = app.RunAsync();
-            string baseURL;
-            if(app.Urls.Count > 0)
+            string baseURL = "http://localhost:5000";
+            if(true)
             {
-                baseURL = app.Urls.First();
+                //baseURL = app.Urls.First();
                 Console.WriteLine("API Listening at " + baseURL);
 
                 try
