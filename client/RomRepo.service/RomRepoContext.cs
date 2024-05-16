@@ -40,8 +40,18 @@ namespace RomRepo.console
                 }
                 DbPath = System.IO.Path.Join(path + subfolder + "\\", "romrepo.client.db");
             }
-
-            this.Database.EnsureCreated();
+            try
+            {
+                Database.EnsureCreated();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.WriteLine(" *** CRITICAL ERROR *** ");
+                Console.WriteLine(ex.Message);
+                Console.ResetColor();
+            }
         }
 
         // The following configures EF to create a Sqlite database file in the
