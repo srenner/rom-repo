@@ -49,70 +49,10 @@ namespace RomRepo.console
                 Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueID + "\n");
             }
 
-            return true;
-
-            var settingSendAnalytics = _settings.Where(w => w.Name == SystemSettingEnum.SendAnalytics.Value).FirstOrDefault();
-            if(settingSendAnalytics == null)
-            {
-                Console.Write("Send Analytics to RomRepo.com? [ Y / ");
-                Console.Write("\x1b[1m(N)\x1b[0m");
-                Console.Write(" / ? ] : ");
-
-                var key = Console.ReadKey(true);
-                if(key.Key == ConsoleKey.Y)
-                {
-                    Console.Write("Y");
-                    _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.SendAnalytics, "1"));
-                }
-                else
-                {
-                    if(key.KeyChar == '?')
-                    {
-                        Console.WriteLine("\n" + ANALYTICS_HELP_TEXT);
-                    }
-                    else
-                    {
-                        Console.Write("N");
-                        _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.SendAnalytics, "0"));
-                    }
-                }
-                Console.WriteLine();
-            }
-
             var settingRomRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault();
             if(settingRomRootFolder == null)
             {
-                Console.Write(@"Where is the root folder for your Rom library? (e.g. \\nas\emulation\games): ");
-                string inputRomRootFolder = Console.ReadLine();
-                if(inputRomRootFolder != null)
-                {
-                    if(inputRomRootFolder.StartsWith('\\'))
-                    {
-                        Console.WriteLine("This software does not support file system passwords. Map the folder to a drive in your operating system instead.");
-                    }
-
-                    var fi = new DirectoryInfo(inputRomRootFolder);
-                    
-                    if(fi.Exists)
-                    {
-                        Console.WriteLine("found it");
-                        _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.RomRootFolder, inputRomRootFolder));
-
-
-                        //
-
-
-                        foreach (var coreRoot in fi.EnumerateDirectories())
-                        {
-                            //Console.WriteLine(coreRoot.FullName);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("can't connect");
-                        isReady = false;
-                    }
-                }
+                Console.WriteLine("ACTION NEEDED: Use the UI to configure your rom root folder.");
             }
 
             var romRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault()?.Value;
