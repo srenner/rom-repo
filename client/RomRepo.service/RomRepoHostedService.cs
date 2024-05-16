@@ -6,6 +6,7 @@ using RomRepo.console.Models;
 using RomRepo.console.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -48,7 +49,19 @@ namespace RomRepo.console
             var settingRomRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault();
             if(settingRomRootFolder == null)
             {
+                var webClientURL = "http://localhost:5174";
+                var settingsURL = webClientURL + "/settings";
                 Console.WriteLine("ACTION NEEDED: Use the UI to configure your rom root folder.");
+                Console.WriteLine("Visit " + settingsURL);
+
+                //not working from docker container - may abandon idea
+                //Process.Start(new ProcessStartInfo(settingsURL) { UseShellExecute = true });
+
+                while (true)
+                {
+                    Thread.Sleep(1000);
+                    //check for settings update
+                }
             }
 
             var romRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault()?.Value;
