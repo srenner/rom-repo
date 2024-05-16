@@ -20,7 +20,8 @@ namespace RomRepo.console
             PrintBanner();
 
             var builder = WebApplication.CreateBuilder(args);
-            builder.WebHost.UseUrls("http://localhost:5000");
+            //builder.WebHost.UseUrls("http://*:5000;https://*:5001");
+            builder.WebHost.UseUrls("http://*:5000");
             builder.Logging.ClearProviders();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
