@@ -56,6 +56,9 @@ namespace RomRepo.api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ApiKey>>> GetKey(string source)
         {
+            //temporarily disable until auth roles defined
+            return StatusCode(401);
+
             if(MailAddress.TryCreate(source, out var mailAddresss))
             {
                 var keys = await _apiRepository.GetKeyByEmail(source);
