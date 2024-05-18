@@ -27,17 +27,18 @@ namespace RomRepo.service.Controllers
 
 
         [HttpGet("{name}")]
-        public async Task<SystemSetting> GetSystemSetting(string name)
+        public async Task<ActionResult<SystemSetting?>> GetSystemSetting(string name)
         {
-            //_repo.GetSystemSetting()
-            throw new NotImplementedException();
+            var settings = await _repo.GetSystemSettings();
+            var setting = settings.Where(w => w.Name == name).FirstOrDefault();
+            return setting == null ? StatusCode(404) : setting;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<SystemSetting>> GetSystemSettings()
+        public async Task<ActionResult<IEnumerable<SystemSetting>>> GetSystemSettings()
         {
-
-            return await _repo.GetSystemSettings();
+            var settings = await _repo.GetSystemSettings();
+            return Ok(settings);
         }
 
     }
