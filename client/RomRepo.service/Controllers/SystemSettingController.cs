@@ -7,6 +7,7 @@ using RomRepo.console.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,6 +40,21 @@ namespace RomRepo.service.Controllers
         {
             var settings = await _repo.GetSystemSettings();
             return Ok(settings);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveSystemSetting([FromBody] SystemSetting setting)
+        {
+
+            var updatedSetting = await _repo.SaveSystemSetting(setting.Name, setting.Value);
+            if(updatedSetting != null)
+            {
+                return Ok(updatedSetting);
+            }
+            else
+            {
+                return StatusCode(500);
+            }
         }
 
     }
