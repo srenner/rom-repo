@@ -9,17 +9,17 @@ EXPOSE 5001
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["RomRepo.console/RomRepo.console.csproj", "RomRepo.console/"]
-RUN dotnet restore "RomRepo.console/RomRepo.console.csproj"
+COPY ["RomRepo.service/RomRepo.service.csproj", "RomRepo.service/"]
+RUN dotnet restore "RomRepo.service/RomRepo.service.csproj"
 COPY . .
-WORKDIR "/src/RomRepo.console"
-RUN dotnet build "RomRepo.console.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/RomRepo.service"
+RUN dotnet build "RomRepo.service.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "RomRepo.console.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
+RUN dotnet publish "RomRepo.service.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "RomRepo.console.dll"]
+ENTRYPOINT ["dotnet", "RomRepo.service.dll"]
