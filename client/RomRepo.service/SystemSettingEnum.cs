@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RomRepo.console
 {
-    public  class SystemSettingEnum
+    public class SystemSettingEnum
     {
         private SystemSettingEnum(string value) 
         { 
