@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using RomRepo.api.Auth;
 using RomRepo.api.DataAccess;
 using RomRepo.api.Services;
 
@@ -18,6 +19,14 @@ namespace RomRepo.api
             builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.Configure<KestrelServerOptions>(options => options.Limits.MaxRequestBodySize = int.MaxValue);
+
+            builder.Services.AddAuthentication()
+                .AddScheme<KeyAuthSchemeOptions, KeyAuthSchemeHandler>(
+                "ApiKey",
+                opts => { }
+            );
+
+
             var app = builder.Build();
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
