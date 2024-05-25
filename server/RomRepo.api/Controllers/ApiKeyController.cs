@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RomRepo.api.DataAccess;
 using RomRepo.api.Models;
@@ -23,6 +24,7 @@ namespace RomRepo.api.Controllers
             _apiRepository = apiRepository;
         }
 
+        [AllowAnonymous]
         [HttpPost("generate")]
         public async Task<ActionResult<ApiKey>> GenerateApiKey([FromBody] ApiRequest req)
         {
@@ -56,8 +58,8 @@ namespace RomRepo.api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ApiKey>>> GetKey(string source)
         {
-            //temporarily disable until auth roles defined
-            return StatusCode(401);
+            //temporarily disable until admin security defined
+            return StatusCode(501);
 
             if(MailAddress.TryCreate(source, out var mailAddresss))
             {

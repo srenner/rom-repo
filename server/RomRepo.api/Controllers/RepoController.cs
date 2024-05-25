@@ -27,9 +27,12 @@ namespace RomRepo.api.Controllers
         }
 
         [HttpGet("/dbpath")]
-        public string GetDbPath()
+        public ActionResult<string> GetDbPath()
         {
-            return _context.DbPath;
+            //temporarily disable until admin security defined
+            return StatusCode(501);
+
+            //return _context.DbPath;
         }
     }
 }
