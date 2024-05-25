@@ -18,6 +18,7 @@ namespace RomRepo.api
             builder.Services.AddScoped<IApiRepository, ApiRepository>();
             builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<IRomService, RomService>();
+            builder.Services.AddScoped<IApiKeyService, ApiKeyService>();
             builder.Services.Configure<KestrelServerOptions>(options => options.Limits.MaxRequestBodySize = int.MaxValue);
 
             builder.Services.AddAuthentication()
@@ -36,7 +37,7 @@ namespace RomRepo.api
             app.UseSwaggerUI();
             app.UseHttpsRedirection();
             app.UseAuthorization();
-            app.MapControllers();
+            app.MapControllers().RequireAuthorization();
             app.Run();
         }
     }

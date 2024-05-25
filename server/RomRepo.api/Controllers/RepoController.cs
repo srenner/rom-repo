@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 namespace RomRepo.api.Controllers
@@ -11,6 +12,7 @@ namespace RomRepo.api.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet("/version")]
         public string GetVersion()
         {
