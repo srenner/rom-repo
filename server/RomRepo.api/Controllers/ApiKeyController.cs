@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using RomRepo.api.DataAccess;
 using RomRepo.api.Models;
 using RomRepo.api.Models.NotMapped;
+using SQLitePCL;
+using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography;
 
@@ -52,6 +54,20 @@ namespace RomRepo.api.Controllers
             else
             {
                 return BadRequest();
+            }
+        }
+
+        [HttpPost("status")]
+        public async Task<ActionResult> UpdateKeyStatus([FromBody]ApiKeyValueStatus keyStatus)
+        {
+            if(keyStatus != null)
+            {
+                await _apiRepository.SetKeyStatus(keyStatus.Key, (ApiKeyStatus)keyStatus.Status);
+                return Ok();
+            }
+            else
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest);
             }
         }
 

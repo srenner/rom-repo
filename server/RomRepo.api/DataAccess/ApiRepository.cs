@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Query;
 using RomRepo.api.Models;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace RomRepo.api.DataAccess
 {
@@ -56,6 +57,26 @@ namespace RomRepo.api.DataAccess
                 _logger.LogError(ex.Message);
                 return (int)ApiKeyStatus.Unknown;
             }
+        }
+
+        public async Task SetKeyStatus(string key, ApiKeyStatus status)
+        {
+            int newStatusID = (int)status;
+
+            try
+            {
+                var keyEntity = await _context.ApiKey.Where(w => w.Key == key).FirstOrDefaultAsync();
+                if (keyEntity != null)
+                {
+                    keyEntity.Status = newStatusID;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
         }
 
         public async Task<bool> AddGameSystemWithGames(GameSystem gameSystem)

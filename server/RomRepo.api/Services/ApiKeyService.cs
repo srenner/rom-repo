@@ -17,5 +17,11 @@ namespace RomRepo.api.Services
 
             return (ApiKeyStatus)keyStatus;
         }
+
+        public async Task SetKeyStatus(string key, ApiKeyStatus status)
+        {
+            await _repo.SetKeyStatus(key, status);
+        }
+
     }
 }

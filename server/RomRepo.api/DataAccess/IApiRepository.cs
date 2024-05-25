@@ -7,6 +7,7 @@ namespace RomRepo.api.DataAccess
         Task<ApiKey> SaveKey(ApiKey apiKey);
         Task<IEnumerable<ApiKey>> GetKeyByEmail(string emailAddress);
         Task<int> GetKeyStatus(string key);
+        Task SetKeyStatus(string key, ApiKeyStatus status);
         Task<bool> AddGameSystemWithGames(GameSystem gameSystem);
         Task<GameSystem> GetGameSystem(int id);
         Task<IEnumerable<Rom>> GetRomsByChecksum(ChecksumType checksumType, string val);
