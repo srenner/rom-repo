@@ -5,7 +5,8 @@ services:
     image: ${DOCKER_REGISTRY-}romreposervice
     user: root # :(
     volumes:
-      - vol_db_client:/db_client
+      - vol_db_client:/app-db
+      - //nas01/emulation:/app-userfiles:ro
     build:
       context: .
       dockerfile: RomRepo.service/Dockerfile
