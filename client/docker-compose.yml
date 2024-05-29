@@ -6,7 +6,7 @@ services:
     user: root # :(
     volumes:
       - vol_db_client:/app-db
-      - vol_lib_client:/app-lib
+      - vol_lib_client:/app-userfiles
     build:
       context: .
       dockerfile: RomRepo.service/Dockerfile
