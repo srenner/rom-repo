@@ -6,9 +6,15 @@ services:
     user: root # :(
     volumes:
       - vol_db_client:/app-db
-      - //nas01/emulation:/app-userfiles:ro
+      - vol_lib_client:/app-lib
     build:
       context: .
       dockerfile: RomRepo.service/Dockerfile
 volumes:
   vol_db_client:
+
+  vol_lib_client:
+    driver_opts:
+      type: cifs
+      o: "username=romrepo,password=mrbjSt2L"
+      device: "//nas01/emulation"
