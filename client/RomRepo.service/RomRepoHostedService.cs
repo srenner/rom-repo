@@ -20,6 +20,7 @@ namespace RomRepo.console
         private readonly IHostApplicationLifetime _appLifetime;
         private readonly IClientRepo _repo;
         private readonly ICoreService _coreService;
+        private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
 
         private FileSystemWatcher _watcher;
         private List<SystemSetting> _settings;
@@ -36,8 +37,6 @@ namespace RomRepo.console
         {
             bool isReady = true;
             _settings = (await _repo.GetSystemSettings()).ToList();
-            _settings = _settings.ToList();
-            
             var settingUniqueID = _settings.Where(w => w.Name == SystemSettingEnum.UniqueIdentifier.Value).FirstOrDefault();
             if(settingUniqueID == null)
             {
@@ -46,31 +45,26 @@ namespace RomRepo.console
                 Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueID + "\n");
             }
 
-            var settingRomRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault();
-            if(settingRomRootFolder == null)
+            if (Directory.Exists(_userFilesRoot))
             {
                 var webClientURL = "http://localhost:5174";
                 var settingsURL = webClientURL + "/settings";
-                Console.WriteLine("ACTION NEEDED: Use the UI to configure your rom root folder.");
                 Console.WriteLine("Visit " + settingsURL);
 
-                //not working from docker container - may abandon idea
-                //Process.Start(new ProcessStartInfo(settingsURL) { UseShellExecute = true });
+                isReady = true;
 
-                while (true)
-                {
-                    Thread.Sleep(1000);
-                    //check for settings update
-                }
+            }
+            else
+            {
+                Console.WriteLine("Container Error");
             }
 
-            var romRootFolder = _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault()?.Value;
 
-            if (romRootFolder != null)
+            if (false)
             {
                 //await _coreService.FindAndAddCores(romRootFolder);
 
-                _watcher = new FileSystemWatcher(romRootFolder);
+                _watcher = new FileSystemWatcher("romRootFolder");
                 _watcher.NotifyFilter = NotifyFilters.Attributes
                                      | NotifyFilters.CreationTime
                                      | NotifyFilters.DirectoryName
@@ -137,7 +131,7 @@ namespace RomRepo.console
                         {
                             while (true)
                             {
-                                //Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
+                                Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
                                 await Task.Delay(1000);
                             }
                         }
@@ -155,6 +149,7 @@ namespace RomRepo.console
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
+            Console.WriteLine("Stop Requested");
             return Task.CompletedTask;
         }
 

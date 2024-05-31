@@ -6,7 +6,7 @@ services:
     user: root # :(
     volumes:
       - vol_db_client:/app-db
-      - vol_lib_client:/app-userfiles
+      - vol_lib_client:/app-userfiles           # dest path must match with RomRepoHostedService.cs
     build:
       context: .
       dockerfile: RomRepo.service/Dockerfile
