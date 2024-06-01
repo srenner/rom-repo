@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RomRepo.console.DataAccess;
 using RomRepo.console.Models;
-using RomRepo.console.Services;
+using RomRepo.service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

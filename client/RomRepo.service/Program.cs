@@ -9,6 +9,7 @@ using RomRepo.console.DataAccess;
 using RomRepo.console.Services;
 using RomRepo.service.Services;
 using Microsoft.AspNetCore.Hosting;
+using RomRepo.service.Services.Interfaces;
 
 namespace RomRepo.console
 {

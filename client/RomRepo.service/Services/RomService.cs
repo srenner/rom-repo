@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using RomRepo.console.Models;
+using RomRepo.service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

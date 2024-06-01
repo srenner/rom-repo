@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RomRepo.service.Services
+namespace RomRepo.service.Services.Interfaces
 {
     public interface IAppService
     {

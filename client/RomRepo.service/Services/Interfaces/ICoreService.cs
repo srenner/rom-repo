@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RomRepo.console.Services
+namespace RomRepo.service.Services.Interfaces
 {
     public interface ICoreService
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RomRepo.console.Models;
-using RomRepo.console.Services;
 using RomRepo.service;
+using RomRepo.service.Services.Interfaces;
 using RomRepo.service.ViewModels;
 using System;
 using System.Collections.Generic;
