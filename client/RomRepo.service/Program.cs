@@ -10,6 +10,7 @@ using RomRepo.console.Services;
 using RomRepo.service.Services;
 using Microsoft.AspNetCore.Hosting;
 using RomRepo.service.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace RomRepo.console
 {
@@ -33,6 +34,12 @@ namespace RomRepo.console
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.AddScoped<ICoreService, CoreService>();
 
+
+
+
+
+
+
             var app = builder.Build();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
@@ -44,7 +51,15 @@ namespace RomRepo.console
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
-            
+
+            using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<RomRepoContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
+
             Task webTask = app.RunAsync();
             string baseURL = "http://localhost:5000";
             if(true)

@@ -42,5 +42,18 @@ namespace RomRepo.service.Services
             return await _repo.GetSystemSettingValue(settingName);
         }
 
+        public async Task<IEnumerable<SystemSetting>> InitSystemSettings()
+        {
+            await _repo.InitSystemSetting("UniqueIdentifier", "string", true, true);
+            await _repo.InitSystemSetting("SendAnalytics", "bool", false, false);
+            await _repo.InitSystemSetting("UseApi", "bool", false, false);
+            await _repo.InitSystemSetting("RomRootFolder", "path", true, false);
+            await _repo.InitSystemSetting("SavesRootFolder", "path", false, false);
+            await _repo.InitSystemSetting("SaveStatesRootFolder", "path", false, false);
+            await _repo.InitSystemSetting("ApiKey", "string", false, true);
+
+            return await _repo.GetSystemSettings();
+        }
+
     }
 }

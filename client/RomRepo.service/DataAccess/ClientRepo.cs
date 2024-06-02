@@ -103,13 +103,12 @@ namespace RomRepo.console.DataAccess
         {
             try
             {
-                using var transaction = _context.Database.BeginTransaction();
-                int rows = await _context.Database.ExecuteSqlAsync($"REPLACE INTO SystemSetting(Name, Value) VALUES ({settingName}, {settingValue});");
-                await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
-                if (rows == 1)
+                var setting = (await this.GetSystemSettings()).Where(w => w.Name == settingName).FirstOrDefault();
+                if (setting != null)
                 {
-                    return new SystemSetting { Name = settingName, Value = settingValue };
+                    setting.Value = settingValue;
+                    await _context.SaveChangesAsync();
+                    return setting;
                 }
             }
             catch (Exception ex)
@@ -117,6 +116,30 @@ namespace RomRepo.console.DataAccess
                 _logger.LogError(ex.Message);
             }
             return new SystemSetting(); // empty if failed to return above
+        }
+
+        public async Task InitSystemSetting(string settingName, string dataType, bool isRequired, bool isReadOnly)
+        {
+            try
+            {
+                var setting = await _context.SystemSetting.Where(w => w.Name == settingName).FirstOrDefaultAsync();
+                if(setting == null)
+                {
+                    setting = new SystemSetting
+                    {
+                        Name = settingName,
+                        DataType = dataType,
+                        IsRequired = isRequired,
+                        IsReadOnly = isReadOnly
+                    };
+                    _context.SystemSetting.Add(setting);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<SystemSetting>> SaveSystemSettings(IEnumerable<SystemSetting> settings)

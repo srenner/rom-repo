@@ -15,7 +15,7 @@ namespace RomRepo.console.Models
 
         [Key]
         public string Name { get; set; }
-        public string Value { 
+        public string? Value { 
             get 
             { 
                 return _value; 
@@ -29,6 +29,11 @@ namespace RomRepo.console.Models
                 }
             } 
         }
+
+        public string DataType { get; set; }
+        public bool IsRequired { get; set; }
+        public bool IsReadOnly { get; set; }
+
 
         protected void OnValueChanged(PropertyChangedEventArgs e)
         {

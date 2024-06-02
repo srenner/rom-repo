@@ -26,6 +26,9 @@ namespace RomRepo.console
             if(Directory.Exists(dockerPath))
             {
                 DbPath = dockerPath  + @"/" + dbName;
+                this.Database.EnsureCreated();
+                //this.Database.EnsureCreated();
+                //RelationalDatabaseFacadeExtensions.Migrate(this.Database.fa)
             }
             //else assume windows (may work on linux?)
             else
@@ -38,6 +41,7 @@ namespace RomRepo.console
                     Directory.CreateDirectory(path + subfolder);
                 }
                 DbPath = System.IO.Path.Join(path + subfolder + "\\", dbName);
+                this.Database.EnsureCreated();
             }
             try
             {

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RomRepo.console;
 
@@ -10,9 +11,11 @@ using RomRepo.console;
 namespace RomRepo.console.Migrations
 {
     [DbContext(typeof(RomRepoContext))]
-    partial class RomRepoContextModelSnapshot : ModelSnapshot
+    [Migration("20240602131225_SettingsFields-20240602")]
+    partial class SettingsFields20240602
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -124,6 +127,7 @@ namespace RomRepo.console.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Name");

@@ -12,6 +12,7 @@ namespace RomRepo.service.Services.Interfaces
     {
         Task<string?> GetSystemSettingValue(string settingName);
         Task<SystemSetting> GetSystemSetting(SystemSettingEnum settingEnum, string defaultValue = "");
+        Task<IEnumerable<SystemSetting>> InitSystemSettings();
 
     }
 }

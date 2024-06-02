@@ -20,44 +20,64 @@ namespace RomRepo.console
         private readonly IHostApplicationLifetime _appLifetime;
         private readonly IClientRepo _repo;
         private readonly ICoreService _coreService;
+        private readonly IAppService _appService;
         private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
 
         private FileSystemWatcher _watcher;
         private List<SystemSetting> _settings;
 
-        public RomRepoHostedService(ILogger<RomRepoHostedService> logger, IHostApplicationLifetime appLifetime, IClientRepo repo, ICoreService coreService)
+        public RomRepoHostedService(ILogger<RomRepoHostedService> logger, 
+                                    IHostApplicationLifetime appLifetime, 
+                                    IClientRepo repo, 
+                                    ICoreService coreService,
+                                    IAppService appService)
         {
             _logger = logger;
             _appLifetime = appLifetime;
             _repo = repo;
             _coreService = coreService;
+            _appService = appService;
         }
 
         private async Task<bool> Initialize()
         {
             bool isReady = true;
-            _settings = (await _repo.GetSystemSettings()).ToList();
-            var settingUniqueID = _settings.Where(w => w.Name == SystemSettingEnum.UniqueIdentifier.Value).FirstOrDefault();
-            if(settingUniqueID == null)
+
+            _settings = (await _appService.InitSystemSettings()).ToList();
+
+            var uniqueIDSetting = _settings.Where(f => f.Name == SystemSettingEnum.UniqueIdentifier.Value).FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(uniqueIDSetting.Value))
             {
                 string uniqueID = Guid.NewGuid().ToString();
-                _settings.Add(await _repo.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier, uniqueID));
-                Console.WriteLine("Welcome to RomRepo. Your Installation ID is " + uniqueID + "\n");
+                uniqueIDSetting.Value = uniqueID;
+                await _repo.SaveSystemSetting(uniqueIDSetting.Name, uniqueIDSetting.Value);
+            }
+
+            Console.WriteLine("----------------------------------------------");
+            Console.WriteLine("SYSTEM SETTINGS:");
+            Console.WriteLine("---");
+            foreach (var item in _settings)
+            {
+                var name = item.Name.PadRight(25);
+                string val = !string.IsNullOrWhiteSpace(item.Value) ? item.Value : "null";
+                Console.WriteLine(name + ": " + val);
             }
 
             if (Directory.Exists(_userFilesRoot))
             {
-                var webClientURL = "http://localhost:5174";
+                Console.WriteLine("---");
+                var webClientURL = "http://localhost:5173";
                 var settingsURL = webClientURL + "/settings";
                 Console.WriteLine("Visit " + settingsURL);
-
                 isReady = true;
-
             }
             else
             {
-                Console.WriteLine("Container Error");
+                Console.WriteLine("Container Error: Check Docker Volume Settings");
             }
+            Console.WriteLine("----------------------------------------------");
+
+
 
 
             if (false)
