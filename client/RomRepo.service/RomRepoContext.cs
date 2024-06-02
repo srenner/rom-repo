@@ -27,8 +27,6 @@ namespace RomRepo.console
             {
                 DbPath = dockerPath  + @"/" + dbName;
                 this.Database.EnsureCreated();
-                //this.Database.EnsureCreated();
-                //RelationalDatabaseFacadeExtensions.Migrate(this.Database.fa)
             }
             //else assume windows (may work on linux?)
             else
@@ -57,8 +55,6 @@ namespace RomRepo.console
             }
         }
 
-        // The following configures EF to create a Sqlite database file in the
-        // special "local" folder for your platform.
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite($"Data Source={DbPath}");
     }

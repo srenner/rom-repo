@@ -77,9 +77,6 @@ namespace RomRepo.console
             }
             Console.WriteLine("----------------------------------------------");
 
-
-
-
             if (false)
             {
                 //await _coreService.FindAndAddCores(romRootFolder);
