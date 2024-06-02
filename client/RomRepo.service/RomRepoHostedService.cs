@@ -127,11 +127,11 @@ namespace RomRepo.console
                     }
                     else
                     {
-                        using(_watcher)
+                        //using(_watcher)
                         {
                             while (true)
                             {
-                                Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
+                                //Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
                                 await Task.Delay(1000);
                             }
                         }
