@@ -4,6 +4,7 @@ using RomRepo.console.Controllers;
 using RomRepo.console.DataAccess;
 using RomRepo.console.Models;
 using RomRepo.console.Services;
+using RomRepo.service.Models.NotMapped;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace RomRepo.service.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveSystemSetting([FromBody] SystemSetting setting)
+        public async Task<ActionResult> SaveSystemSetting([FromBody] SystemSettingPostModel setting)
         {
 
             var updatedSetting = await _repo.SaveSystemSetting(setting.Name, setting.Value);
