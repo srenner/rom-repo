@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RomRepo.service;
 
 namespace RomRepo.console.Models
 {
@@ -11,7 +12,7 @@ namespace RomRepo.console.Models
     /// A Core is a video game system, named after the concept of a FPGA Core
     /// </summary>
     [Index(nameof(Path), IsUnique = true)]
-    public class Core
+    public class Core : IFileScannable
     {
         public int CoreID { get; set; }
 
@@ -42,5 +43,15 @@ namespace RomRepo.console.Models
 
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
+
+        public string GetPath()
+        {
+            return this.Path;
+        }
+
+        public DateTime GetLastUpdated()
+        {
+            return this.DateUpdated;
+        }
     }
 }

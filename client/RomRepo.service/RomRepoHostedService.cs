@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RomRepo.console.DataAccess;
 using RomRepo.console.Models;
+using RomRepo.service;
 using RomRepo.service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace RomRepo.console
         private readonly ICoreService _coreService;
         private readonly IAppService _appService;
         private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
+        private IEnumerable<Task> _fileWatcherCollection;
 
         private FileSystemWatcher _watcher;
         private List<SystemSetting> _settings;
@@ -69,6 +71,22 @@ namespace RomRepo.console
                 var webClientURL = "http://localhost:5173";
                 var settingsURL = webClientURL + "/settings";
                 Console.WriteLine("Visit " + settingsURL);
+
+                var romRootFolder = _settings.Where(w => w.Name ==  SystemSettingEnum.RomRootFolder.Value).FirstOrDefault();
+                if(romRootFolder != null)
+                {
+                    var cores = await _repo.GetAllCores();
+
+                    FileSystemPoller<Core> corePoller = new FileSystemPoller<Core>(romRootFolder.Value);
+                    var coreTask = corePoller.ScanAsync(cores);
+                    coreTask.Start();
+
+                    ; //breakpoint
+                    
+
+                    coreTask.Wait();
+
+                }
                 isReady = true;
             }
             else
@@ -77,37 +95,8 @@ namespace RomRepo.console
             }
             Console.WriteLine("----------------------------------------------");
 
-            if (false)
-            {
-                //await _coreService.FindAndAddCores(romRootFolder);
-
-                _watcher = new FileSystemWatcher("romRootFolder");
-                _watcher.NotifyFilter = NotifyFilters.Attributes
-                                     | NotifyFilters.CreationTime
-                                     | NotifyFilters.DirectoryName
-                                     | NotifyFilters.FileName
-                                     | NotifyFilters.LastAccess
-                                     | NotifyFilters.LastWrite
-                                     | NotifyFilters.Security
-                                     | NotifyFilters.Size;
-
-                _watcher.Filter = "*.*";
-                _watcher.IncludeSubdirectories = true;
-                _watcher.EnableRaisingEvents = true;
-                _watcher.Created += Watcher_Event;
-                _watcher.Changed += Watcher_Event;
-                _watcher.Deleted += Watcher_Event;
-                _watcher.Renamed += Watcher_Event;
-            }
             _settings.ForEach(x => x.PropertyChanged += Setting_ValueChanged);
             return isReady;
-        }
-
-        private void Watcher_Event(object sender, FileSystemEventArgs e)
-        {
-
-            _logger.LogInformation(e.ChangeType.ToString() + ": " + e.FullPath);
-
         }
 
         private async Task SendReceiveAnalytics()

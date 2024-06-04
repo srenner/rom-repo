@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RomRepo.service;
 
 namespace RomRepo.console.Models
 {
     /// <summary>
     /// Represents a single game (a single file, a folder, or a 7z/zip)
     /// </summary>
-    public class Rom
+    public class Rom : IFileScannable
     {
         public int RomID { get; set; }
 
@@ -43,6 +44,16 @@ namespace RomRepo.console.Models
         public bool Compress()
         {
             return false;
+        }
+
+        public string GetPath()
+        {
+            return this.Path;
+        }
+
+        public DateTime GetLastUpdated()
+        {
+            return this.DateUpdated;
         }
     }
 }
