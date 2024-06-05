@@ -34,12 +34,6 @@ namespace RomRepo.console
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.AddScoped<ICoreService, CoreService>();
 
-
-
-
-
-
-
             var app = builder.Build();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
@@ -62,26 +56,21 @@ namespace RomRepo.console
 
             Task webTask = app.RunAsync();
             string baseURL = "http://localhost:5000";
-            if(true)
-            {
-                //baseURL = app.Urls.First();
-                Console.WriteLine("API Listening at " + baseURL);
+            //baseURL = app.Urls.First();
+            Console.WriteLine("API Listening at " + baseURL);
 
-                try
-                {
-                    HttpClient client = new HttpClient();
-                    string responseBody = await client.GetStringAsync(baseURL + "/api/app/version");
-                    Console.WriteLine("API Version " + responseBody);
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine("Exception :{0} ", e.Message);
-                }
+            try
+            {
+                HttpClient client = new HttpClient();
+                string responseBody = await client.GetStringAsync(baseURL + "/api/app/version");
+                Console.WriteLine("API Version " + responseBody);
             }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine("Exception :{0} ", e.Message);
+                }
 
             Console.WriteLine("----------------------------------------------\n");
-
-
 
             await Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
