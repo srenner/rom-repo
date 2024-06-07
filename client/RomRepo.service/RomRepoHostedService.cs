@@ -120,14 +120,10 @@ namespace RomRepo.console
                     {
                         while (true)
                         {
-                            Stopwatch sw = Stopwatch.StartNew();
                             if(!_memoryCache.TryGetValue("settings", out _settings))
                             {
                                 _settings = await _appService.InitSystemSettings();
                             }
-                            sw.Stop();
-
-                            Console.WriteLine(sw.Elapsed.TotalMilliseconds.ToString() + " ms");
 
                             //check for settings changes
                             /*
