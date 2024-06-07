@@ -11,6 +11,7 @@ using RomRepo.service.Services;
 using Microsoft.AspNetCore.Hosting;
 using RomRepo.service.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace RomRepo.console
 {
@@ -33,6 +34,8 @@ namespace RomRepo.console
             builder.Services.AddScoped<IAppService, AppService>();
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.AddScoped<ICoreService, CoreService>();
+            builder.Services.AddMemoryCache();
+
 
             var app = builder.Build();
             app.UseSwagger();
@@ -84,6 +87,7 @@ namespace RomRepo.console
                     services.AddScoped<IAppService, AppService>();
                     services.AddScoped<IRomService, RomService>();
                     services.AddScoped<ICoreService, CoreService>();
+                    services.AddMemoryCache();
                     
                     services.AddOptions();
                 })

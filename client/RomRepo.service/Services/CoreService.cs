@@ -43,22 +43,30 @@ namespace RomRepo.console.Services
             var newFolders = new List<DirectoryInfo>();
             var cores = await _repo.GetAllCores();
 
-            var rootFolder = (await _appService.GetSystemSetting(SystemSettingEnum.RomRootFolder)).Value;
-            DirectoryInfo dir = new DirectoryInfo(rootFolder);
-            if (dir.Exists)
+            var rootFolder = await _appService.GetSystemSettingValue(SystemSettingEnum.RomRootFolder);
+            if(rootFolder?.Length > 0)
             {
-                foreach (var coreDir in dir.EnumerateDirectories())
+                DirectoryInfo dir = new DirectoryInfo(rootFolder);
+                if (dir.Exists)
                 {
-                    if(!cores.Any(n => n.Name == coreDir.Name))
+                    foreach (var coreDir in dir.EnumerateDirectories())
                     {
-                        newFolders.Add(coreDir);
+                        if (!cores.Any(n => n.Name == coreDir.Name))
+                        {
+                            newFolders.Add(coreDir);
+                        }
                     }
+                }
+                else
+                {
+                    _logger.LogWarning("Cannot access " + rootFolder);
                 }
             }
             else
             {
-                _logger.LogWarning("Cannot access " + rootFolder);
+                _logger.LogError("RomRootFolder not set.");
             }
+
             return newFolders;
         }
 

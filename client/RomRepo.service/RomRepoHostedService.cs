@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RomRepo.console.DataAccess;
@@ -24,6 +25,7 @@ namespace RomRepo.console
         private readonly IAppService _appService;
         private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
         private IEnumerable<Task> _fileWatcherCollection;
+        private readonly IMemoryCache _memoryCache;
 
         private FileSystemWatcher _watcher;
         private List<SystemSetting> _settings;
@@ -32,27 +34,28 @@ namespace RomRepo.console
                                     IHostApplicationLifetime appLifetime, 
                                     IClientRepo repo, 
                                     ICoreService coreService,
-                                    IAppService appService)
+                                    IAppService appService,
+                                    IMemoryCache memoryCache)
         {
             _logger = logger;
             _appLifetime = appLifetime;
             _repo = repo;
             _coreService = coreService;
             _appService = appService;
+            _memoryCache = memoryCache;
         }
 
         private async Task<bool> Initialize()
         {
             bool isReady = true;
 
-            _settings = (await _appService.InitSystemSettings()).ToList();
+            _settings = await _appService.InitSystemSettings();
 
             var uniqueIDSetting = _settings.Where(f => f.Name == SystemSettingEnum.UniqueIdentifier.Value).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(uniqueIDSetting.Value))
             {
                 string uniqueID = Guid.NewGuid().ToString();
-                uniqueIDSetting.Value = uniqueID;
-                await _repo.SaveSystemSetting(uniqueIDSetting.Name, uniqueIDSetting.Value);
+                _settings = await _appService.SaveSystemSetting(SystemSettingEnum.UniqueIdentifier.Value, uniqueID, updateCache: true);
             }
 
             Console.WriteLine("----------------------------------------------");
@@ -71,22 +74,6 @@ namespace RomRepo.console
                 var webClientURL = "http://localhost:5173";
                 var settingsURL = webClientURL + "/settings";
                 Console.WriteLine("Visit " + settingsURL);
-
-                var romRootFolder = _settings.Where(w => w.Name ==  SystemSettingEnum.RomRootFolder.Value).FirstOrDefault();
-                if(romRootFolder != null)
-                {
-                    var cores = await _repo.GetAllCores();
-
-                    FileSystemPoller<Core> corePoller = new FileSystemPoller<Core>(romRootFolder.Value);
-                    var coreTask = corePoller.ScanAsync(cores);
-                    coreTask.Start();
-
-                    ; //breakpoint
-                    
-
-                    coreTask.Wait();
-
-                }
                 isReady = true;
             }
             else
@@ -94,8 +81,6 @@ namespace RomRepo.console
                 Console.WriteLine("Container Error: Check Docker Volume Settings");
             }
             Console.WriteLine("----------------------------------------------");
-
-            _settings.ForEach(x => x.PropertyChanged += Setting_ValueChanged);
             return isReady;
         }
 
@@ -133,13 +118,30 @@ namespace RomRepo.console
                     }
                     else
                     {
-                        //using(_watcher)
+                        while (true)
                         {
-                            while (true)
+                            Stopwatch sw = Stopwatch.StartNew();
+                            if(!_memoryCache.TryGetValue("settings", out _settings))
                             {
-                                //Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
-                                await Task.Delay(1000);
+                                _settings = await _appService.InitSystemSettings();
                             }
+                            sw.Stop();
+
+                            Console.WriteLine(sw.Elapsed.TotalMilliseconds.ToString() + " ms");
+
+                            //check for settings changes
+                            /*
+                                UniqueIdentifier        - well that's weird
+                                SendAnalytics           - conditionally SendReceiveAnalytics()
+                                UseApi                  - calculate hashes & check validity
+                                RomRootFolder           - complete rescan of cores and roms 
+                                SavesRootFolder         - not implemented
+                                SaveStatesRootFolder    - not implemented
+                                ApiKey                  - well that's weird
+                            */
+
+                            //Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
+                            await Task.Delay(1000);
                         }
                     }
                     
