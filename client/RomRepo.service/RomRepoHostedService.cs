@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -12,6 +13,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace RomRepo.console
@@ -25,7 +27,8 @@ namespace RomRepo.console
         private readonly IAppService _appService;
         private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
         private IEnumerable<Task> _fileWatcherCollection;
-        private readonly IMemoryCache _memoryCache;
+        private readonly IDistributedCache _memoryCache;
+
 
         private FileSystemWatcher _watcher;
         private List<SystemSetting> _settings;
@@ -35,7 +38,7 @@ namespace RomRepo.console
                                     IClientRepo repo, 
                                     ICoreService coreService,
                                     IAppService appService,
-                                    IMemoryCache memoryCache)
+                                    IDistributedCache memoryCache)
         {
             _logger = logger;
             _appLifetime = appLifetime;
@@ -120,7 +123,17 @@ namespace RomRepo.console
                     {
                         while (true)
                         {
-                            if(!_memoryCache.TryGetValue("settings", out _settings))
+                            //if(!_memoryCache.TryGetValue("settings", out _settings))
+                            //{
+                            //    _settings = await _appService.InitSystemSettings();
+                            //}
+
+                            var cacheBytes = _memoryCache.Get("settings");
+                            if (cacheBytes != null)
+                            {
+                                _settings = JsonSerializer.Deserialize<List<SystemSetting>>(cacheBytes);
+                            }
+                            else
                             {
                                 _settings = await _appService.InitSystemSettings();
                             }
@@ -137,6 +150,8 @@ namespace RomRepo.console
                             */
 
                             //Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
+                            Console.WriteLine("RomRootFolder: " + _settings.Where(w => w.Name == SystemSettingEnum.RomRootFolder.Value).FirstOrDefault().Value);
+
                             await Task.Delay(1000);
                         }
                     }

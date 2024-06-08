@@ -34,7 +34,8 @@ namespace RomRepo.console
             builder.Services.AddScoped<IAppService, AppService>();
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.AddScoped<ICoreService, CoreService>();
-            builder.Services.AddMemoryCache();
+            //builder.Services.AddMemoryCache();
+            builder.Services.AddDistributedMemoryCache();
 
 
             var app = builder.Build();
@@ -87,7 +88,8 @@ namespace RomRepo.console
                     services.AddScoped<IAppService, AppService>();
                     services.AddScoped<IRomService, RomService>();
                     services.AddScoped<ICoreService, CoreService>();
-                    services.AddMemoryCache();
+                    //services.AddMemoryCache();
+                    services.AddDistributedMemoryCache();
                     
                     services.AddOptions();
                 })

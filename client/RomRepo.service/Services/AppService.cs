@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using RomRepo.console;
 using RomRepo.console.DataAccess;
@@ -8,7 +9,9 @@ using RomRepo.service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace RomRepo.service.Services
@@ -17,9 +20,10 @@ namespace RomRepo.service.Services
     {
         private readonly ILogger<AppService> _logger;
         private readonly IClientRepo _repo;
-        private readonly IMemoryCache _memoryCache;
+        //private readonly IMemoryCache _memoryCache;
+        private readonly IDistributedCache _memoryCache;
 
-        public AppService(ILogger<AppService> logger, IClientRepo repo, IMemoryCache memoryCache)
+        public AppService(ILogger<AppService> logger, IClientRepo repo, IDistributedCache memoryCache)
         {
             _logger = logger;
             _repo = repo;
@@ -42,7 +46,7 @@ namespace RomRepo.service.Services
             var settings = (await _repo.GetSystemSettings()).ToList();
             if(updateCache)
             {
-                _memoryCache.Set("settings", settings);
+                this.UpdateSettingsCache(settings);
             }
             return settings;
         }
@@ -86,7 +90,10 @@ namespace RomRepo.service.Services
         /// <param name="settings"></param>
         private void UpdateSettingsCache(List<SystemSetting> settings)
         {
-            _memoryCache.Set("settings", settings);
+
+            string json = JsonSerializer.Serialize(settings);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+            _memoryCache.Set("settings", bytes); //byte[] value
         }
 
     }
