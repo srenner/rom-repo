@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace RomRepo.console.Models
 {
+    [Serializable]
     public class SystemSetting
     {
-        private string _value;
-
         [Key]
         public string Name { get; set; }
         public string? Value { get; set; }
