@@ -5,6 +5,7 @@ using RomRepo.console.DataAccess;
 using RomRepo.console.Models;
 using RomRepo.console.Services;
 using RomRepo.service.Models.NotMapped;
+using RomRepo.service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +20,19 @@ namespace RomRepo.service.Controllers
     public class SystemSettingController : ControllerBase
     {
         private ILogger<SystemSettingController> _logger;
-        private readonly IClientRepo _repo;
+        private readonly IAppService _appService;
 
-        public SystemSettingController(ILogger<SystemSettingController> logger, IClientRepo repo)
+        public SystemSettingController(ILogger<SystemSettingController> logger, IAppService appService)
         {
             _logger = logger;
-            _repo = repo;
+            _appService = appService;
         }
 
 
         [HttpGet("{name}")]
         public async Task<ActionResult<SystemSetting?>> GetSystemSetting(string name)
         {
-            var settings = await _repo.GetSystemSettings();
+            var settings = await _appService.GetSystemSettings(updateCache: false);
             var setting = settings.Where(w => w.Name == name).FirstOrDefault();
             return setting == null ? StatusCode(404) : setting;
         }
@@ -39,15 +40,14 @@ namespace RomRepo.service.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SystemSetting>>> GetSystemSettings()
         {
-            var settings = await _repo.GetSystemSettings();
+            var settings = await _appService.GetSystemSettings(updateCache: false);
             return Ok(settings);
         }
 
         [HttpPost]
         public async Task<ActionResult> SaveSystemSetting([FromBody] SystemSettingPostModel setting)
         {
-
-            var updatedSetting = await _repo.SaveSystemSetting(setting.Name, setting.Value);
+            var updatedSetting = await _appService.SaveSystemSetting(setting.Name, setting.Value, updateCache: true);
             if(updatedSetting != null)
             {
                 return Ok(updatedSetting);
