@@ -400,3 +400,4 @@ FodyWeavers.xsd
 /RomRepo.api/Data
 /RomRepo.web/Server/*.db*
 /RomRepo.web/Server/secrets.json
+notes/
