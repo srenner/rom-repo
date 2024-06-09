@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace RomRepo.console
 {
@@ -26,6 +28,7 @@ namespace RomRepo.console
         private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
         private IEnumerable<Task> _fileWatcherCollection;
         private readonly IMemoryCache _memoryCache;
+        public IServiceScopeFactory _serviceScopeFactory;
 
         private FileSystemWatcher _watcher;
         private List<SystemSetting> _settings;
@@ -35,7 +38,8 @@ namespace RomRepo.console
                                     IClientRepo repo, 
                                     ICoreService coreService,
                                     IAppService appService,
-                                    IMemoryCache memoryCache)
+                                    IMemoryCache memoryCache,
+                                    IServiceScopeFactory serviceScopeFactory)
         {
             _logger = logger;
             _appLifetime = appLifetime;
@@ -43,6 +47,7 @@ namespace RomRepo.console
             _coreService = coreService;
             _appService = appService;
             _memoryCache = memoryCache;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         private async Task<bool> Initialize()
@@ -120,9 +125,19 @@ namespace RomRepo.console
                     {
                         while (true)
                         {
-                            if(!_memoryCache.TryGetValue("settings", out _settings))
+                            var timer = Task.Delay(2000);
+
+                            //memory cache not working properly yet
+                            //if (!_memoryCache.TryGetValue("settings", out _settings))
                             {
                                 _settings = await _appService.InitSystemSettings();
+                            }
+
+                            foreach (var item in _settings)
+                            {
+                                var name = item.Name.PadRight(25);
+                                string val = !string.IsNullOrWhiteSpace(item.Value) ? item.Value : "null";
+                                Console.WriteLine(name + ": " + val);
                             }
 
                             //check for settings changes
@@ -136,8 +151,11 @@ namespace RomRepo.console
                                 ApiKey                  - well that's weird
                             */
 
-                            //Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
-                            await Task.Delay(1000);
+                            Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
+
+
+
+                            await timer;
                         }
                     }
                     
