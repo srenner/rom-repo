@@ -42,7 +42,7 @@ namespace RomRepo.service.Services
             var settings = (await _repo.GetSystemSettings()).ToList();
             if(updateCache)
             {
-                _memoryCache.Set("settings", settings);
+                this.UpdateSettingsCache(settings);
             }
             return settings;
         }
