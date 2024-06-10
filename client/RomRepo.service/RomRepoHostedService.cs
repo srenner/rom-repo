@@ -22,7 +22,6 @@ namespace RomRepo.console
     {
         private readonly ILogger _logger;
         private readonly IHostApplicationLifetime _appLifetime;
-        private readonly IClientRepo _repo;
         private readonly ICoreService _coreService;
         private readonly IAppService _appService;
         private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
@@ -35,7 +34,6 @@ namespace RomRepo.console
 
         public RomRepoHostedService(ILogger<RomRepoHostedService> logger, 
                                     IHostApplicationLifetime appLifetime, 
-                                    IClientRepo repo, 
                                     ICoreService coreService,
                                     IAppService appService,
                                     IMemoryCache memoryCache,
@@ -43,7 +41,6 @@ namespace RomRepo.console
         {
             _logger = logger;
             _appLifetime = appLifetime;
-            _repo = repo;
             _coreService = coreService;
             _appService = appService;
             _memoryCache = memoryCache;
