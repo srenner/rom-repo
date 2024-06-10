@@ -161,11 +161,6 @@ namespace RomRepo.console
             return Task.CompletedTask;
         }
 
-        private void Setting_ValueChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            _logger.LogInformation("Setting changed: " + e.PropertyName);
-        }
-
         public Task StopAsync(CancellationToken cancellationToken)
         {
             Console.WriteLine("Stop Requested");
