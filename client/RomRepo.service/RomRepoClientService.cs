@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using RomRepo.console;
 using RomRepo.console.Models;
@@ -21,6 +22,25 @@ namespace RomRepo.service
         private List<SystemSetting> _settings;
         private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
 
+        public async Task DoWorkAsync(CancellationToken stoppingToken)
+        {
+            if (await Initialize())
+            {
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    var timer = Task.Delay(2000);
+                    if (!memoryCache.TryGetValue("settings", out _settings))
+                    {
+                        _settings = await appService.InitSystemSettings();
+                    }
+                    await timer;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Service Initialization Failed");
+            }
+        }
 
         private async Task<bool> Initialize()
         {
@@ -37,12 +57,7 @@ namespace RomRepo.service
             Console.WriteLine("----------------------------------------------");
             Console.WriteLine("SYSTEM SETTINGS:");
             Console.WriteLine("---");
-            foreach (var item in _settings)
-            {
-                var name = item.Name.PadRight(25);
-                string val = !string.IsNullOrWhiteSpace(item.Value) ? item.Value : "null";
-                Console.WriteLine(name + ": " + val);
-            }
+            PrintSettings();
 
             if (Directory.Exists(_userFilesRoot))
             {
@@ -60,43 +75,18 @@ namespace RomRepo.service
             return isReady;
         }
 
-        public async Task DoWorkAsync(CancellationToken stoppingToken)
+        private void PrintSettings()
         {
-            await Initialize();
-            while (!stoppingToken.IsCancellationRequested)
+            if(_settings?.Count > 0)
             {
-                var timer = Task.Delay(2000);
-
-                //memory cache not working properly yet
-                if (!memoryCache.TryGetValue("settings", out _settings))
-                {
-                    _settings = await appService.InitSystemSettings();
-                }
-
                 foreach (var item in _settings)
                 {
                     var name = item.Name.PadRight(25);
                     string val = !string.IsNullOrWhiteSpace(item.Value) ? item.Value : "null";
                     Console.WriteLine(name + ": " + val);
                 }
-
-                //check for settings changes
-                /*
-                    UniqueIdentifier        - well that's weird
-                    SendAnalytics           - conditionally SendReceiveAnalytics()
-                    UseApi                  - calculate hashes & check validity
-                    RomRootFolder           - complete rescan of cores and roms 
-                    SavesRootFolder         - not implemented
-                    SaveStatesRootFolder    - not implemented
-                    ApiKey                  - well that's weird
-                */
-
-                Console.WriteLine("service running at " + DateTime.Now.ToLongTimeString());
-
-
-
-                await timer;
             }
         }
+
     }
 }
