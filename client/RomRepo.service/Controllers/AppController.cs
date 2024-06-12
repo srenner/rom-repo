@@ -34,19 +34,5 @@ namespace RomRepo.console.Controllers
         {
             return Ok("0.0.1");
         }
-
-        [HttpGet("setting")]
-        public async Task<ActionResult<string>> GetSystemSettingValue(string name)
-        {
-            var val = await _service.GetSystemSettingValue(name);
-            if(!string.IsNullOrWhiteSpace(val))
-            {
-                return Ok(val);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
     }
 }
