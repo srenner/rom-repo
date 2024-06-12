@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using RomRepo.service.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using RomRepo.service;
 
 namespace RomRepo.console
 {
@@ -35,7 +36,10 @@ namespace RomRepo.console
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.AddScoped<ICoreService, CoreService>();
             builder.Services.AddMemoryCache();
-
+            
+            //create a scope for the background service
+            builder.Services.AddHostedService<ScopedBackgroundService>();
+            builder.Services.AddScoped<IScopedProcessingService, RomRepoClientService>();
 
             var app = builder.Build();
             app.UseSwagger();
@@ -71,27 +75,9 @@ namespace RomRepo.console
             catch (HttpRequestException e)
             {
                 Console.WriteLine("Exception :{0} ", e.Message);
-                }
+            }
 
             Console.WriteLine("----------------------------------------------\n");
-
-            await Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
-                {
-                    var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
-                    var config = builder.Build();
-                    services.AddHostedService<RomRepoHostedService>();
-
-                    services.AddDbContext<RomRepoContext>();
-                    services.AddScoped<IClientRepo, ClientRepo>();
-                    services.AddScoped<IAppService, AppService>();
-                    services.AddScoped<IRomService, RomService>();
-                    services.AddScoped<ICoreService, CoreService>();
-                    services.AddMemoryCache();
-                    
-                    services.AddOptions();
-                })
-                .RunConsoleAsync();
             webTask.Wait();
             Console.WriteLine("RomRepo.service is shutting down at " + DateTime.Now.ToLongTimeString());
         }
