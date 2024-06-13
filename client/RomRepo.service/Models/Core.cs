@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RomRepo.service;
+using System.Runtime.CompilerServices;
 
 namespace RomRepo.console.Models
 {
@@ -17,24 +18,24 @@ namespace RomRepo.console.Models
         public int CoreID { get; set; }
 
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public required string Path { get; set; }
 
         /// <summary>
         /// Can this core treat a .zip file as a valid Rom?
         /// </summary>
-        public bool ZipAsRom { get; set; }
+        public bool? ZipAsRom { get; set; }
 
         /// <summary>
         /// /// Can this core treat a .7z file as a valid Rom?
         /// </summary>
-        public bool SevenZipAsRom { get; set; }
+        public bool? SevenZipAsRom { get; set; }
 
         /// <summary>
         /// Comma separated list of valid file extensions for this core.
         /// </summary>
-        public string FileExtensions { get; set; }
+        public string? FileExtensions { get; set; }
 
         public bool IsFavorite { get; set; } = false;
         public bool IsActive { get; set; } = true;
@@ -53,5 +54,6 @@ namespace RomRepo.console.Models
         {
             return this.DateUpdated;
         }
+
     }
 }

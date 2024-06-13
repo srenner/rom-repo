@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RomRepo.console;
 
@@ -10,9 +11,11 @@ using RomRepo.console;
 namespace RomRepo.console.Migrations
 {
     [DbContext(typeof(RomRepoContext))]
-    partial class RomRepoContextModelSnapshot : ModelSnapshot
+    [Migration("20240613021959_Core-descr-nullable")]
+    partial class Coredescrnullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -33,6 +36,7 @@ namespace RomRepo.console.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FileExtensions")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
@@ -49,10 +53,10 @@ namespace RomRepo.console.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool?>("SevenZipAsRom")
+                    b.Property<bool>("SevenZipAsRom")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool?>("ZipAsRom")
+                    b.Property<bool>("ZipAsRom")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CoreID");
