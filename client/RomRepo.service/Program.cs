@@ -57,7 +57,7 @@ namespace RomRepo.console
             {
                 using (var context = serviceScope.ServiceProvider.GetService<RomRepoContext>())
                 {
-                    context.Database.Migrate();
+                    //context.Database.Migrate();
                 }
             }
 

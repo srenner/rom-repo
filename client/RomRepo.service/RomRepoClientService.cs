@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
+using RomRepo.console.Models;
 
 namespace RomRepo.service
 {
@@ -26,6 +27,18 @@ namespace RomRepo.service
         {
             if (await Initialize())
             {
+                var newCores = await coreService.DiscoverCores();
+                if(newCores?.Count() > 0)
+                {
+                    foreach (var coreFolder in newCores)
+                    {
+                        var core = coreFolder.FromDirectoryInfo();
+                        if(core != null)
+                        {
+                            await coreService.AddCore(core);
+                        }
+                    }
+                }
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     var timer = Task.Delay(2000);

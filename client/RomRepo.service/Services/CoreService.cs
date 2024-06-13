@@ -108,7 +108,7 @@ namespace RomRepo.console.Services
                 core
             };
             await _repo.AddCores(cores);
-            return cores.FirstOrDefault();
+            return core;
         }
 
         public async Task<int> AddCores(List<Core> cores)
