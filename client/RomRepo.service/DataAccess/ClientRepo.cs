@@ -80,9 +80,9 @@ namespace RomRepo.console.DataAccess
             throw new NotImplementedException();
         }
 
-        public void GetRomsForCore(int coreID)
+        public async Task<IEnumerable<Rom>> GetRomsForCore(int coreID)
         {
-            throw new NotImplementedException();
+            return await _context.Rom.Where(w => w.CoreID == coreID).ToListAsync();
         }
 
         public void UpdateRom(int romID)

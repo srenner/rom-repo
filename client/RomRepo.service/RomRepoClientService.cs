@@ -1,17 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Query.Internal;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Caching.Memory;
 using RomRepo.console;
 using RomRepo.console.Models;
-using RomRepo.service.Services;
 using RomRepo.service.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
-using RomRepo.console.Models;
 
 namespace RomRepo.service
 {
@@ -21,6 +11,8 @@ namespace RomRepo.service
                                     IMemoryCache memoryCache) : IScopedProcessingService
     {
         private List<SystemSetting> _settings;
+        private IEnumerable<Core> _cores;
+
         private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
 
         public async Task DoWorkAsync(CancellationToken stoppingToken)
@@ -39,6 +31,8 @@ namespace RomRepo.service
                         }
                     }
                 }
+                _cores = await coreService.GetActiveCores();
+                
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     var timer = Task.Delay(2000);

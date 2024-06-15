@@ -9,6 +9,6 @@ namespace RomRepo.service.Services.Interfaces
 {
     public interface IRomService
     {
-        List<Rom> GetFileSystemRoms(Core core);
+        Task<IEnumerable<Rom>> DiscoverRoms(Core core);
     }
 }

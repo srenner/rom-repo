@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RomRepo.console.DataAccess;
 using RomRepo.service.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RomRepo.console.Models;
 
 namespace RomRepo.console.Controllers
 {
@@ -23,6 +18,13 @@ namespace RomRepo.console.Controllers
             _service = service;
         }
 
+        [HttpGet("discover")]
+        public async Task<ActionResult<IEnumerable<Rom>>> DiscoverCoreRomsAsync(int coreID, string path)
+        {
+            Core core = new Core { Path = path, CoreID = coreID };
+            var roms = await _service.DiscoverRoms(core);
+            return Ok(roms);
+        }
 
         [HttpPost("extract")]
         public string ExtractRom(string filePath)

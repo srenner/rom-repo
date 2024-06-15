@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RomRepo.console.DataAccess;
 using RomRepo.console.Models;
 using RomRepo.service.Services.Interfaces;
 using System;
@@ -12,36 +13,38 @@ namespace RomRepo.console.Services
     internal class RomService : IRomService
     {
         private readonly ILogger<RomService> _logger;
-        public RomService(ILogger<RomService> logger) 
+        private readonly IClientRepo _repo;
+        public RomService(ILogger<RomService> logger, IClientRepo repo) 
         {
             _logger = logger;
+            _repo = repo;
         }
 
-        public List<Rom> GetFileSystemRoms(Core core)
+        public async Task<IEnumerable<Rom>> DiscoverRoms(Core core)
         {
             if (core == null) throw new ArgumentNullException(nameof(core));
+            var dbRoms = await _repo.GetRomsForCore(core.CoreID);
 
             var roms = new List<Rom>();
-            DirectoryInfo dir = new DirectoryInfo(core.Path);
-            if (dir.Exists)
+            DirectoryInfo di = new DirectoryInfo(core.Path);
+            if (di.Exists)
             {
-                foreach (var romDir in dir.EnumerateDirectories())
+                foreach (var file in di.EnumerateFiles("*", SearchOption.AllDirectories))
                 {
-                    var now = DateTime.UtcNow;
-                    roms.Add(new Rom
+                    if (!dbRoms.Any(a => a.Path == file.FullName))
                     {
-                        Path = romDir.FullName,
-                        IsActive = false,
-                        IsFavorite = false,
-                        CoreID = core.CoreID,
-                        DateCreated = now,
-                        DateUpdated = now
-                    });
+                        var now = DateTime.UtcNow;
+                        roms.Add(new Rom
+                        {
+                            Path = file.FullName,
+                            IsActive = false,
+                            IsFavorite = false,
+                            CoreID = core.CoreID,
+                            DateCreated = file.CreationTime,
+                            DateUpdated = file.LastWriteTime
+                        });
+                    }
                 }
-            }
-            else
-            {
-                _logger.LogWarning("Cannot access " + core.Path);
             }
             return roms;
         }
