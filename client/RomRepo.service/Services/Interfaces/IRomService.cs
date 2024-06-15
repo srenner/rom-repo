@@ -10,5 +10,8 @@ namespace RomRepo.service.Services.Interfaces
     public interface IRomService
     {
         Task<IEnumerable<Rom>> DiscoverRoms(Core core);
+
+        Task<Rom> AddRom(Rom rom);
+        Task<int> AddRoms(IEnumerable<Rom> roms);
     }
 }

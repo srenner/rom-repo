@@ -26,6 +26,14 @@ namespace RomRepo.console.Controllers
             return Ok(roms);
         }
 
+        [HttpPost("addrange")]
+        public async Task<ActionResult<int>> AddRoms(IEnumerable<Rom> roms)
+        {
+            int result = await _service.AddRoms(roms);
+            return Ok(result);
+        }
+
+
         [HttpPost("extract")]
         public string ExtractRom(string filePath)
         {

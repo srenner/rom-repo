@@ -85,9 +85,17 @@ namespace RomRepo.console.DataAccess
             return await _context.Rom.Where(w => w.CoreID == coreID).ToListAsync();
         }
 
-        public void UpdateRom(int romID)
+        public async Task<Rom> AddRom(Rom rom)
         {
-            throw new NotImplementedException();
+            await _context.AddAsync(rom);
+            await _context.SaveChangesAsync();
+            return rom;
+        }
+
+        public async Task<int> AddRoms(IEnumerable<Rom> roms)
+        {
+            await _context.AddRangeAsync(roms);
+            return await _context.SaveChangesAsync();
         }
 
         #endregion

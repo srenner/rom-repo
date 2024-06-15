@@ -27,7 +27,8 @@ namespace RomRepo.console.DataAccess
 
         void GetRom(int romID);
         Task<IEnumerable<Rom>> GetRomsForCore(int coreID);
-        void UpdateRom(int romID);
+        Task<Rom> AddRom(Rom rom);
+        Task<int> AddRoms(IEnumerable<Rom> roms);
 
         #endregion
 

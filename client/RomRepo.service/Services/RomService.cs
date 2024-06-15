@@ -49,5 +49,15 @@ namespace RomRepo.console.Services
             return roms;
         }
 
+        public async Task<Rom> AddRom(Rom rom)
+        {
+            return await _repo.AddRom(rom);
+        }
+
+        public async Task<int> AddRoms(IEnumerable<Rom> roms)
+        {
+            return await _repo.AddRoms(roms);
+        }
+
     }
 }
