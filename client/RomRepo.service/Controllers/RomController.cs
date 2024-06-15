@@ -18,6 +18,13 @@ namespace RomRepo.console.Controllers
             _service = service;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<Rom>> GetRom(int romID)
+        {
+            var rom = await _service.GetRom(romID);
+            return Ok(rom);
+        }
+
         [HttpGet("discover")]
         public async Task<ActionResult<IEnumerable<Rom>>> DiscoverCoreRomsAsync(int coreID, string path)
         {
@@ -35,8 +42,9 @@ namespace RomRepo.console.Controllers
 
 
         [HttpPost("extract")]
-        public string ExtractRom(string filePath)
+        public string ExtractRom(int romID)
         {
+            //_service.
             throw new NotImplementedException();
         }
 

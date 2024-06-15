@@ -9,6 +9,13 @@ namespace RomRepo.service.Services.Interfaces
 {
     public interface IRomService
     {
+        Task<Rom> GetRom(int romID);
+
+        /// <summary>
+        /// Returns list of Roms that are not in the database
+        /// </summary>
+        /// <param name="core"></param>
+        /// <returns></returns>
         Task<IEnumerable<Rom>> DiscoverRoms(Core core);
 
         Task<Rom> AddRom(Rom rom);

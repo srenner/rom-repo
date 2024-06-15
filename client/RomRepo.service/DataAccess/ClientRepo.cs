@@ -75,9 +75,9 @@ namespace RomRepo.console.DataAccess
 
         #region ===== Rom =================================
 
-        public void GetRom(int romID)
+        public async Task<Rom> GetRom(int romID)
         {
-            throw new NotImplementedException();
+            return await _context.Rom.FindAsync(romID);
         }
 
         public async Task<IEnumerable<Rom>> GetRomsForCore(int coreID)
