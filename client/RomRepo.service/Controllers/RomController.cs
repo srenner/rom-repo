@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Net.Mime;
 using System.IO;
+using System;
 
 namespace RomRepo.console.Controllers
 {
@@ -46,13 +47,13 @@ namespace RomRepo.console.Controllers
 
 
         [HttpPost("extract")]
-        public async Task<ActionResult<List<string>>> ExtractRom(int romID)
+        public async Task<IActionResult> ExtractRom(int romID)
         {
             var rom = await _service.GetRom(romID);
             if(rom.Path.EndsWith(".zip"))
             {
-                var ret = rom.Extract();
-                return ret;
+                var paths = rom.Extract();
+                return File(System.IO.File.ReadAllBytes(paths[0]), "application/octet-stream", System.IO.Path.GetFileName(paths[0]));
             }
             else
             {
