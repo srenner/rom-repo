@@ -2,6 +2,10 @@
 using Microsoft.Extensions.Logging;
 using RomRepo.service.Services.Interfaces;
 using RomRepo.console.Models;
+using System.IO.Compression;
+using System.Net;
+using System.Net.Mime;
+using System.IO;
 
 namespace RomRepo.console.Controllers
 {
@@ -42,10 +46,19 @@ namespace RomRepo.console.Controllers
 
 
         [HttpPost("extract")]
-        public string ExtractRom(int romID)
+        public async Task<ActionResult<List<string>>> ExtractRom(int romID)
         {
-            //_service.
-            throw new NotImplementedException();
+            var rom = await _service.GetRom(romID);
+            if(rom.Path.EndsWith(".zip"))
+            {
+                var ret = rom.Extract();
+                return ret;
+            }
+            else
+            {
+                throw new NotImplementedException("Only .zip is currently supported");
+            }
+            throw new NotImplementedException("oops");
         }
 
         [HttpPost("compress")]

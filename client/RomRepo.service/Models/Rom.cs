@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RomRepo.service;
+﻿using RomRepo.service;
+using SharpCompress.Archives;
+using SharpCompress.Common;
+using SharpCompress.Readers;
+using SharpCompress.IO;
+using SharpCompress.Compressors.Deflate;
+using System.IO;
+using System.Net;
 
 namespace RomRepo.console.Models
 {
@@ -12,6 +14,8 @@ namespace RomRepo.console.Models
     /// </summary>
     public class Rom : IFileScannable
     {
+        private const string _cacheRoot = "/app-cache";
+
         public int RomID { get; set; }
 
         public int? CoreID { get; set; }
@@ -36,9 +40,47 @@ namespace RomRepo.console.Models
         public DateTime DateUpdated { get; set; }
 
 
-        public bool Extract()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Temporary paths of extracted files</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public List<string> Extract()
         {
-            return false;
+            var ret = new List<string>();
+            string cachePath = _cacheRoot + "/" + CoreID.ToString();
+
+            if(!Directory.Exists(_cacheRoot))
+            {
+                Directory.CreateDirectory(_cacheRoot);
+            }
+            if(!Directory.Exists(cachePath))
+            {
+                Directory.CreateDirectory(cachePath);
+            }
+
+            if(Path.EndsWith(".zip"))
+            {
+                var archive = SharpCompress.Archives.Zip.ZipArchive.Open(Path);
+                foreach(var entry in archive.Entries)
+                {
+                    entry.WriteToDirectory(cachePath);
+                    ret.Add(cachePath + "/" + entry.Key);
+                }
+            }
+            else if(Path.EndsWith(".7z"))
+            {
+                throw new NotImplementedException(".7z not supported yet");
+            }
+            return ret;
+
+
+
+
+
+
+
+            //return ret;
         }
 
         public bool Compress()
