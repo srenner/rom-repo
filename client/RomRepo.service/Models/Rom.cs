@@ -48,7 +48,7 @@ namespace RomRepo.console.Models
         public List<string> Extract()
         {
             var ret = new List<string>();
-            string cachePath = _cacheRoot + "/" + CoreID.ToString();
+            string cachePath = _cacheRoot + "/" + CoreID.ToString() + "/" + RomID.ToString();
 
             if(!Directory.Exists(_cacheRoot))
             {
