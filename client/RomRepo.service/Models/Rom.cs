@@ -49,16 +49,11 @@ namespace RomRepo.console.Models
         {
             var ret = new List<string>();
             string cachePath = _cacheRoot + "/" + CoreID.ToString() + "/" + RomID.ToString();
-
-            if(!Directory.Exists(_cacheRoot))
-            {
-                Directory.CreateDirectory(_cacheRoot);
-            }
             if(!Directory.Exists(cachePath))
             {
                 Directory.CreateDirectory(cachePath);
             }
-
+            
             if(Path.EndsWith(".zip"))
             {
                 var archive = SharpCompress.Archives.Zip.ZipArchive.Open(Path);
@@ -73,14 +68,6 @@ namespace RomRepo.console.Models
                 throw new NotImplementedException(".7z not supported yet");
             }
             return ret;
-
-
-
-
-
-
-
-            //return ret;
         }
 
         public bool Compress()
