@@ -7,6 +7,8 @@ using System.Net;
 using System.Net.Mime;
 using System.IO;
 using System;
+using System.Runtime.CompilerServices;
+using RomRepo.service.Services;
 
 namespace RomRepo.console.Controllers
 {
@@ -36,6 +38,15 @@ namespace RomRepo.console.Controllers
             Core core = new Core { Path = path, CoreID = coreID };
             var roms = await _service.DiscoverRoms(core);
             return Ok(roms);
+        }
+
+        [HttpGet("crc32")]
+        public async Task<ActionResult<string>> GetCRCChecksum(int romID)
+        {
+            //680;
+            var rom = await _service.GetRom(romID);
+            string path = "/app-cache/61/680/Super Off Road (USA).sfc";
+            return ChecksumService.CalculateCRC(path);
         }
 
         [HttpPost("addrange")]
