@@ -9,6 +9,7 @@ using System.IO;
 using System;
 using System.Runtime.CompilerServices;
 using RomRepo.service.Services;
+using System.Security.Cryptography;
 
 namespace RomRepo.console.Controllers
 {
@@ -55,7 +56,25 @@ namespace RomRepo.console.Controllers
             var rom = await _service.GetRom(romID);
             string path = "/app-cache/61/680/Super Off Road (USA).sfc";
             //path = "/app-userfiles/games/SNES/Super Off Road (USA).zip";
-            return ChecksumService.CalculateMD5(path);
+            return ChecksumService.CalculateHashString<MD5>(MD5.Create(), path);
+
+        }
+
+        [HttpGet("sha1")]
+        public async Task<ActionResult<string>> GetSHA1Checksum(int romID)
+        {
+            var rom = await _service.GetRom(romID);
+            string path = "/app-cache/61/680/Super Off Road (USA).sfc";
+            return ChecksumService.CalculateHashString<SHA1>(SHA1.Create(), path);
+
+        }
+
+        [HttpGet("sha256")]
+        public async Task<ActionResult<string>> GetSHA256Checksum(int romID)
+        {
+            var rom = await _service.GetRom(romID);
+            string path = "/app-cache/61/680/Super Off Road (USA).sfc";
+            return ChecksumService.CalculateHashString<SHA256>(SHA256.Create(), path);
         }
 
         [HttpPost("addrange")]
