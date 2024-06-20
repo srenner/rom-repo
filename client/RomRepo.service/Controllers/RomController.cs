@@ -49,6 +49,15 @@ namespace RomRepo.console.Controllers
             return ChecksumService.CalculateCRC(path);
         }
 
+        [HttpGet("md5")]
+        public async Task<ActionResult<string>> GetMD5Checksum(int romID)
+        {
+            var rom = await _service.GetRom(romID);
+            string path = "/app-cache/61/680/Super Off Road (USA).sfc";
+            //path = "/app-userfiles/games/SNES/Super Off Road (USA).zip";
+            return ChecksumService.CalculateMD5(path);
+        }
+
         [HttpPost("addrange")]
         public async Task<ActionResult<int>> AddRoms(IEnumerable<Rom> roms)
         {
