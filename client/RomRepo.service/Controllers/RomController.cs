@@ -10,6 +10,7 @@ using System;
 using System.Runtime.CompilerServices;
 using RomRepo.service.Services;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Builder;
 
 namespace RomRepo.console.Controllers
 {
@@ -44,37 +45,89 @@ namespace RomRepo.console.Controllers
         [HttpGet("crc32")]
         public async Task<ActionResult<string>> GetCRCChecksum(int romID)
         {
-            //680;
             var rom = await _service.GetRom(romID);
-            string path = "/app-cache/61/680/Super Off Road (USA).sfc";
-            return ChecksumService.CalculateCRC(path);
+            if(rom.IsArchive())
+            {
+                var files = rom.Extract(isTemporary: true);
+                if(files?.Count() > 0)
+                {
+                    return ChecksumService.CalculateCRC(files[0]);
+                }
+                else
+                {
+                    return BadRequest("Archive is empty");
+                }
+            }
+            else
+            {
+                return ChecksumService.CalculateCRC(rom.Path);
+            }
         }
 
         [HttpGet("md5")]
         public async Task<ActionResult<string>> GetMD5Checksum(int romID)
         {
             var rom = await _service.GetRom(romID);
-            string path = "/app-cache/61/680/Super Off Road (USA).sfc";
-            //path = "/app-userfiles/games/SNES/Super Off Road (USA).zip";
-            return ChecksumService.CalculateHashString<MD5>(MD5.Create(), path);
-
+            if (rom.IsArchive())
+            {
+                var files = rom.Extract(isTemporary: true);
+                if (files?.Count() > 0)
+                {
+                    return ChecksumService.CalculateHashString<MD5>(MD5.Create(), files[0]);
+                }
+                else
+                {
+                    return BadRequest("Archive is empty");
+                }
+            }
+            else
+            {
+                return ChecksumService.CalculateHashString<MD5>(MD5.Create(), rom.Path);
+            }
         }
 
         [HttpGet("sha1")]
         public async Task<ActionResult<string>> GetSHA1Checksum(int romID)
         {
             var rom = await _service.GetRom(romID);
-            string path = "/app-cache/61/680/Super Off Road (USA).sfc";
-            return ChecksumService.CalculateHashString<SHA1>(SHA1.Create(), path);
-
+            if (rom.IsArchive())
+            {
+                var files = rom.Extract(isTemporary: true);
+                if (files?.Count() > 0)
+                {
+                    return ChecksumService.CalculateHashString<SHA1>(SHA1.Create(), files[0]);
+                }
+                else
+                {
+                    return BadRequest("Archive is empty");
+                }
+            }
+            else
+            {
+                return ChecksumService.CalculateHashString<SHA1>(SHA1.Create(), rom.Path);
+            }
         }
 
         [HttpGet("sha256")]
         public async Task<ActionResult<string>> GetSHA256Checksum(int romID)
         {
             var rom = await _service.GetRom(romID);
-            string path = "/app-cache/61/680/Super Off Road (USA).sfc";
-            return ChecksumService.CalculateHashString<SHA256>(SHA256.Create(), path);
+            if (rom.IsArchive())
+            {
+                var files = rom.Extract(isTemporary: true);
+                if (files?.Count() > 0)
+                {
+                    return ChecksumService.CalculateHashString<SHA256>(SHA256.Create(), files[0]);
+                }
+                else
+                {
+                    return BadRequest("Archive is empty");
+                }
+            }
+            else
+            {
+                return ChecksumService.CalculateHashString<SHA256>(SHA256.Create(), rom.Path);
+            }
         }
 
         [HttpPost("addrange")]
@@ -86,19 +139,18 @@ namespace RomRepo.console.Controllers
 
 
         [HttpPost("extract")]
-        public async Task<IActionResult> ExtractRom(int romID)
+        public async Task<IActionResult> ExtractRom(int romID, bool isTemporary)
         {
             var rom = await _service.GetRom(romID);
-            if(rom.Path.EndsWith(".zip"))
+            if(rom.IsArchive())
             {
-                var paths = rom.Extract();
+                var paths = rom.Extract(isTemporary);
                 return File(System.IO.File.ReadAllBytes(paths[0]), "application/octet-stream", System.IO.Path.GetFileName(paths[0]));
             }
             else
             {
-                throw new NotImplementedException("Only .zip is currently supported");
+                throw new IOException("Archive type not recognized: " + rom.Path);
             }
-            throw new NotImplementedException("oops");
         }
 
         [HttpPost("compress")]

@@ -97,6 +97,19 @@ namespace RomRepo.console.Models
             return ret;
         }
 
+        public bool IsArchive()
+        {
+            var path = Path.ToLower();
+            if (path.EndsWith(".zip") || path.EndsWith(".7z"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool Compress()
         {
             return false;
