@@ -15,6 +15,7 @@ namespace RomRepo.console.Models
     public class Rom : IFileScannable
     {
         private const string _cacheRoot = "/app-cache";
+        private const string _tempRoot = "/app-cache/tmp";
 
         public int RomID { get; set; }
 
@@ -39,16 +40,19 @@ namespace RomRepo.console.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
 
-
         /// <summary>
-        /// 
+        /// Unzips a rom to filesystem
         /// </summary>
-        /// <returns>Temporary paths of extracted files</returns>
+        /// <param name="isTemporary">If true, extracted files are subject to deletion policy</param>
+        /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public List<string> Extract()
+        public List<string> Extract(bool isTemporary)
         {
             var ret = new List<string>();
-            string cachePath = _cacheRoot + "/" + CoreID.ToString() + "/" + RomID.ToString();
+
+            string pathRoot = isTemporary ? _tempRoot : _cacheRoot;
+            string cachePath = pathRoot + "/" + CoreID.ToString() + "/" + RomID.ToString();
+            
             if(!Directory.Exists(cachePath))
             {
                 Directory.CreateDirectory(cachePath);
@@ -56,16 +60,39 @@ namespace RomRepo.console.Models
             
             if(Path.EndsWith(".zip"))
             {
-                var archive = SharpCompress.Archives.Zip.ZipArchive.Open(Path);
-                foreach(var entry in archive.Entries)
+                if(SharpCompress.Archives.Zip.ZipArchive.IsZipFile(Path))
                 {
-                    entry.WriteToDirectory(cachePath);
-                    ret.Add(cachePath + "/" + entry.Key);
+                    var archive = SharpCompress.Archives.Zip.ZipArchive.Open(Path);
+                    foreach (var entry in archive.Entries)
+                    {
+                        entry.WriteToDirectory(cachePath);
+                        ret.Add(cachePath + "/" + entry.Key);
+                    }
+                }
+                else
+                {
+                    throw new IOException("Not a valid zip file: " + Path);
                 }
             }
             else if(Path.EndsWith(".7z"))
             {
-                throw new NotImplementedException(".7z not supported yet");
+                if(SharpCompress.Archives.SevenZip.SevenZipArchive.IsSevenZipFile(Path))
+                {
+                    var archive = SharpCompress.Archives.SevenZip.SevenZipArchive.Open(Path);
+                    foreach (var entry in archive.Entries)
+                    {
+                        entry.WriteToDirectory(cachePath);
+                        ret.Add(cachePath + "/" + entry.Key);
+                    }
+                }
+                else
+                {
+                    throw new IOException("Not a valid 7z file: " + Path);
+                }
+            }
+            else
+            {
+                throw new IOException("File type not supported: " + Path);
             }
             return ret;
         }
