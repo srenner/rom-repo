@@ -16,7 +16,23 @@ namespace RomRepo.service.Services
             }
             return Convert.ToHexString(hash).ToLower();
         }
-        public static string CalculateMD5(string filePath) 
+        
+        public static string CalculateHashString<T>(T algo, string filePath) where T : HashAlgorithm
+        {
+            byte[] data = File.ReadAllBytes(filePath);
+            var hash = algo.ComputeHash(data);
+            StringBuilder sb = new();
+            foreach (byte b in hash)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+            return sb.ToString();
+        }
+
+        #region Obsolete
+
+        [Obsolete("Use CalculateHashString<MD5>")]
+        public static string CalculateMD5(string filePath)
         {
             byte[] data = File.ReadAllBytes(filePath);
             var hash = MD5.HashData(data);
@@ -27,8 +43,10 @@ namespace RomRepo.service.Services
             }
             return sb.ToString();
         }
-        public static string CalculateSHA1(string filePath) 
-        { 
+
+        [Obsolete("Use CalculateHashString<SHA1>")]
+        public static string CalculateSHA1(string filePath)
+        {
             byte[] data = File.ReadAllBytes(filePath);
             var hash = SHA1.HashData(data);
             StringBuilder sb = new();
@@ -38,9 +56,10 @@ namespace RomRepo.service.Services
             }
             return sb.ToString();
         }
-        public static string CalculateSHA256(string filePath) 
+        
+        [Obsolete("Use CalculateHashString<SHA256>")]
+        public static string CalculateSHA256(string filePath)
         {
-
             byte[] data = File.ReadAllBytes(filePath);
             var hash = SHA256.HashData(data);
             StringBuilder sb = new();
@@ -51,20 +70,7 @@ namespace RomRepo.service.Services
             return sb.ToString();
         }
 
-        public static string CalculateHashString<T>(T algo, string filePath) where T : HashAlgorithm
-        {
-            
-            byte[] data = File.ReadAllBytes(filePath);
-            var hash = algo.ComputeHash(data);
-            //var hash = SHA256.HashData(data);
-            StringBuilder sb = new();
-            foreach (byte b in hash)
-            {
-                sb.Append(b.ToString("x2"));
-            }
-            return sb.ToString();
-        }
-
+        #endregion
 
     }
 }
