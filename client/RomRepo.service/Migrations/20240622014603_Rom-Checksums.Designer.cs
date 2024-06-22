@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RomRepo.console;
 
@@ -10,9 +11,11 @@ using RomRepo.console;
 namespace RomRepo.console.Migrations
 {
     [DbContext(typeof(RomRepoContext))]
-    partial class RomRepoContextModelSnapshot : ModelSnapshot
+    [Migration("20240622014603_Rom-Checksums")]
+    partial class RomChecksums
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");

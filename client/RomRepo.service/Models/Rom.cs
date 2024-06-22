@@ -40,6 +40,18 @@ namespace RomRepo.console.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
 
+        public string? CRC { get; set; }
+        public bool? CRCVerified { get; set; }
+
+        public string? MD5 { get; set; }
+        public bool? MD5Verified { get; set; }
+
+        public string? SHA1 { get; set; }
+        public bool? SHA1Verified { get; set; }
+
+        public string? SHA256 { get; set; }
+        public bool? SHA256Verified { get; set; }
+
         /// <summary>
         /// Unzips a rom to filesystem
         /// </summary>
