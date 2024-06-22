@@ -151,6 +151,28 @@ namespace RomRepo.console.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Packages up all roms in a core folder in a zip file for download
+        /// </summary>
+        /// <param name="coreID"></param>
+        /// <param name="unzipFirst"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [HttpGet("download-all")]
+        public async Task<IActionResult> DownloadEntireCore(int coreID, bool unzipFirst)
+        {
+            var core = _coreService.GetCore(coreID);
+            if (core != null)
+            {
+                var roms = await _service.GetRomsForCore(coreID);
+            }
+            else
+            {
+                return BadRequest("Core not found");
+            }
+
+            throw new NotImplementedException($"coreID: {coreID}, unzipFirst: {unzipFirst}");
+        }
 
         [HttpPost("extract")]
         public async Task<IActionResult> ExtractRom(int romID, bool isTemporary)

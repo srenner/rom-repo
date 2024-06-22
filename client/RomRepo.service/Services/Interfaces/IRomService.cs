@@ -10,6 +10,7 @@ namespace RomRepo.service.Services.Interfaces
     public interface IRomService
     {
         Task<Rom> GetRom(int romID);
+        Task<IEnumerable<Rom>> GetRomsForCore(int coreID);
 
         /// <summary>
         /// Returns list of Roms that are not in the database

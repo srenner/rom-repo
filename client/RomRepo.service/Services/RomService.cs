@@ -25,6 +25,11 @@ namespace RomRepo.console.Services
             return await _repo.GetRom(romID);
         }
 
+        public async Task<IEnumerable<Rom>> GetRomsForCore(int coreID)
+        {
+            return await _repo.GetRomsForCore(coreID);
+        }
+
         public async Task<IEnumerable<Rom>> DiscoverRoms(Core core)
         {
             if (core == null) throw new ArgumentNullException(nameof(core));
