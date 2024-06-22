@@ -20,11 +20,13 @@ namespace RomRepo.console.Controllers
     {
         private ILogger<RomController> _logger;
         private readonly IRomService _service;
+        private readonly ICoreService _coreService;
 
-        public RomController(ILogger<RomController> logger, IRomService service)
+        public RomController(ILogger<RomController> logger, IRomService service, ICoreService coreService)
         {
             _logger = logger;
             _service = service;
+            _coreService = coreService;
         }
 
         [HttpGet]
@@ -35,11 +37,18 @@ namespace RomRepo.console.Controllers
         }
 
         [HttpGet("discover")]
-        public async Task<ActionResult<IEnumerable<Rom>>> DiscoverCoreRomsAsync(int coreID, string path)
+        public async Task<ActionResult<IEnumerable<Rom>>> DiscoverCoreRomsAsync(int coreID)
         {
-            Core core = new Core { Path = path, CoreID = coreID };
-            var roms = await _service.DiscoverRoms(core);
-            return Ok(roms);
+            var core = await _coreService.GetCore(coreID);
+            if(core != null)
+            {
+                var roms = await _service.DiscoverRoms(core);
+                return Ok(roms);
+            }
+            else
+            {
+                return BadRequest("Core not found");
+            }
         }
 
         [HttpGet("crc32")]

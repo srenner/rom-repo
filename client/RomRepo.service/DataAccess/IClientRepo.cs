@@ -12,7 +12,7 @@ namespace RomRepo.console.DataAccess
     {
         #region ===== Core ================================
 
-        void GetCore(int coreID);
+        Task<Core?> GetCore(int coreID);
         Task<IEnumerable<Core>> GetAllCores();
         Task<IEnumerable<Core>> GetActiveCores();
         Task<IEnumerable<Core>> GetInactiveCores();

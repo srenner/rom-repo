@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZstdSharp.Unsafe;
 
 namespace RomRepo.console.DataAccess
 {
@@ -22,9 +23,9 @@ namespace RomRepo.console.DataAccess
 
         #region ===== Core ================================
 
-        public void GetCore(int coreID)
+        public async Task<Core?> GetCore(int coreID)
         {
-            throw new NotImplementedException();
+            return await _context.Core.FindAsync(coreID);
         }
 
         public async Task<IEnumerable<Core>> GetAllCores()

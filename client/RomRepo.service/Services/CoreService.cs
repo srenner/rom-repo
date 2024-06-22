@@ -101,6 +101,11 @@ namespace RomRepo.console.Services
             return cores;
         }
 
+        public async Task<Core?> GetCore(int coreID)
+        {
+            return await _repo.GetCore(coreID);
+        }
+
         public async Task<Core> AddCore(Core core)
         {
             var cores = new List<Core>
