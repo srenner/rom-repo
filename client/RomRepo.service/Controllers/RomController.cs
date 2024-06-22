@@ -36,6 +36,11 @@ namespace RomRepo.console.Controllers
             return Ok(rom);
         }
 
+        /// <summary>
+        /// Retrieves list of potential Roms found in a Core's folder that are not in the database
+        /// </summary>
+        /// <param name="coreID"></param>
+        /// <returns></returns>
         [HttpGet("discover")]
         public async Task<ActionResult<IEnumerable<Rom>>> DiscoverCoreRomsAsync(int coreID)
         {
