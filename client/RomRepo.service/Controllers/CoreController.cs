@@ -33,6 +33,11 @@ namespace RomRepo.console.Controllers
             return cores.ToList();
         }
 
+        
+        /// <summary>
+        /// Retrieves list of potential Cores found in the filesystem that are not in the database
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("discover")]
         public async Task<ActionResult<IEnumerable<DirectoryInfoViewModel>>> DiscoverCoresAsync()
         {
