@@ -2,11 +2,8 @@
 using RomRepo.console.DataAccess;
 using RomRepo.console.Models;
 using RomRepo.service.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SharpCompress.Archives;
+using SharpCompress.Archives.Zip;
 
 namespace RomRepo.console.Services
 {
@@ -14,6 +11,7 @@ namespace RomRepo.console.Services
     {
         private readonly ILogger<RomService> _logger;
         private readonly IClientRepo _repo;
+
         public RomService(ILogger<RomService> logger, IClientRepo repo) 
         {
             _logger = logger;
@@ -67,6 +65,35 @@ namespace RomRepo.console.Services
         public async Task<int> AddRoms(IEnumerable<Rom> roms)
         {
             return await _repo.AddRoms(roms);
+        }
+
+        public MemoryStream ExtractAndPack(IEnumerable<Rom> roms)
+        {
+            if(roms == null || roms.Count() == 0)
+            {
+                throw new ArgumentNullException(nameof(roms));
+            }
+            
+            MemoryStream ms = new MemoryStream();
+
+            using (var archive = ZipArchive.Create())
+            {
+                foreach (var rom in roms)
+                {
+                    var path = rom.Extract(isTemporary: true);
+                    if(path?.Count> 0)
+                    {
+                        foreach(var p in path)
+                        {
+                            archive.AddEntry(p.Substring(p.LastIndexOf("/")), p);
+                        }
+                    }
+                }
+                archive.SaveTo(ms);
+            }
+
+            return ms;
+
         }
 
     }

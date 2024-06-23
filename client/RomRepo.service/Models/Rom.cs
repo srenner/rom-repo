@@ -33,7 +33,6 @@ namespace RomRepo.console.Models
         /// </summary>
         public bool IsPatch { get; set; } = false;
 
-
         public int? ParentRomID { get; set; }
         public Rom? ParentRom { get; set; }
 
@@ -137,4 +136,5 @@ namespace RomRepo.console.Models
             return this.DateUpdated;
         }
     }
+
 }

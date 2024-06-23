@@ -161,16 +161,18 @@ namespace RomRepo.console.Controllers
         [HttpGet("download-all")]
         public async Task<IActionResult> DownloadEntireCore(int coreID, bool unzipFirst)
         {
-            var core = _coreService.GetCore(coreID);
+            var core = await _coreService.GetCore(coreID);
             if (core != null)
             {
                 var roms = await _service.GetRomsForCore(coreID);
+                var ms = _service.ExtractAndPack(roms);
+                return File(ms, "application/octet-stream", core.Name + ".zip");
+
             }
             else
             {
                 return BadRequest("Core not found");
             }
-
             throw new NotImplementedException($"coreID: {coreID}, unzipFirst: {unzipFirst}");
         }
 

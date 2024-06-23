@@ -21,5 +21,7 @@ namespace RomRepo.service.Services.Interfaces
 
         Task<Rom> AddRom(Rom rom);
         Task<int> AddRoms(IEnumerable<Rom> roms);
+
+        MemoryStream ExtractAndPack(IEnumerable<Rom> roms);
     }
 }
