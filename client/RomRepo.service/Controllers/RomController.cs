@@ -191,10 +191,5 @@ namespace RomRepo.console.Controllers
             }
         }
 
-        [HttpPost("compress")]
-        public string CompressRom(string filePath) 
-        { 
-            throw new NotImplementedException(); 
-        }
     }
 }
