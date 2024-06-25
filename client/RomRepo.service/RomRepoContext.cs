@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using RomRepo.console.Models;
+using RomRepo.service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace RomRepo.console
         public DbSet<Core> Core { get; set; }
         public DbSet<Rom> Rom { get; set; }
         public DbSet<SystemSetting> SystemSetting { get; set; }
+        public DbSet<JobQueue> JobQueue { get; set; }
 
         public string DbPath { get; }
 
