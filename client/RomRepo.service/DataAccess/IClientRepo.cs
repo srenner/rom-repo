@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Query.Internal;
 using RomRepo.console.Models;
+using RomRepo.service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,17 @@ namespace RomRepo.console.DataAccess
         Task<string?> GetSystemSettingValue(string setting);
         
         Task<IEnumerable<SystemSetting>> GetSystemSettings();
+
+        #endregion
+
+        #region ===== JobQueue ============================
+
+        Task<IEnumerable<JobQueue>> GetNewJobs();
+        Task<IEnumerable<JobQueue>> GetNewJobs(string jobCode);
+        Task<JobQueue> CreateJob(string jobCode);
+        Task<JobQueue> StartJob(int jobQueueID);
+        Task<JobQueue> UpdateJobProgress(int jobQueueID, int percent);
+        Task<JobQueue> FinishJob(int jobQueueID);
 
         #endregion
 

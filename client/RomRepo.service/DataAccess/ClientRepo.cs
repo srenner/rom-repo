@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RomRepo.console.Models;
+using RomRepo.service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace RomRepo.console.DataAccess
         private readonly RomRepoContext _context;
         private readonly ILogger<ClientRepo> _logger;
 
-        public ClientRepo(RomRepoContext context, ILogger<RomRepo.console.DataAccess.ClientRepo> logger)
+        public ClientRepo(RomRepoContext context, ILogger<ClientRepo> logger)
         {
             _context = context;
             _logger = logger;
@@ -193,6 +194,38 @@ namespace RomRepo.console.DataAccess
             return null;
         }
 
+        #endregion
+
+        #region ===== JobQueue ============================
+        public Task<IEnumerable<JobQueue>> GetNewJobs()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<JobQueue>> GetNewJobs(string jobCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<JobQueue> CreateJob(string jobCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<JobQueue> StartJob(int jobQueueID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<JobQueue> UpdateJobProgress(int jobQueueID, int percent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<JobQueue> FinishJob(int jobQueueID)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
     }
