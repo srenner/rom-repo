@@ -197,9 +197,11 @@ namespace RomRepo.console.DataAccess
         #endregion
 
         #region ===== JobQueue ============================
-        public Task<IEnumerable<JobQueue>> GetNewJobs()
+        public async Task<IEnumerable<JobQueue>> GetNewJobs()
         {
-            throw new NotImplementedException();
+            return await _context.JobQueue
+                .Where(w => w.DatePickedUp == null)
+                .ToListAsync();
         }
 
         public Task<IEnumerable<JobQueue>> GetNewJobs(string jobCode)

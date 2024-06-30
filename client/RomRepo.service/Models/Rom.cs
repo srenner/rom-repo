@@ -6,6 +6,7 @@ using SharpCompress.IO;
 using SharpCompress.Compressors.Deflate;
 using System.IO;
 using System.Net;
+using RomRepo.service.Models.NotMapped;
 
 namespace RomRepo.console.Models
 {
@@ -15,7 +16,6 @@ namespace RomRepo.console.Models
     public class Rom : IFileScannable
     {
         private const string _cacheRoot = "/app-cache";
-        private const string _tempRoot = "/app-cache/tmp";
 
         public int RomID { get; set; }
 
@@ -51,22 +51,73 @@ namespace RomRepo.console.Models
         public string? SHA256 { get; set; }
         public bool? SHA256Verified { get; set; }
 
+        public RomStream ExtractToStream()
+        {
+            var romStream = new RomStream();
+            if (Path.EndsWith(".zip"))
+            {
+                if (SharpCompress.Archives.Zip.ZipArchive.IsZipFile(Path))
+                {
+                    var archive = SharpCompress.Archives.Zip.ZipArchive.Open(Path);
+                    if(archive.Entries.Count > 0)
+                    {
+                        var entry = archive.Entries.First();
+                        romStream.Filename = entry.Key;
+                        entry.WriteTo(romStream.MemoryStream);
+                    }
+                }
+                else
+                {
+                    throw new IOException("Not a valid zip file: " + Path);
+                }
+            }
+            else if (Path.EndsWith(".7z"))
+            {
+                if (SharpCompress.Archives.SevenZip.SevenZipArchive.IsSevenZipFile(Path))
+                {
+                    var archive = SharpCompress.Archives.SevenZip.SevenZipArchive.Open(Path);
+                    if (archive.Entries.Count > 0)
+                    {
+                        var entry = archive.Entries.First();
+                        romStream.Filename = entry.Key;
+                        entry.WriteTo(romStream.MemoryStream);
+                    }
+                }
+                else
+                {
+                    throw new IOException("Not a valid 7z file: " + Path);
+                }
+            }
+            else
+            {
+                throw new IOException("File type not supported: " + Path);
+            }
+            return romStream;
+        }
+
         /// <summary>
         /// Unzips a rom to filesystem
         /// </summary>
         /// <param name="isTemporary">If true, extracted files are subject to deletion policy</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public List<string> Extract(bool isTemporary)
+        public List<string> ExtractToFile(bool isTemporary)
         {
+            string outputPath = _cacheRoot;
             var ret = new List<string>();
 
-            string pathRoot = isTemporary ? _tempRoot : _cacheRoot;
-            string cachePath = pathRoot + "/" + CoreID.ToString() + "/" + RomID.ToString();
-            
-            if(!Directory.Exists(cachePath))
+            if(isTemporary)
             {
-                Directory.CreateDirectory(cachePath);
+                outputPath += "/tmp/" + CoreID.ToString();
+            }
+            else
+            {
+                outputPath += "/" + CoreID.ToString + "/" + RomID.ToString();
+            }
+            
+            if(!Directory.Exists(outputPath))
+            {
+                Directory.CreateDirectory(outputPath);
             }
             
             if(Path.EndsWith(".zip"))
@@ -76,8 +127,8 @@ namespace RomRepo.console.Models
                     var archive = SharpCompress.Archives.Zip.ZipArchive.Open(Path);
                     foreach (var entry in archive.Entries)
                     {
-                        entry.WriteToDirectory(cachePath);
-                        ret.Add(cachePath + "/" + entry.Key);
+                        entry.WriteToDirectory(outputPath);
+                        ret.Add(outputPath + "/" + entry.Key);
                     }
                 }
                 else
@@ -92,8 +143,8 @@ namespace RomRepo.console.Models
                     var archive = SharpCompress.Archives.SevenZip.SevenZipArchive.Open(Path);
                     foreach (var entry in archive.Entries)
                     {
-                        entry.WriteToDirectory(cachePath);
-                        ret.Add(cachePath + "/" + entry.Key);
+                        entry.WriteToDirectory(outputPath);
+                        ret.Add(outputPath + "/" + entry.Key);
                     }
                 }
                 else

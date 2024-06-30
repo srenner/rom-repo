@@ -73,33 +73,20 @@ namespace RomRepo.console.Services
             {
                 throw new ArgumentNullException(nameof(roms));
             }
-            
             MemoryStream ms = new MemoryStream();
-            List<string> entryPaths = new();
-            foreach (var rom in roms)
-            {
-                var path = rom.Extract(isTemporary: true);
-                if (path?.Count > 0)
-                {
-                    foreach (var p in path)
-                    {
-                        entryPaths.Add(p);
-                    }
-                }
-            }
-
             using (var archive = ZipArchive.Create())
             {
-                foreach(var path in entryPaths)
+                foreach (var rom in roms)
                 {
-                    var filename = path.Substring(path.LastIndexOf('/') + 1);
-                    archive.AddEntry(filename, path);
+                    var romStream = rom.ExtractToStream();
+                    if (romStream.MemoryStream != null)
+                    {
+                        archive.AddEntry(romStream.Filename, romStream.MemoryStream);
+                    }
                 }
                 archive.SaveTo(ms);
             }
-
             return ms;
-
         }
 
     }

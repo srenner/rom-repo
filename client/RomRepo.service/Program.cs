@@ -13,6 +13,7 @@ using RomRepo.service.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using RomRepo.service;
+using RomRepo.service.Workers;
 
 namespace RomRepo.console
 {
@@ -26,6 +27,10 @@ namespace RomRepo.console
             var builder = WebApplication.CreateBuilder(args);
             //builder.WebHost.UseUrls("http://*:5000;https://*:5001");
             builder.WebHost.UseUrls("http://*:5000");
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.Limits.MaxResponseBufferSize = null;
+            });
             builder.Logging.ClearProviders();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -35,6 +40,7 @@ namespace RomRepo.console
             builder.Services.AddScoped<IAppService, AppService>();
             builder.Services.AddScoped<IRomService, RomService>();
             builder.Services.AddScoped<ICoreService, CoreService>();
+            builder.Services.AddScoped<IJobService, JobService>();
             builder.Services.AddMemoryCache();
             
             //create a scope for the background service

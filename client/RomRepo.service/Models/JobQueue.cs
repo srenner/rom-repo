@@ -22,7 +22,7 @@ namespace RomRepo.service.Models
         public int PercentComplete { get; set; }
 
         public DateTime DateCreated { get; set; }
-        public DateTime DatePickedUp { get; set; }
-        public DateTime DateComplete { get; set; }
+        public DateTime? DatePickedUp { get; set; }
+        public DateTime? DateComplete { get; set; }
     }
 }

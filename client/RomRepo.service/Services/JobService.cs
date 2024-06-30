@@ -1,4 +1,5 @@
-﻿using RomRepo.service.Models;
+﻿using RomRepo.console.DataAccess;
+using RomRepo.service.Models;
 using RomRepo.service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,12 @@ namespace RomRepo.service.Services
 {
     public class JobService : IJobService
     {
+        private readonly IClientRepo _clientRepo;
+        public JobService(IClientRepo clientRepo)
+        {
+            _clientRepo = clientRepo;
+        }
+
         public Task<JobQueue> CreateJob(string jobCode)
         {
             throw new NotImplementedException();
@@ -20,9 +27,9 @@ namespace RomRepo.service.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<JobQueue>> GetNewJobs()
+        public async Task<IEnumerable<JobQueue>> GetNewJobs()
         {
-            throw new NotImplementedException();
+            return await _clientRepo.GetNewJobs();
         }
 
         public Task<IEnumerable<JobQueue>> GetNewJobs(string jobCode)

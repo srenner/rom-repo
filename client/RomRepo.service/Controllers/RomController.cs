@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using RomRepo.service.Services;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Builder;
+using System.Diagnostics;
 
 namespace RomRepo.console.Controllers
 {
@@ -62,7 +63,7 @@ namespace RomRepo.console.Controllers
             var rom = await _service.GetRom(romID);
             if(rom.IsArchive())
             {
-                var files = rom.Extract(isTemporary: true);
+                var files = rom.ExtractToFile(isTemporary: true);
                 if(files?.Count() > 0)
                 {
                     return ChecksumService.CalculateCRC(files[0]);
@@ -84,7 +85,7 @@ namespace RomRepo.console.Controllers
             var rom = await _service.GetRom(romID);
             if (rom.IsArchive())
             {
-                var files = rom.Extract(isTemporary: true);
+                var files = rom.ExtractToFile(isTemporary: true);
                 if (files?.Count() > 0)
                 {
                     return ChecksumService.CalculateHashString<MD5>(MD5.Create(), files[0]);
@@ -106,7 +107,7 @@ namespace RomRepo.console.Controllers
             var rom = await _service.GetRom(romID);
             if (rom.IsArchive())
             {
-                var files = rom.Extract(isTemporary: true);
+                var files = rom.ExtractToFile(isTemporary: true);
                 if (files?.Count() > 0)
                 {
                     return ChecksumService.CalculateHashString<SHA1>(SHA1.Create(), files[0]);
@@ -128,7 +129,7 @@ namespace RomRepo.console.Controllers
             var rom = await _service.GetRom(romID);
             if (rom.IsArchive())
             {
-                var files = rom.Extract(isTemporary: true);
+                var files = rom.ExtractToFile(isTemporary: true);
                 if (files?.Count() > 0)
                 {
                     return ChecksumService.CalculateHashString<SHA256>(SHA256.Create(), files[0]);
@@ -161,13 +162,20 @@ namespace RomRepo.console.Controllers
         [HttpGet("download-all")]
         public async Task<IActionResult> DownloadEntireCore(int coreID, bool unzipFirst)
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
             var core = await _coreService.GetCore(coreID);
             if (core != null)
             {
                 var roms = await _service.GetRomsForCore(coreID);
                 var ms = _service.ExtractAndPack(roms);
+                stopwatch.Stop();
+                Directory.CreateDirectory("/app-cache/tmp");
+                using (FileStream file = new FileStream("/app-cache/tmp/" + core.Name + ".zip", FileMode.Create, System.IO.FileAccess.Write))
+                {
+                    ms.WriteTo(file);
+                    file.Close();
+                }
                 return File(ms, "application/octet-stream", core.Name + ".zip");
-
             }
             else
             {
@@ -182,7 +190,7 @@ namespace RomRepo.console.Controllers
             var rom = await _service.GetRom(romID);
             if(rom.IsArchive())
             {
-                var paths = rom.Extract(isTemporary);
+                var paths = rom.ExtractToFile(isTemporary);
                 return File(System.IO.File.ReadAllBytes(paths[0]), "application/octet-stream", System.IO.Path.GetFileName(paths[0]));
             }
             else

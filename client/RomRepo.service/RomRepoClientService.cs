@@ -2,18 +2,20 @@
 using RomRepo.console;
 using RomRepo.console.Models;
 using RomRepo.service.Services.Interfaces;
+using RomRepo.service.Workers;
 
 namespace RomRepo.service
 {
     public sealed class RomRepoClientService(
                                     ICoreService coreService,
                                     IAppService appService,
-                                    IMemoryCache memoryCache) : IScopedProcessingService
+                                    IMemoryCache memoryCache,
+                                    IJobService jobService) : IScopedProcessingService
     {
         private List<SystemSetting> _settings;
         private IEnumerable<Core> _cores;
-
         private readonly string _userFilesRoot = "/app-userfiles"; // must match with docker-compose.yml
+        private readonly int _loopDelay = 2000;
 
         public async Task DoWorkAsync(CancellationToken stoppingToken)
         {
@@ -35,11 +37,36 @@ namespace RomRepo.service
                 
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    var timer = Task.Delay(2000);
+                    var timer = Task.Delay(_loopDelay);
                     if (!memoryCache.TryGetValue("settings", out _settings))
                     {
                         _settings = await appService.InitSystemSettings();
                     }
+
+                    var newJobs = await jobService.GetNewJobs();
+                    foreach(var newJob in newJobs)
+                    {
+                        switch(newJob.JobCode)
+                        {
+                            case "unzip":
+                                //var unzipper = new UnzipWorker(coreService);
+                                //var task = unzipper.ExecuteJob(newJob.EntityID);
+                                //unzips each rom for a core and returns to user as a single zip file
+                                break;
+                            case "zip":
+                                //zips each rom for a core and returns to user as a single zip file
+                                break;
+                            case "checksum":
+                                //checks checksum values for each rom in the core and writes result to db
+                                break;
+                            case "filescan":
+                                //checks core folder for new/removed/changed roms
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
                     await timer;
                 }
             }
