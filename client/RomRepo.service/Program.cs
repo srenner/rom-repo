@@ -27,10 +27,12 @@ namespace RomRepo.console
             var builder = WebApplication.CreateBuilder(args);
             //builder.WebHost.UseUrls("http://*:5000;https://*:5001");
             builder.WebHost.UseUrls("http://*:5000");
-            builder.WebHost.ConfigureKestrel(serverOptions =>
-            {
-                serverOptions.Limits.MaxResponseBufferSize = null;
-            });
+            
+            //NOT SURE YET:
+            //builder.WebHost.ConfigureKestrel(serverOptions =>
+            //{
+            //    serverOptions.Limits.MaxResponseBufferSize = null;
+            //});
             builder.Logging.ClearProviders();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
