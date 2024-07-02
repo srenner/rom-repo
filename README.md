@@ -10,30 +10,34 @@
 ----------------------------------------------
 ```
 
-Software for retro video game [ROM](https://en.wikipedia.org/wiki/ROM_image) libraries
+RomRepo is a software package that provides tools for your retro video game rom library. It installs on your home network as a Docker container. 
 
-* Manage your game library through a web UI or directly in your local filesystem
-* Organize your cheat codes, save files, screenshots, and manuals
-* Easily find ports, alternate versions, and sequels across your systems
-* Zip/unzip/convert files
-* Turn on analytics to discover hidden gems you may be overlooking
-* Validate checksums and titles against the No-Intro DAT-o-Matic database
+FEATURE HIGHLIGHT:
+• Automatic Checksum Validation
+BENEFIT:
+• Alerts user if they are using non-genuine, altered, or corrupted roms
+EXAMPLE:
+• The user adds a legally obtained rom to their rom library. If there was a subtle error in the cartridge ripping or file downloading process, the checksum mismatch will alert the user to a potential problem.
 
-## System Architecture
-* Items to install by user:
-  * RomRepo.service
-    * Monitors filesystem
-    * API endpoints for the UI
-    * SQLite database
-  * RomRepo.web
-    * Standard UI for RomRepo.service
-* Items hosted on RomRepo.com:
-  * RomRepo.com
-    * Project home page
-    * API key request form
-  * RomRepo.api
-    * Optional API endpoints for the DAT-o-Matic database
-    * Optional API endpoints for (opt-in) analytics
+FEATURE HIGHLIGHT:
+• Automatic Filename Validation
+BENEFIT:
+• Helps the user stay organized by suggesting filename updates based on community standards
+EXAMPLE:
+• The user adds a legally obtained Super Mario World rom named smw.sfc. Using checksum validation, the system will suggest a rename to Super Mario World (USA).sfc to match established community standards.
+
+FEATURE HIGHLIGHT:
+• Rom Unpacker
+BENEFIT:
+• Unzips a collection of zipped roms in a single command
+EXAMPLE:
+• Most SNES rom libraries are stored as a collection of zip files. This approach optimizes for storage space, but some devices such as the Analogue Pocket require unzipped roms. Use the rom unpacker to download an unzipped collection to transfer to your device.
+
+Features coming soon:
+• Game manual uploader/viewer
+• Cheat code manager
+• Game save manager
+• Library statistics
 
 ---
 ### Analytics Disclaimer
