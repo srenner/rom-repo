@@ -12,26 +12,29 @@
 
 RomRepo is a software package that provides tools for your retro video game rom library. It installs on your home network as a Docker container. 
 
-FEATURE HIGHLIGHT:
-• Automatic Checksum Validation
+FEATURE HIGHLIGHT
+---
+Automatic Checksum Validation
 BENEFIT:
-• Alerts user if they are using non-genuine, altered, or corrupted roms
+Alerts user if they are using non-genuine, altered, or corrupted roms
 EXAMPLE:
-• The user adds a legally obtained rom to their rom library. If there was a subtle error in the cartridge ripping or file downloading process, the checksum mismatch will alert the user to a potential problem.
+The user adds a legally obtained rom to their rom library. If there was a subtle error in the cartridge ripping or file downloading process, the checksum mismatch will alert the user to a potential problem.
 
-FEATURE HIGHLIGHT:
-• Automatic Filename Validation
+FEATURE HIGHLIGHT
+---
+Automatic Filename Validation
 BENEFIT:
-• Helps the user stay organized by suggesting filename updates based on community standards
+Helps the user stay organized by suggesting filename updates based on community standards
 EXAMPLE:
-• The user adds a legally obtained Super Mario World rom named smw.sfc. Using checksum validation, the system will suggest a rename to Super Mario World (USA).sfc to match established community standards.
+The user adds a legally obtained Super Mario World rom named smw.sfc. Using checksum validation, the system will suggest a rename to Super Mario World (USA).sfc to match established community standards.
 
-FEATURE HIGHLIGHT:
-• Rom Unpacker
-BENEFIT:
-• Unzips a collection of zipped roms in a single command
-EXAMPLE:
-• Most SNES rom libraries are stored as a collection of zip files. This approach optimizes for storage space, but some devices such as the Analogue Pocket require unzipped roms. Use the rom unpacker to download an unzipped collection to transfer to your device.
+FEATURE HIGHLIGHT
+---
+Rom Unpacker
+BENEFIT
+Unzips a collection of zipped roms in a single command
+EXAMPLE
+Most SNES rom libraries are stored as a collection of zip files. This approach optimizes for storage space, but some devices such as the Analogue Pocket require unzipped roms. Use the rom unpacker to download an unzipped collection to transfer to your device.
 
 Features coming soon:
 • Game manual uploader/viewer
