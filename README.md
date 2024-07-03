@@ -34,7 +34,7 @@ Helps the user stay organized by suggesting filename updates based on community 
 
 EXAMPLE
 
-The user adds a legally obtained Super Mario World rom named smw.sfc. Using checksum validation, the system will suggest a rename to Super Mario World (USA).sfc to match established community standards.
+The user adds a legally obtained Super Mario World rom named `smw.sfc`. Using checksum validation, the system will suggest a rename to `Super Mario World (USA).sfc` to match established community standards.
 
 FEATURE HIGHLIGHT
 ---
