@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace RomRepo.service.Models.NotMapped
 {
+    /// <summary>
+    /// Use when making a POST request to update a SystemSetting
+    /// </summary>
     [NotMapped]
     public class SystemSettingPostModel
     {
