@@ -9,20 +9,24 @@ using System.Threading.Tasks;
 
 namespace RomRepo.service.Workers
 {
-    public class UnzipWorker : IJobWorker
+    /// <summary>
+    /// Unzips all individual roms and packs them in a single zip file.
+    /// </summary>
+    public class UnpackWorker : IJobWorker
     {
         public int? EntityID { get; set; }
+        public int PercentComplete { get; set; }
 
         private readonly ICoreService _coreService;
 
-        public UnzipWorker(ICoreService coreService)
+        public UnpackWorker(ICoreService coreService)
         {
             _coreService = coreService;
         }
 
-        public async Task ExecuteJob(IEnumerable<Rom> roms)
+        public async Task ExecuteJob<Rom>(IEnumerable<Rom> roms)
         {
-
+            throw new NotImplementedException();
         }
 
         public async Task ExecuteJob(int? entityID)

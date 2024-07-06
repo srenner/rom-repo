@@ -48,9 +48,7 @@ namespace RomRepo.service
                     {
                         switch(newJob.JobCode)
                         {
-                            case "unzip":
-                                //var unzipper = new UnzipWorker(coreService);
-                                //var task = unzipper.ExecuteJob(newJob.EntityID);
+                            case "unpack":
                                 //unzips each rom for a core and returns to user as a single zip file
                                 break;
                             case "zip":
