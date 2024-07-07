@@ -172,6 +172,7 @@ namespace RomRepo.console.Models
             }
         }
 
+        [Obsolete("Not implemented; may or may not exist in the future.")]
         public bool Compress()
         {
             return false;
