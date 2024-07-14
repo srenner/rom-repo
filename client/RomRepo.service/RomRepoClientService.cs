@@ -44,8 +44,13 @@ namespace RomRepo.service
                     }
 
                     var newJobs = await jobService.GetNewJobs();
+                    var jobTypes = WorkerTypeEnum.GetAll();
                     foreach(var newJob in newJobs)
                     {
+                        string jobCode = newJob.JobCode;
+
+
+
                         switch(newJob.JobCode)
                         {
                             case "unpack":
