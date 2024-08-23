@@ -26,7 +26,7 @@ namespace RomRepo.console.Controllers
             _service = service;
         }
 
-        [HttpGet("active")]
+        [HttpGet]
         public async Task<List<Core>> GetActiveCoresAsync()
         {
             var cores = await _service.GetActiveCores();
