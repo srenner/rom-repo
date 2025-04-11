@@ -25,16 +25,38 @@ namespace RomRepo.api
             builder.Services.Configure<KestrelServerOptions>(options => options.Limits.MaxRequestBodySize = int.MaxValue);
 
             //Remember to enable "GenerateDocumentationFile" in project settings
-            builder.Services.AddSwaggerGen(c =>
+            builder.Services.AddSwaggerGen(opt =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                opt.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "RomRepo.api",
                     Version = "v1"
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                opt.IncludeXmlComments(xmlPath);
+                opt.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "API Key is needed for most operations",
+                    Name = "x-api-key",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "ApiKey"
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
+
             });
 
             builder.Services.AddAuthentication()
