@@ -1,35 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using RomRepo.api.Models;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace RomRepo.api.DataAccess
 {
+    /// <inheritdoc/>
     public class ApiRepository : IApiRepository
     {
         private ApiContext _context;
         private ILogger<ApiRepository> _logger;
+
         public ApiRepository(ApiContext context, ILogger<ApiRepository> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        public async Task<ApiKey> SaveKey(ApiKey apiKey)
-        {
-            try
-            {
-                await _context.AddAsync(apiKey);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-            }
-            return apiKey;
-        }
+        #region Key Management
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<ApiKey>> GetKeyByEmail(string emailAddress)
         {
             try
@@ -45,6 +33,7 @@ namespace RomRepo.api.DataAccess
             }
         }
 
+        /// <inheritdoc/>
         public async Task<int> GetKeyStatus(string key)
         {
             try
@@ -59,10 +48,10 @@ namespace RomRepo.api.DataAccess
             }
         }
 
+        /// <inheritdoc/>
         public async Task SetKeyStatus(string key, ApiKeyStatus status)
         {
             int newStatusID = (int)status;
-
             try
             {
                 var keyEntity = await _context.ApiKey.Where(w => w.Key == key).FirstOrDefaultAsync();
@@ -72,13 +61,32 @@ namespace RomRepo.api.DataAccess
                     await _context.SaveChangesAsync();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.Message);
             }
-
         }
 
+        /// <inheritdoc/>
+        public async Task<ApiKey> SaveKey(ApiKey apiKey)
+        {
+            try
+            {
+                await _context.AddAsync(apiKey);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return apiKey;
+        }
+
+        #endregion
+
+        #region Game System and Games
+
+        /// <inheritdoc/>
         public async Task<bool> AddGameSystemWithGames(GameSystem gameSystem)
         {
             try
@@ -95,6 +103,7 @@ namespace RomRepo.api.DataAccess
             }
         }
 
+        /// <inheritdoc/>
         public async Task<GameSystem> GetGameSystem(int id)
         {
             try
@@ -108,13 +117,18 @@ namespace RomRepo.api.DataAccess
             }
         }
 
+        #endregion
+
+        #region Roms
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<Rom>> GetRomsByChecksum(ChecksumType checksumType, string val)
         {
             try
             {
                 var roms = _context.Rom.AsQueryable();
 
-                //todo room for improvement
+                //TODO room for improvement
                 switch (checksumType)
                 {
                     case ChecksumType.CRC:
@@ -132,14 +146,14 @@ namespace RomRepo.api.DataAccess
                 }
                 return await roms.Include(i => i.Game.GameSystem).ToListAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("oops");
                 return null;
             }
-            throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Rom>> GetRomsByChecksum(string checksum)
         {
             try
@@ -157,5 +171,6 @@ namespace RomRepo.api.DataAccess
             }
         }
 
+        #endregion
     }
 }

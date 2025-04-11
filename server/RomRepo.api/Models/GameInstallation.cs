@@ -2,9 +2,7 @@
 
 namespace RomRepo.api.Models
 {
-    /// <summary>
-    /// Record that a user has a game in their library (part of opt-in analytics)
-    /// </summary>
+    /// <summary>Record that a user has a game in their library (part of opt-in analytics)</summary>
     public class GameInstallation
     {
         [Key]

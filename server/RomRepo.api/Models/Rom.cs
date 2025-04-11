@@ -2,14 +2,13 @@
 
 namespace RomRepo.api.Models
 {
+    /// <summary>Holds information about an individual ROM file</summary>
     public class Rom
     {
         [Key]
         public int RomID { get; set; }
-
         public int? GameID { get; set; }
         public Game? Game { get; set; }
-
         public string? NoIntroGameID { get; set; }
         public required string Name { get; set; }
         public int? Size { get; set; }
