@@ -56,7 +56,6 @@ namespace RomRepo.api
                         new List<string>()
                     }
                 });
-
             });
 
             builder.Services.AddAuthentication()
@@ -64,7 +63,6 @@ namespace RomRepo.api
                 "ApiKey",
                 opts => { }
             );
-
 
             var app = builder.Build();
             app.UseCors(builder => builder
