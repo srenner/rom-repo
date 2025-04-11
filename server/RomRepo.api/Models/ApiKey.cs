@@ -8,6 +8,7 @@ namespace RomRepo.api.Models
     /// </summary>
     public class ApiKey
     {
+        /// <summary>ID in database</summary>
         public int ApiKeyID { get; set; }
         public required string Key { get; set; }
         /// <summary>GUID generated from client software</summary>
