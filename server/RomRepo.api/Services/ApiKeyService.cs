@@ -22,6 +22,5 @@ namespace RomRepo.api.Services
         {
             await _repo.SetKeyStatus(key, status);
         }
-
     }
 }

@@ -6,6 +6,9 @@ using System.IO.Compression;
 
 namespace RomRepo.api.Controllers
 {
+    /// <summary>
+    /// Handles operations for import files
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class FileController : ControllerBase
@@ -19,6 +22,9 @@ namespace RomRepo.api.Controllers
             _repo = repo;
         }
 
+        /// <summary>
+        /// Allows sysadmin to upload new data files
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile file)
         {
@@ -56,7 +62,6 @@ namespace RomRepo.api.Controllers
                 }
                 return new UnsupportedMediaTypeResult();
             }
-            
         }
     }
 }

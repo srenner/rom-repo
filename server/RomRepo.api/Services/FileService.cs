@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
-using RomRepo.api.Models;
+﻿using RomRepo.api.Models;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -179,6 +178,5 @@ namespace RomRepo.api.Services
                 return null;
             }
         }
-
     }
 }

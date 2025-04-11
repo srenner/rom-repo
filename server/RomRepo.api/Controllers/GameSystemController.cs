@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RomRepo.api.Models;
 using RomRepo.api.Services;
-
-
-using Microsoft.Net.Http.Headers;
 using RomRepo.api.DataAccess;
-
 
 namespace RomRepo.api.Controllers
 {
+    /// <summary>
+    /// Handles operations for game systems
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class GameSystemController : ControllerBase
@@ -23,6 +21,10 @@ namespace RomRepo.api.Controllers
             _repo = repo;
         }
 
+        /// <summary>
+        /// Get game system info by ID
+        /// </summary>
+        /// <param name="id">ID in RomRepo database</param>
         [HttpGet]
         public async Task<ActionResult<GameSystem>> Get(int id)
         {

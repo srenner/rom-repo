@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RomRepo.api.DataAccess;
 using RomRepo.api.Models;
 using RomRepo.api.Models.NotMapped;
-using SQLitePCL;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography;
 
 namespace RomRepo.api.Controllers
 {
+    /// <summary>
+    /// Handles operations for API keys
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ApiKeyController : ControllerBase
@@ -26,6 +27,11 @@ namespace RomRepo.api.Controllers
             _apiRepository = apiRepository;
         }
 
+        /// <summary>
+        /// Generates a new API key in "pending" status 
+        /// </summary>
+        /// <param name="req">Email address or Installation ID</param>
+        /// <returns>API Key object</returns>
         [AllowAnonymous]
         [HttpPost("generate")]
         public async Task<ActionResult<ApiKey>> GenerateApiKey([FromBody] ApiRequest req)
@@ -57,6 +63,11 @@ namespace RomRepo.api.Controllers
             }
         }
 
+        /// <summary>
+        /// Changes the status of an API key
+        /// </summary>
+        /// <param name="keyStatus">Key and new status code</param>
+        /// <returns>Nothing</returns>
         [HttpPost("status")]
         public async Task<ActionResult> UpdateKeyStatus([FromBody]ApiKeyValueStatus keyStatus)
         {
@@ -71,6 +82,11 @@ namespace RomRepo.api.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieve key details
+        /// </summary>
+        /// <param name="source">Either the client Installation ID or email address</param>
+        /// <returns>Key details</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ApiKey>>> GetKey(string source)
         {

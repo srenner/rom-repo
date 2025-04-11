@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 using RomRepo.api.Services;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
 namespace RomRepo.api.Auth
 {
+    /// <summary>Authentication handler for API key</summary>
     public class KeyAuthSchemeHandler : AuthenticationHandler<KeyAuthSchemeOptions>
     {
         private readonly ILogger<KeyAuthSchemeHandler> _logger;
