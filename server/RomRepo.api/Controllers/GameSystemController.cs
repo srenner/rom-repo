@@ -26,10 +26,21 @@ namespace RomRepo.api.Controllers
         /// </summary>
         /// <param name="id">ID in RomRepo database</param>
         [HttpGet]
+        [Route("{id:int}")]
         public async Task<ActionResult<GameSystem>> Get(int id)
         {
             var gs = await _repo.GetGameSystem(id);
             return Ok(gs);
+        }
+
+        /// <summary>
+        /// Get all game systems
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<GameSystem>>> GetAll()
+        {
+            var gss = await _repo.GetGameSystems();
+            return Ok(gss);
         }
     }
 }

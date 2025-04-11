@@ -117,6 +117,20 @@ namespace RomRepo.api.DataAccess
             }
         }
 
+        /// <inheritdoc/>
+        public async Task<IEnumerable<GameSystem>> GetGameSystems()
+        {
+            try
+            {
+                return await _context.GameSystem.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in ApiRepository.GetGameSystems()", ex);
+                return null;
+            }
+        }
+
         #endregion
 
         #region Roms
