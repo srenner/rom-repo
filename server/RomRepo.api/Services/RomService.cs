@@ -4,6 +4,7 @@ using RomRepo.api.Models.NotMapped;
 
 namespace RomRepo.api.Services
 {
+
     public class RomService : IRomService
     {
         private readonly IApiRepository _repo;

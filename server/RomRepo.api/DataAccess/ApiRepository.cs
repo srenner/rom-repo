@@ -9,6 +9,7 @@ namespace RomRepo.api.DataAccess
         private ApiContext _context;
         private ILogger<ApiRepository> _logger;
 
+        /// <summary>Constructor</summary>
         public ApiRepository(ApiContext context, ILogger<ApiRepository> logger)
         {
             _context = context;

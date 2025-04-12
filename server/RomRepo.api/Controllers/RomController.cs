@@ -12,12 +12,11 @@ namespace RomRepo.api.Controllers
     [ApiController]
     public class RomController : ControllerBase
     {
-        private IApiRepository _repo;
         private IRomService _romService;
 
-        public RomController(IApiRepository repo, IRomService romService)
+        /// <summary>Constructor</summary>
+        public RomController(IRomService romService)
         {
-            _repo = repo;
             _romService = romService;
         }
 

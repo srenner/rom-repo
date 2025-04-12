@@ -8,10 +8,9 @@ namespace RomRepo.api.Controllers
     /// </summary>
     public class RepoController : Controller
     {
-        private ApiContext _context;
-        public RepoController(ApiContext context)
+        // <summary>Constructor</summary>
+        public RepoController()
         {
-            _context = context;
         }
 
         /// <summary>

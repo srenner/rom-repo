@@ -4,6 +4,7 @@ using System.Xml.Linq;
 
 namespace RomRepo.api.Services
 {
+    /// <inheritdoc/>
     public class FileService : IFileService
     {
         ILogger<FileService> _logger;
@@ -12,7 +13,7 @@ namespace RomRepo.api.Services
             _logger = logger;
         }
 
-        [Obsolete]
+        [Obsolete("Use stream version instead")]
         public async Task<GameSystem> ExtractGameSystem(IFormFile file)
         {
             GameSystem gameSystem = new GameSystem(){ Name = "new" };
@@ -96,6 +97,8 @@ namespace RomRepo.api.Services
             }
         }
 
+        /// <inheritdoc/>
+        /// <exception cref="XmlException"></exception>
         public async Task<GameSystem> ExtractGameSystem(Stream stream)
         {
             GameSystem gameSystem = new GameSystem() { Name = "new" };

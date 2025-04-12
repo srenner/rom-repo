@@ -15,6 +15,7 @@ namespace RomRepo.api.Controllers
         private readonly IFileService _fileService;
         private IApiRepository _repo;
 
+        /// <summary>Constructor</summary>
         public GameSystemController(IFileService fileService, IApiRepository repo) 
         { 
             _fileService = fileService;

@@ -16,6 +16,7 @@ namespace RomRepo.api.Controllers
         private IFileService _fileService;
         private IApiRepository _repo;
 
+        /// <summary>Constructor</summary>
         public FileController(IFileService fileService, IApiRepository repo)
         {
             _fileService = fileService;

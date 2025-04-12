@@ -21,6 +21,7 @@ namespace RomRepo.api.Controllers
         private ILogger<ApiKeyController> _logger;
         private IApiRepository _apiRepository;
 
+        /// <summary>Constructor</summary>
         public ApiKeyController(ILogger<ApiKeyController> logger, IApiRepository apiRepository)
         {
             _logger = logger;
