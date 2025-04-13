@@ -3,7 +3,7 @@
 namespace RomRepo.api.Services
 {
     /// <summary>
-    /// Service for handling file operations related DAT files
+    /// Service for handling file operations related to DAT files
     /// </summary>
     public interface IFileService
     {
