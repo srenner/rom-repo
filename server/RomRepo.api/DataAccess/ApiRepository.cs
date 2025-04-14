@@ -132,6 +132,22 @@ namespace RomRepo.api.DataAccess
             }
         }
 
+        /// <inheritdoc/>
+        public async Task<GameSystem> UpdateGameSystem(GameSystem gameSystem)
+        {
+            try
+            {
+                _context.GameSystem.Update(gameSystem);
+                await _context.SaveChangesAsync();
+                return gameSystem;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error in ApiRepository.UpdateGameSystem(gameSystem: {gameSystem.Name})", gameSystem.Name, ex);
+                return null;
+            }
+        }
+
         #endregion
 
         #region Roms

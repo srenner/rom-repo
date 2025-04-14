@@ -34,6 +34,9 @@ namespace RomRepo.api.DataAccess
         /// <summary>Gets a list of all Game Systems</summary>
         Task<IEnumerable<GameSystem>> GetGameSystems();
 
+        /// <summary>Updates an existing Game System</summary>
+        Task<GameSystem> UpdateGameSystem(GameSystem gameSystem);
+
         #endregion
 
         #region Roms
