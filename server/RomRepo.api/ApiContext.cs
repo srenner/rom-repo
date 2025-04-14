@@ -50,7 +50,10 @@ namespace RomRepo.api
         public ApiContext()
         {
             //this path code is intended for Docker installation
-            DbPath = @"/db_api/romrepo.api.db";
+            //DbPath = @"/db_api/romrepo.api.db";
+
+            DbPath = "romrepo.api.db";
+
             this.Database.EnsureCreated();
         }
 
