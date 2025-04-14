@@ -27,7 +27,7 @@ namespace RomRepo.api.Controllers
         /// Allows sysadmin to upload new data files
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload(IFormFile file, CancellationToken cancellationToken)
         {
             var request = HttpContext.Request;
             if (!request.HasFormContentType ||
@@ -40,7 +40,7 @@ namespace RomRepo.api.Controllers
             {
                 if(file.FileName.ToLower().EndsWith(".dat"))
                 {
-                    var gameSystem = await _fileService.ExtractGameSystem(file.OpenReadStream());
+                    var gameSystem = await _fileService.ExtractGameSystem(file.OpenReadStream(), cancellationToken);
                     await _repo.AddGameSystemWithGames(gameSystem);
                     return Ok("Added " + gameSystem.Name + " and " + gameSystem.Games.Count() + " games");
                 }
@@ -53,7 +53,7 @@ namespace RomRepo.api.Controllers
                         int gameCount = 0;
                         foreach(var entry in archive.Entries.Where(w => w.Name.EndsWith(".dat")))
                         {
-                            var gameSystem = await _fileService.ExtractGameSystem(entry.Open());
+                            var gameSystem = await _fileService.ExtractGameSystem(entry.Open(), cancellationToken);
                             await _repo.AddGameSystemWithGames(gameSystem);
                             systemCount++;
                             gameCount = gameCount + gameSystem.Games.Count();

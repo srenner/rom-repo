@@ -99,14 +99,13 @@ namespace RomRepo.api.Services
 
         /// <inheritdoc/>
         /// <exception cref="XmlException"></exception>
-        public async Task<GameSystem> ExtractGameSystem(Stream stream)
+        public async Task<GameSystem?> ExtractGameSystem(Stream stream, CancellationToken cancellationToken)
         {
             GameSystem gameSystem = new GameSystem() { Name = "new" };
             try
             {
                 using (stream)
                 {
-                    CancellationToken cancellationToken = new CancellationToken();
                     XDocument xmlDocument = await XDocument.LoadAsync(stream, LoadOptions.None, cancellationToken);
                     await stream.DisposeAsync();
 
@@ -135,6 +134,8 @@ namespace RomRepo.api.Services
                             var gameElements = elements.Where(w => w.Name == "game").ToList();
                             foreach (var g in gameElements)
                             {
+                                if(cancellationToken.IsCancellationRequested)
+                                    return null;
                                 var details = g.Elements();
                                 var primaryAttributes = g.Attributes();
                                 Game game = new Game
