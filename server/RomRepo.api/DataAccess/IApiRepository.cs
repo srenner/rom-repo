@@ -29,7 +29,7 @@ namespace RomRepo.api.DataAccess
         Task<bool> AddGameSystemWithGames(GameSystem gameSystem);
         
         /// <summary>Gets an individual Game System by internal ID</summary>
-        Task<GameSystem> GetGameSystem(int id);
+        Task<GameSystem?> GetGameSystem(int id);
 
         /// <summary>Gets a list of all Game Systems</summary>
         Task<IEnumerable<GameSystem>> GetGameSystems();

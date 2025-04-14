@@ -105,7 +105,7 @@ namespace RomRepo.api.DataAccess
         }
 
         /// <inheritdoc/>
-        public async Task<GameSystem> GetGameSystem(int id)
+        public async Task<GameSystem?> GetGameSystem(int id)
         {
             try
             {
