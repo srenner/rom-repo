@@ -403,3 +403,6 @@ FodyWeavers.xsd
 notes/
 /server/_site
 /server/api
+/server/RomRepo.api/romrepo.api.db
+/server/RomRepo.api/romrepo.api.db-shm
+/server/RomRepo.api/romrepo.api.db-wal
